@@ -1,0 +1,35 @@
+.top-scorer {
+  display: flex;
+  flex-direction: column;
+  .top-scorer-title-container {
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--themeColor);
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    .top-scorer-title {
+      letter-spacing: 0.9px;
+      text-transform: none;
+      font-weight: 500;
+      line-height: 1.75;
+    }
+
+    .top-scorer-collapse-icon {
+      margin-left: 3em;
+      padding: 8px 8px 4px 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--labelColor);
+
+      &:hover {
+        background-color: var(--themeColorHover);
+      }
+    }
+  }
+
+  .top-scorer-body {
+    min-height: 240px;
+  }
+}

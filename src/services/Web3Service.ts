@@ -49,5 +49,5 @@ export const connectWallet = async () => {
   const provider = await web3Modal.connect();
   web3 = new Web3(provider);
   const walletAddress = await web3.eth.getAccounts();
-  console.log(walletAddress[0]);
+  return walletAddress[0];
 };

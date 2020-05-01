@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700|Roboto:100,200,300,400,500,600");
+
+:root {
+  --headlinesFont: "Josefin Sans", sans-serif;
+  --bodyFont: "Roboto", sans-serif;
+  --textColor: #323232;
+  --bodyBg: #c7c7c7;
+  --white: #fff;
+  --black: #000;
+  --themeColor: #1b1f26;
+  --themeColorDark: #15181f;
+  --themeColorLight: #252933;
+  --themeColorHover: rgba(255, 255, 255, 0.1);
+  --themeColorBlue: #4d88ff;
+  --labelColor: rgba(255, 255, 255, 0.5);
+  --active: #008c73;
+  --activeDark: rgb(0, 14, 28);
+  --deActive: rgb(240, 37, 37);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--themeColor);
+  color: white;
+  font-family: var(--bodyFont);
+}

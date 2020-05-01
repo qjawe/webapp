@@ -3,9 +3,7 @@ import { AppContext, initialValue } from "./AppContext";
 
 export const AppProvider = (props: any) => {
   const [globalState, setGlobalState] = useState(initialValue);
-  const setGraph = (graph: any) => {
-    setGlobalState({ ...globalState, state: { ...globalState.state, graph } });
-  };
+
   const setWalletAddress = (address: string) => {
     setGlobalState({
       ...globalState,
@@ -13,7 +11,6 @@ export const AppProvider = (props: any) => {
     });
   };
   const actions = {
-    setGraph,
     setWalletAddress,
   };
   return (

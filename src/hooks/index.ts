@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { cloneDeep, mapValues } from "lodash";
 import * as actions from "@mrblenny/react-flow-chart/src/container/actions";
 
@@ -13,5 +13,5 @@ export function useChart() {
     setChart(cloneDeep(modChart));
   }) as typeof actions;
 
-  return [chart, setChart, stateActions]
+  return [chart, setChart, stateActions];
 }

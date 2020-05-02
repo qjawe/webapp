@@ -6,7 +6,7 @@ import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
 
 function MainView() {
-  const [chart, setChart, stateActions] = useChart();
+  const [chart, , stateActions] = useChart();
   return (
     <div className="main-view">
       <div className="chat-view-container">

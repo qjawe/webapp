@@ -18,6 +18,10 @@
   --deActive: rgb(240, 37, 37);
 }
 
+body {
+  overflow: hidden;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -25,4 +29,5 @@
   background-color: var(--themeColor);
   color: white;
   font-family: var(--bodyFont);
+  position: relative;
 }

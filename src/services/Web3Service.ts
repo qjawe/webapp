@@ -1,53 +1,67 @@
 import Web3 from "web3";
-import Web3Modal from "web3modal";
-import "./web3wallets.d.ts";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import Portis from "@portis/web3";
-import Torus from "@toruslabs/torus-embed";
-import Authereum from "authereum";
-import BurnerConnectProvider from "@burner-wallet/burner-connect-provider";
 import Notify from "bnc-notify";
+import Onboard from "bnc-onboard";
 
-const providerOptions = {
-  /* See Provider Options Section */
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: "INFURA_ID", // required
-    },
-  },
-  portis: {
-    package: Portis, // required
-    options: {
-      id: "PORTIS_ID", // required
-    },
-  }, //
-  torus: {
-    package: Torus, // required
-  },
-  authereum: {
-    package: Authereum, // required
-  },
-  burnerconnect: {
-    package: BurnerConnectProvider, // required
-  },
-};
-
-const web3Modal = new Web3Modal({
-  cacheProvider: true, // optional
-  providerOptions, // required
-});
+const FORTMATIC_KEY = "";
+const INFURA_KEY = "";
+const PORTIS_KEY = "";
 
 let web3;
+const wallets = [
+  { walletName: "metamask", preferred: true },
+  { walletName: "torus", preferred: true },
+  // {
+  //   walletName: "portis",
+  //   apiKey: PORTIS_KEY,
+  //   preferred: true,
+  //   label: "Login with Email",
+  // },
+  { walletName: "coinbase", preferred: true },
+  // {
+  //   walletName: "fortmatic",
+  //   apiKey: FORTMATIC_KEY,
+  //   preferred: true,
+  // },
+  { walletName: "authereum", preferred: true },
+  // {
+  //   walletName: "walletConnect",
+  //   infuraKey: INFURA_KEY,
+  // },
+];
+
+const onboard = Onboard({
+  dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
+  networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
+  //@ts-ignore
+  subscriptions: {
+    wallet: (wallet: any) => {
+      web3 = new Web3(wallet.provider);
+    },
+  },
+  darkMode: true,
+  walletSelect: {
+    //@ts-ignore
+    wallets,
+  },
+  walletCheck: [],
+});
 
 export const notify = Notify({
-  dappId: "", // [String] The API key created by step one above
+  dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
   networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
 });
 
 export const connectWallet = async () => {
-  const provider = await web3Modal.connect();
-  web3 = new Web3(provider);
-  const walletAddress = await web3.eth.getAccounts();
-  return walletAddress[0];
+  let address = "";
+  try {
+    await onboard.walletSelect();
+    await onboard.walletCheck();
+    const currentState = onboard.getState();
+
+    address = currentState.address;
+    console.log(address);
+  } catch (err) {
+    console.log(err);
+  }
+  return address;
 };

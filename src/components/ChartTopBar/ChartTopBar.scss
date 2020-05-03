@@ -1,0 +1,28 @@
+.chart-top-bar {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  padding: 0.75em 1.5em;
+  background-color: #25272b;
+  display: flex;
+  align-items: center;
+
+  .sc-Axmtr {
+    padding: 0.532em 1em;
+    border: 1px solid var(--themeColorBlue);
+    border-radius: 4px;
+    color: var(--themeColorBlue);
+    margin-right: 1em;
+    background-color: trasparent !important;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--themeColorBlue);
+      color: var(--white);
+    }
+
+    &:active {
+      background: var(--themeColorBlue);
+      color: var(--white);
+    }
+  }
+}

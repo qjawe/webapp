@@ -1,0 +1,51 @@
+.simulation-side-bar {
+  padding: 1em;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  .simulation-title {
+    text-align: center;
+    letter-spacing: 0.9px;
+    text-transform: none;
+    font-weight: 500;
+    line-height: 1.75;
+    font-size: 1.4rem;
+  }
+
+  .simulation-summary {
+    flex-grow: 1;
+    .simulation-summary-item {
+      margin: 4px 0px;
+    }
+  }
+
+  .simulation-button-container {
+    .simulation-button {
+      min-width: 100%;
+      min-height: 35px;
+      padding: 6px 16px;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      letter-spacing: 0.9px;
+      text-transform: none;
+      font-weight: 500;
+      line-height: 1.75;
+      transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+      background-color: var(--themeColorBlue);
+      border: 1px solid var(--themeColorBlue);
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#4d88ff, 20);
+        border: 1px solid darken(#4d88ff, 20);
+      }
+    }
+  }
+}

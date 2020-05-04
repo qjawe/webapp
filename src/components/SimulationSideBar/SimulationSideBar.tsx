@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SimulationSideBar.scss";
+import { buildTransaction} from "../../services/SimulationService";
+import { IChart } from "@mrblenny/react-flow-chart";
 
-function SimulationSideBar() {
+export interface ISimulationSideBarProps {
+  chart: IChart
+}
+
+function SimulationSideBar({ chart } : ISimulationSideBarProps) {
+  useEffect(() => {
+    buildTransaction(chart).then((x : any) => {
+      ;
+    },(x: any) => {
+      ;
+    });
+  });
+
   return (
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>

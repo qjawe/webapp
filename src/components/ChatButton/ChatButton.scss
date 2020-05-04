@@ -1,0 +1,15 @@
+.chat-bar {
+  position: absolute;
+  .sc-launcher {
+    left: 25px !important;
+    right: auto !important;
+    border: 1px solid;
+  }
+
+  .popupChat {
+    .sc-chat-window {
+      left: 25px !important;
+      right: auto !important;
+    }
+  }
+}

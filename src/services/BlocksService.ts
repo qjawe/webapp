@@ -1,7 +1,6 @@
 import { INode } from "@mrblenny/react-flow-chart";
 import { UNISWAP_ADDRESS, UNISWAP_ABI } from "../constants";
 import { ethers } from "ethers";
-import { EtherscanProvider } from "ethers/providers";
 
 /*
  An export for each type of block.
@@ -20,15 +19,23 @@ export interface ITransaction {
  export const Aave = () : IBlock => {
      return {
          name: "Aave",
-         type: "flash-loan",
+         type: "initial",
          /* codegen: null, // Null as the contract has the logic by itself */
+     }
+ }
+
+ export const Splitter = () : IBlock => {
+     return {
+         name: "Splitter",
+         type: "splitter",
+         /* codegen: null, // No need */
      }
  }
 
 export const Uniswap = () : IBlock => {
     return {
         name: "Uniswap",
-        type: "exhange",
+        type: "exchange",
         codegen: (node: INode) : ITransaction => {
             const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
             const txData = uniswap.functions.swapExactTokensForTokens.encode([

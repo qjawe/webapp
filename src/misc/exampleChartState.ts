@@ -1,4 +1,9 @@
 import { IChart } from "@mrblenny/react-flow-chart";
+import { Aave, Uniswap, Splitter } from "../services/BlocksService";
+
+const aave = Aave();
+const uniswap = Uniswap();
+const splitter = Splitter();
 
 export const chartSimple: IChart = {
   offset: {
@@ -23,9 +28,7 @@ export const chartSimple: IChart = {
           },
         },
       },
-      properties: {
-        type: "initial",
-      },
+      properties: aave,
     },
     node2: {
       id: "node2",
@@ -48,6 +51,7 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
+      properties: splitter,
     },
     node3: {
       id: "node3",
@@ -66,6 +70,7 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
+      properties: uniswap,
     },
     node4: {
       id: "node4",
@@ -84,6 +89,7 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
+      properties: uniswap,
     },
   },
   links: {

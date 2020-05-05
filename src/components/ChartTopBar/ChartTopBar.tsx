@@ -1,8 +1,12 @@
 import React from "react";
 import "./ChartTopBar.scss";
 import ToolboxItem from "../ToolboxItem";
+import { Aave, Uniswap } from "../../services/BlocksService";
 
 function ChartTopBar() {
+  const aave = Aave();
+  const uniswap = Uniswap();
+
   return (
     <div className="chart-top-bar">
       <ToolboxItem
@@ -16,13 +20,10 @@ function ChartTopBar() {
             },
           },
         }}
-        properties={{
-          name: "Aave",
-          type: "initial",
-        }}
+        properties={aave}
       />
       <ToolboxItem
-        type="flash-loan"
+        type="exchange"
         ports={{
           port1: {
             id: "port1",
@@ -32,10 +33,7 @@ function ChartTopBar() {
             },
           },
         }}
-        properties={{
-          name: "Uniswap",
-          type: "initial",
-        }}
+        properties={uniswap}
       />
     </div>
   );

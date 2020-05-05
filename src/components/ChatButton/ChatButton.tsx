@@ -18,7 +18,6 @@ class ChatButton extends React.Component<any, any> {
   async componentDidMount() {
     let { box } = this.state;
     box = await Box.create(window.ethereum);
-    console.log("Before render", box);
     this.setState({ box });
   }
   handleLogin = async () => {
@@ -28,14 +27,12 @@ class ChatButton extends React.Component<any, any> {
     const myProfile = await Box.getProfile(myAddress);
 
     box.onSyncDone(() => {
-      console.log(box);
       this.setState({ box });
     });
     this.setState({ box, myProfile, myAddress, isReady: true });
   };
   render() {
-    const { box, myAddress, myProfile, isReady } = this.state;
-    console.log(box);
+    const { box, myAddress, myProfile } = this.state;
     return (
       <div className="chat-bar">
         {box && (

@@ -56,7 +56,6 @@ export const connectWallet = async () => {
     const currentState = onboard.getState();
 
     address = currentState.address;
-    console.log(address);
   } catch (err) {
     console.log(err);
   }

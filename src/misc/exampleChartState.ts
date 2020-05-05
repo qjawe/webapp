@@ -19,7 +19,8 @@ export const chartSimple: IChart = {
           id: "port1",
           type: "output",
           properties: {
-            amount: 100,
+            type: "reserve",
+            amount: 0,
             asset: "ETH",
           },
         },
@@ -27,6 +28,7 @@ export const chartSimple: IChart = {
       properties: {
         name: "Aave:Flash Loan",
         type: "initial",
+        nodeType: "flashLoan",
       },
     },
     node2: {
@@ -40,15 +42,26 @@ export const chartSimple: IChart = {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "input",
+            amount: 0,
+            asset: "ETH",
+          },
         },
         port2: {
           id: "port2",
           type: "output",
+          properties: {
+            type: "output",
+            amount: 0,
+            asset: "ETH",
+          },
         },
       },
       properties: {
         name: "Uniswap:Swap",
         type: "initial",
+        nodeType: "swap",
       },
     },
     node3: {
@@ -62,11 +75,17 @@ export const chartSimple: IChart = {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "end",
+            amount: 0,
+            asset: "ETH",
+          },
         },
       },
       properties: {
         name: "End",
         type: "initial",
+        nodeType: "end",
       },
     },
   },

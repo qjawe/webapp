@@ -8,9 +8,10 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import NodeDetailsSideBar from "../NodeDetailsSideBar";
+import { ISideBarProps } from "./models";
 
-function SideBar({ chart, stateActions }: any) {
-  const [collapsed, setCollapsed] = React.useState(false);
+function SideBar({ chart, setChart, stateActions }: any) {
+  const [collapsed, setCollapsed] = React.useState<boolean>(false);
   return (
     <div className="side-bar">
       <div className="collapse-bar" onClick={(e) => setCollapsed(!collapsed)}>
@@ -36,7 +37,11 @@ function SideBar({ chart, stateActions }: any) {
           )}
           {chart.selected.id && (
             <div className="side-bar-node-details">
-              <NodeDetailsSideBar chart={chart} stateActions={stateActions} />
+              <NodeDetailsSideBar
+                chart={chart}
+                setChart={setChart}
+                stateActions={stateActions}
+              />
             </div>
           )}
         </div>

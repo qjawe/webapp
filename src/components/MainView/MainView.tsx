@@ -4,10 +4,9 @@ import ChartTopBar from "../ChartTopBar";
 import ChartView from "../ChartView";
 import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
-import { AppContext } from "../../state";
 
 function MainView() {
-  const [chart, , stateActions] = useChart();
+  const [chart, setChart, stateActions] = useChart();
 
   return (
     <div className="main-view">
@@ -16,7 +15,11 @@ function MainView() {
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">
-        <SideBar chart={chart} stateActions={stateActions} />
+        <SideBar
+          chart={chart}
+          setChart={setChart}
+          stateActions={stateActions}
+        />
       </div>
     </div>
   );

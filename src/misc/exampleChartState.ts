@@ -70,7 +70,14 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
-      properties: uniswap,
+      properties: {
+        ...uniswap,
+        amountIn: 0,
+        amountOutMin: 0,
+        path: ["0x0", "0x0"],
+        to: "0x0",
+        deadline: 0,
+      },
     },
     node4: {
       id: "node4",
@@ -89,7 +96,14 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
-      properties: uniswap,
+      properties: {
+        ...uniswap,
+        amountIn: 0,
+        amountOutMin: 0,
+        path: ["0x0", "0x0"],
+        to: "0x0",
+        deadline: 0,
+      },
     },
   },
   links: {

@@ -24,11 +24,15 @@ export const buildTransaction = async (chart: IChart) => {
         let node = queue.pop() as INode;
 
         if (node.properties && node.properties.codegen) {
-            tx.push(node.properties.codegen(node));
+            try {
+                tx.push(node.properties.codegen(node));
+            } catch (err) {
+                return Promise.reject(err);
+            }
         }
 
-        const links = Object.values(chartCopy.links).filter((v: ILink) => v.from.nodeId === node.id);
-        links.forEach((w: ILink) => queue.unshift(w));
+        const links = Object.values(chartCopy.links).filter((v: ILink) => v.from.nodeId === node.id && v.to.nodeId).map((v: ILink) => v.to.nodeId as string);
+        links.map((node: string) => Object.values(chartCopy.nodes).filter((n : INode) => n.id === node).pop() as INode).forEach((w: INode) => queue.unshift(w));
     }
 
     if (queue.length > 0) {

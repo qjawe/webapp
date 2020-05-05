@@ -1,6 +1,4 @@
-{
-  "contractName": "IUniswapV2Router01",
-  "abi": [
+[
     {
       "inputs": [],
       "name": "WETH",
@@ -750,9 +748,4 @@
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ],
-  "bytecode": "0x",
-  "deployedBytecode": "0x",
-  "linkReferences": {},
-  "deployedLinkReferences": {}
-}
+  ]

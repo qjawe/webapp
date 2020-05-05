@@ -32,7 +32,7 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>
       <div className="simulation-summary">
-      <div className="simulation-summary-item">{state.tx}</div>
+      <div className="simulation-summary-item">{state.error ? "Error"  : state.tx}</div>
       </div>
       <div className="simulation-button-container">
         <button type="button" className="simulation-button">

@@ -11,8 +11,8 @@ import {
 import NodeDetailsSideBar from "../NodeDetailsSideBar";
 
 export interface ISideBarProps {
-  chart: IChart,
-  stateActions: any,
+  chart: IChart;
+  stateActions: any;
 }
 
 function SideBar({ chart, stateActions }: ISideBarProps) {

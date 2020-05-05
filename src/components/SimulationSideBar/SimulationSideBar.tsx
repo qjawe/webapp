@@ -4,7 +4,7 @@ import { buildTransaction} from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 
 export interface ISimulationSideBarProps {
-  chart: IChart
+  chart: IChart;
 }
 
 function SimulationSideBar({ chart } : ISimulationSideBarProps) {

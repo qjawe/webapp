@@ -4,10 +4,11 @@ import ChartTopBar from "../ChartTopBar";
 import ChartView from "../ChartView";
 import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
-import { AppContext } from "../../state";
+import { IChart } from "@mrblenny/react-flow-chart";
+import { ISideBarProps } from "../SideBar/models";
 
 function MainView() {
-  const [chart, , stateActions] = useChart();
+  const { chart, setChart, stateActions } : ISideBarProps = useChart();
 
   return (
     <div className="main-view">
@@ -16,7 +17,11 @@ function MainView() {
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">
-        <SideBar />
+        <SideBar
+          chart={chart}
+          setChart={setChart}
+          stateActions={stateActions}
+        />
       </div>
     </div>
   );

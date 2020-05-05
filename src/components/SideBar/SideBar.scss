@@ -1,5 +1,63 @@
 .side-bar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
+
+  .collapse-bar {
+    width: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--themeColorHover);
+    cursor: pointer;
+
+    .collapse-bar-right {
+      display: none;
+      transition: 1s ease-in-out;
+    }
+
+    .collapse-bar-left {
+      display: none;
+      transition: 1s ease-in-out;
+    }
+
+    .collapse-bar-pipe {
+      font-weight: 600;
+      transition: 1s ease-in-out;
+    }
+
+    &:hover {
+      background-color: darken(rgba(255, 255, 255, 0.1), 50) !important;
+      .collapse-bar-pipe {
+        display: none !important;
+        transition: 1s ease-in-out;
+      }
+
+      .collapse-bar-right {
+        display: block !important;
+        transition: 1s ease-in-out;
+      }
+
+      .collapse-bar-left {
+        display: block !important;
+        transition: 1s ease-in-out;
+      }
+    }
+  }
+
+  .side-bar-container {
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+  }
+
+  .side-bar-node-details {
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+  }
 }

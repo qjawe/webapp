@@ -1,4 +1,9 @@
 import { IChart } from "@mrblenny/react-flow-chart";
+import { Aave, Uniswap, Splitter } from "../services/BlocksService";
+
+const aave = Aave();
+const uniswap = Uniswap();
+const splitter = Splitter();
 
 export const chartSimple: IChart = {
   offset: {
@@ -9,9 +14,9 @@ export const chartSimple: IChart = {
   nodes: {
     node1: {
       id: "node1",
-      type: "flash-loan",
+      type: "Aave:Flash Loan",
       position: {
-        x: 300,
+        x: 500,
         y: 100,
       },
       ports: {
@@ -19,70 +24,82 @@ export const chartSimple: IChart = {
           id: "port1",
           type: "output",
           properties: {
-            value: "yes",
+            type: "reserve",
+            amount: 0,
+            asset: "ETH",
           },
         },
       },
       properties: {
+        ...aave,
+        name: "Aave:Flash Loan",
         type: "initial",
+        nodeType: "flashLoan",
       },
     },
     node2: {
       id: "node2",
-      type: "splitter",
+      type: "Uniswap:Swap",
       position: {
-        x: 300,
+        x: 505,
         y: 300,
       },
       ports: {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "input",
+            amount: 0,
+            asset: "ETH",
+          },
         },
         port2: {
           id: "port2",
           type: "output",
+          properties: {
+            type: "output",
+            amount: 0,
+            asset: "ETH",
+          },
         },
-        port3: {
-          id: "port3",
-          type: "output",
-        },
+      },
+      properties: {
+        ...uniswap,
+        name: "Uniswap:Swap",
+        nodeType: "swap",
+        amountIn: 0,
+        amountOutMin: 0,
+        path: ["0x0", "0x0"],
+        to: "0x0",
+        deadline: 0,        
       },
     },
     node3: {
       id: "node3",
-      type: "uniswap",
+      type: "End",
       position: {
-        x: 100,
-        y: 600,
+        x: 510,
+        y: 500,
       },
       ports: {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "end",
+            amount: 0,
+            asset: "ETH",
+          },
         },
         port2: {
           id: "port2",
           type: "output",
         },
       },
-    },
-    node4: {
-      id: "node4",
-      type: "uniswap",
-      position: {
-        x: 500,
-        y: 600,
-      },
-      ports: {
-        port1: {
-          id: "port1",
-          type: "input",
-        },
-        port2: {
-          id: "port2",
-          type: "output",
-        },
+      properties: {
+        name: "End",
+        nodeType: "end",
       },
     },
   },
@@ -98,7 +115,7 @@ export const chartSimple: IChart = {
         portId: "port1",
       },
       properties: {
-        label: "example link label",
+        label: "Aave:Flash Loan to Uniswap:Swap",
       },
     },
     link2: {
@@ -112,18 +129,7 @@ export const chartSimple: IChart = {
         portId: "port1",
       },
       properties: {
-        label: "another example link label",
-      },
-    },
-    link3: {
-      id: "link3",
-      from: {
-        nodeId: "node2",
-        portId: "port3",
-      },
-      to: {
-        nodeId: "node4",
-        portId: "port1",
+        label: "Uniswap:Swap to End",
       },
     },
   },

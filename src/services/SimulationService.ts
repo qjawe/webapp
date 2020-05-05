@@ -19,7 +19,8 @@ export const buildTransaction = async (chart: IChart) => {
 
     queue.unshift(initialNode.pop());
 
-    while (queue.length > 0) {
+    let i = 0;
+    while (queue.length > 0 && i++ < 20) {
         let node = queue.pop() as INode;
 
         if (node.properties && node.properties.codegen) {
@@ -28,6 +29,10 @@ export const buildTransaction = async (chart: IChart) => {
 
         const links = Object.values(chartCopy.links).filter((v: ILink) => v.from.nodeId === node.id);
         links.forEach((w: ILink) => queue.unshift(w));
+    }
+
+    if (queue.length > 0) {
+        return Promise.reject("Graph too large.");
     }
 
     return tx;

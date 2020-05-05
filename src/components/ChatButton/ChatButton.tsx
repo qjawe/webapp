@@ -4,6 +4,8 @@ import ChatBox from "3box-chatbox-react";
 import Box from "3box";
 
 class ChatButton extends React.Component<any, any> {
+  SPACE_NAME = "MoneyLego";
+  THREAD_NAME = "globalChat";
   constructor(props: any) {
     super(props);
     this.state = {
@@ -13,47 +15,59 @@ class ChatButton extends React.Component<any, any> {
       isReady: false,
     };
   }
+  async componentDidMount() {
+    let { box } = this.state;
+    box = await Box.create(window.ethereum);
+    console.log("Before render", box);
+    this.setState({ box });
+  }
   handleLogin = async () => {
+    let { box } = this.state;
     const myAddress = this.props.walletAddress;
-
-    const box = await Box.openBox(myAddress, window.ethereum, {});
+    await box.auth([], { address: myAddress });
     const myProfile = await Box.getProfile(myAddress);
 
-    box.onSyncDone(() => this.setState({ box }));
+    box.onSyncDone(() => {
+      console.log(box);
+      this.setState({ box });
+    });
     this.setState({ box, myProfile, myAddress, isReady: true });
   };
   render() {
     const { box, myAddress, myProfile, isReady } = this.state;
+    console.log(box);
     return (
       <div className="chat-bar">
-        <ChatBox
-          // required
-          // spaceName='3boxtestcomments'
-          // threadName='ghostChatTest5'
-          spaceName="MoneyLego"
-          threadName="globalChat"
-          // case A & B
-          box={box}
-          currentUserAddr={myAddress}
-          // case B
-          //@ts-ignore
-          loginFunction={this.handleLogin}
-          // case C
-          // ethereum={window.ethereum}
+        {box && (
+          <ChatBox
+            // required
+            // spaceName='3boxtestcomments'
+            // threadName='ghostChatTest5'
+            spaceName={this.SPACE_NAME}
+            threadName={this.THREAD_NAME}
+            // case A & B
+            box={box}
+            currentUserAddr={myAddress}
+            // case B
+            //@ts-ignore
+            loginFunction={this.handleLogin}
+            // case C
+            // ethereum={window.ethereum}
 
-          // optional
-          // mute
-          openOnMount
-          popupChat
-          // colorTheme="#1168df"
-          // threadOpts={{}}
-          // spaceOpts={{}}
-          // useHovers={true}
-          currentUser3BoxProfile={myProfile}
-          userProfileURL={(address) =>
-            `https://userprofiles.co/user/${address}`
-          }
-        />
+            // optional
+            // mute
+            openOnMount
+            popupChat
+            // colorTheme="#1168df"
+            // threadOpts={{}}
+            // spaceOpts={{}}
+            // useHovers={true}
+            currentUser3BoxProfile={myProfile}
+            userProfileURL={(address) =>
+              `https://userprofiles.co/user/${address}`
+            }
+          />
+        )}
       </div>
     );
   }

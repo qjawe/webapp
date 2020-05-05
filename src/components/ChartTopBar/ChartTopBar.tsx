@@ -6,7 +6,7 @@ function ChartTopBar() {
   return (
     <div className="chart-top-bar">
       <ToolboxItem
-        type="flash-loan"
+        type="Aave:Flash Loan"
         ports={{
           port1: {
             id: "port1",
@@ -17,15 +17,22 @@ function ChartTopBar() {
           },
         }}
         properties={{
-          name: "Aave",
+          name: "Aave:Flash Loan",
           type: "initial",
         }}
       />
       <ToolboxItem
-        type="flash-loan"
+        type="Uniswap:Swap"
         ports={{
           port1: {
             id: "port1",
+            type: "top",
+            properties: {
+              custom: "property",
+            },
+          },
+          port2: {
+            id: "port2",
             type: "bottom",
             properties: {
               custom: "property",
@@ -33,7 +40,46 @@ function ChartTopBar() {
           },
         }}
         properties={{
-          name: "Uniswap",
+          name: "Uniswap:Swap",
+          type: "initial",
+        }}
+      />
+      <ToolboxItem
+        type="Uniswap:Add Liquidity"
+        ports={{
+          port1: {
+            id: "port1",
+            type: "top",
+            properties: {
+              custom: "property",
+            },
+          },
+          port2: {
+            id: "port2",
+            type: "top",
+            properties: {
+              custom: "property",
+            },
+          },
+        }}
+        properties={{
+          name: "Uniswap:Add Liquidity",
+          type: "initial",
+        }}
+      />
+      <ToolboxItem
+        type="End"
+        ports={{
+          port1: {
+            id: "port1",
+            type: "top",
+            properties: {
+              custom: "property",
+            },
+          },
+        }}
+        properties={{
+          name: "End",
           type: "initial",
         }}
       />

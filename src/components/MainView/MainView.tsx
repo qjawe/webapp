@@ -16,7 +16,7 @@ function MainView() {
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">
-        <SideBar />
+        <SideBar chart={chart} stateActions={stateActions} />
       </div>
     </div>
   );

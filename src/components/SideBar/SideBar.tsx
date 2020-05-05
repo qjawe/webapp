@@ -2,6 +2,7 @@ import React from "react";
 import "./SideBar.scss";
 import SimulationSideBar from "../SimulationSideBar";
 import TopScorer from "../TopScorer";
+import { IChart } from "@mrblenny/react-flow-chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -10,7 +11,7 @@ import {
 import NodeDetailsSideBar from "../NodeDetailsSideBar";
 import { ISideBarProps } from "./models";
 
-function SideBar({ chart, setChart, stateActions }: any) {
+function SideBar({ chart, setChart, stateActions }: ISideBarProps) {
   const [collapsed, setCollapsed] = React.useState<boolean>(false);
   return (
     <div className="side-bar">
@@ -31,7 +32,7 @@ function SideBar({ chart, setChart, stateActions }: any) {
         <div>
           {!chart.selected.id && (
             <div className="side-bar-container">
-              <SimulationSideBar></SimulationSideBar>
+              <SimulationSideBar chart={chart}></SimulationSideBar>
               <TopScorer />
             </div>
           )}

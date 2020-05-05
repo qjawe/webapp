@@ -1,8 +1,12 @@
 import React from "react";
 import "./ChartTopBar.scss";
 import ToolboxItem from "../ToolboxItem";
+import { Aave, Uniswap } from "../../services/BlocksService";
 
 function ChartTopBar() {
+  const aave = Aave();
+  const uniswap = Uniswap();
+
   return (
     <div className="chart-top-bar">
       <ToolboxItem
@@ -16,10 +20,7 @@ function ChartTopBar() {
             },
           },
         }}
-        properties={{
-          name: "Aave:Flash Loan",
-          type: "initial",
-        }}
+        properties={aave}
       />
       <ToolboxItem
         type="Uniswap:Swap"
@@ -39,10 +40,7 @@ function ChartTopBar() {
             },
           },
         }}
-        properties={{
-          name: "Uniswap:Swap",
-          type: "initial",
-        }}
+        properties={uniswap}
       />
       <ToolboxItem
         type="Uniswap:Add Liquidity"

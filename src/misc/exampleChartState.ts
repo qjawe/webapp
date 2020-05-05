@@ -14,9 +14,9 @@ export const chartSimple: IChart = {
   nodes: {
     node1: {
       id: "node1",
-      type: "flash-loan",
+      type: "Aave:Flash Loan",
       position: {
-        x: 300,
+        x: 500,
         y: 100,
       },
       ports: {
@@ -24,7 +24,8 @@ export const chartSimple: IChart = {
           id: "port1",
           type: "output",
           properties: {
-            value: "yes",
+            amount: 100,
+            asset: "ETH",
           },
         },
       },
@@ -32,9 +33,9 @@ export const chartSimple: IChart = {
     },
     node2: {
       id: "node2",
-      type: "splitter",
+      type: "Uniswap:Swap",
       position: {
-        x: 300,
+        x: 505,
         y: 300,
       },
       ports: {
@@ -46,19 +47,19 @@ export const chartSimple: IChart = {
           id: "port2",
           type: "output",
         },
-        port3: {
-          id: "port3",
-          type: "output",
-        },
+      },
+      properties: {
+        name: "Uniswap:Swap",
+        type: "initial",
       },
       properties: splitter,
     },
     node3: {
       id: "node3",
-      type: "uniswap",
+      type: "End",
       position: {
-        x: 100,
-        y: 600,
+        x: 510,
+        y: 500,
       },
       ports: {
         port1: {
@@ -86,16 +87,6 @@ export const chartSimple: IChart = {
         x: 500,
         y: 600,
       },
-      ports: {
-        port1: {
-          id: "port1",
-          type: "input",
-        },
-        port2: {
-          id: "port2",
-          type: "output",
-        },
-      },
       properties: {
         ...uniswap,
         amountIn: 0,
@@ -118,7 +109,7 @@ export const chartSimple: IChart = {
         portId: "port1",
       },
       properties: {
-        label: "example link label",
+        label: "Aave:Flash Loan to Uniswap:Swap",
       },
     },
     link2: {
@@ -132,18 +123,7 @@ export const chartSimple: IChart = {
         portId: "port1",
       },
       properties: {
-        label: "another example link label",
-      },
-    },
-    link3: {
-      id: "link3",
-      from: {
-        nodeId: "node2",
-        portId: "port3",
-      },
-      to: {
-        nodeId: "node4",
-        portId: "port1",
+        label: "Uniswap:Swap to End",
       },
     },
   },

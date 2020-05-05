@@ -32,7 +32,6 @@ const wallets = [
 const onboard = Onboard({
   dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
   networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
-  //@ts-ignore
   subscriptions: {
     wallet: (wallet: any) => {
       web3 = new Web3(wallet.provider);
@@ -40,10 +39,8 @@ const onboard = Onboard({
   },
   darkMode: true,
   walletSelect: {
-    //@ts-ignore
     wallets,
   },
-  walletCheck: [],
 });
 
 export const notify = Notify({

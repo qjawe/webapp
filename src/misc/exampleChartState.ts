@@ -48,10 +48,6 @@ export const chartSimple: IChart = {
           type: "output",
         },
       },
-      properties: {
-        name: "Uniswap:Swap",
-        type: "initial",
-      },
       properties: splitter,
     },
     node3: {
@@ -86,6 +82,16 @@ export const chartSimple: IChart = {
       position: {
         x: 500,
         y: 600,
+      },
+      ports: {
+        port1: {
+          id: "port1",
+          type: "input",
+        },
+        port2: {
+          id: "port2",
+          type: "output",
+        },
       },
       properties: {
         ...uniswap,

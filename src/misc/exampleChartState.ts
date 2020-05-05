@@ -24,12 +24,18 @@ export const chartSimple: IChart = {
           id: "port1",
           type: "output",
           properties: {
-            amount: 100,
+            type: "reserve",
+            amount: 0,
             asset: "ETH",
           },
         },
       },
-      properties: aave,
+      properties: {
+        ...aave,
+        name: "Aave:Flash Loan",
+        type: "initial",
+        nodeType: "flashLoan",
+      },
     },
     node2: {
       id: "node2",
@@ -42,13 +48,32 @@ export const chartSimple: IChart = {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "input",
+            amount: 0,
+            asset: "ETH",
+          },
         },
         port2: {
           id: "port2",
           type: "output",
+          properties: {
+            type: "output",
+            amount: 0,
+            asset: "ETH",
+          },
         },
       },
-      properties: splitter,
+      properties: {
+        ...uniswap,
+        name: "Uniswap:Swap",
+        nodeType: "swap",
+        amountIn: 0,
+        amountOutMin: 0,
+        path: ["0x0", "0x0"],
+        to: "0x0",
+        deadline: 0,        
+      },
     },
     node3: {
       id: "node3",
@@ -61,6 +86,11 @@ export const chartSimple: IChart = {
         port1: {
           id: "port1",
           type: "input",
+          properties: {
+            type: "end",
+            amount: 0,
+            asset: "ETH",
+          },
         },
         port2: {
           id: "port2",
@@ -68,38 +98,8 @@ export const chartSimple: IChart = {
         },
       },
       properties: {
-        ...uniswap,
-        amountIn: 0,
-        amountOutMin: 0,
-        path: ["0x0", "0x0"],
-        to: "0x0",
-        deadline: 0,
-      },
-    },
-    node4: {
-      id: "node4",
-      type: "uniswap",
-      position: {
-        x: 500,
-        y: 600,
-      },
-      ports: {
-        port1: {
-          id: "port1",
-          type: "input",
-        },
-        port2: {
-          id: "port2",
-          type: "output",
-        },
-      },
-      properties: {
-        ...uniswap,
-        amountIn: 0,
-        amountOutMin: 0,
-        path: ["0x0", "0x0"],
-        to: "0x0",
-        deadline: 0,
+        name: "End",
+        nodeType: "end",
       },
     },
   },

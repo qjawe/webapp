@@ -11,13 +11,7 @@ import {
 import NodeDetailsSideBar from "../NodeDetailsSideBar";
 import { ISideBarProps } from "./models";
 
-export interface ISideBarProps {
-  chart: IChart;
-  stateActions: any;
-  setChart: any;
-}
-
-function SideBar({ chart, setChart, stateActions }: any) {
+function SideBar({ chart, setChart, stateActions }: ISideBarProps) {
   const [collapsed, setCollapsed] = React.useState<boolean>(false);
   return (
     <div className="side-bar">

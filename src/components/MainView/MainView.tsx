@@ -5,9 +5,11 @@ import ChartView from "../ChartView";
 import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
 import { AppContext } from "../../state";
+import { IChart } from "@mrblenny/react-flow-chart";
 
 function MainView() {
   const [chart, , stateActions] = useChart();
+  const chart2 = chart as IChart; 
 
   return (
     <div className="main-view">
@@ -16,7 +18,7 @@ function MainView() {
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">
-        <SideBar chart={chart}/>
+        <SideBar chart={chart2}/>
       </div>
     </div>
   );

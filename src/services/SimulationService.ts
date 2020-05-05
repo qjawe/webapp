@@ -20,7 +20,7 @@ export const buildTransaction = async (chart: IChart) => {
     queue.unshift(initialNode.pop());
 
     while (queue.length > 0) {
-        let node = queue.pop();
+        let node = queue.pop() as INode;
 
         if (node.properties && node.properties.codegen) {
             tx.push(node.properties.codegen(node));
@@ -30,6 +30,5 @@ export const buildTransaction = async (chart: IChart) => {
         links.forEach((w: ILink) => queue.unshift(w));
     }
 
-    console.log("bla");
-    return 0;
+    return tx;
 };

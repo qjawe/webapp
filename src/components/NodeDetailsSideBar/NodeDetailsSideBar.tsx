@@ -3,6 +3,7 @@ import "./NodeDetailsSideBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { INodeDetailsSideBarState, INodeDetailsSideBarProps } from "./models";
+import { ethers } from "ethers";
 
 class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
@@ -22,12 +23,17 @@ class NodeDetailsSideBar extends React.Component<
   componentDidUpdate() {
     const { selectedNode } = this.state;
     if (selectedNode.id !== this.props.chart.selected.id) {
-      this.setState({
-        selectedNode: this.props.chart.nodes[this.props.chart.selected.id + ""],
-        selectedNodePorts: this.props.chart.nodes[
-          this.props.chart.selected.id + ""
-        ].ports,
-      });
+      this.setState(
+        {
+          selectedNode: this.props.chart.nodes[
+            this.props.chart.selected.id + ""
+          ],
+          selectedNodePorts: this.props.chart.nodes[
+            this.props.chart.selected.id + ""
+          ].ports,
+        },
+        () => {}
+      );
     }
   }
 
@@ -51,6 +57,24 @@ class NodeDetailsSideBar extends React.Component<
     const { chart, setChart, stateActions } = this.props;
     const { selectedNodePorts, selectedNode } = this.state;
     chart.nodes[selectedNode.id].ports = selectedNodePorts;
+    Object.keys(selectedNodePorts).forEach((port) => {
+      if (selectedNodePorts[port].properties.type === "input") {
+        chart.nodes[
+          selectedNode.id
+        ].properties.amountIn = ethers.utils.parseUnits(
+          selectedNodePorts[port].properties.amount + "",
+          "ether"
+        );
+      }
+      if (selectedNodePorts[port].properties.type === "output") {
+        chart.nodes[
+          selectedNode.id
+        ].properties.amountOutMin = ethers.utils.parseUnits(
+          selectedNodePorts[port].properties.amount + "",
+          "ether"
+        );
+      }
+    });
     setChart(chart);
     stateActions.onCanvasClick({});
   };
@@ -62,6 +86,8 @@ class NodeDetailsSideBar extends React.Component<
       selectedDropdown,
       tokenList,
     } = this.state;
+
+    console.log(selectedNodePorts["port1"].properties);
     return (
       <div className="node-details-side-bar">
         <div className="node-details-header">
@@ -95,7 +121,7 @@ class NodeDetailsSideBar extends React.Component<
           {Object.keys(selectedNodePorts).map((port: string, i) => (
             <div className="node-details-input-items" key={i}>
               <label className="node-details-label">
-                {selectedNodePorts[port].properties.type}
+                {/* {selectedNodePorts[port].properties.type} */}
               </label>
               <div className="node-details-input-field">
                 <div className="node-details-asset-select-container">

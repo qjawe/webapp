@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { INodeDetailsSideBarState, INodeDetailsSideBarProps } from "./models";
 import { ethers } from "ethers";
+import { TOKEN_LIST } from "../../constants";
 
 class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
@@ -15,7 +16,7 @@ class NodeDetailsSideBar extends React.Component<
       openSelect: false,
       selectedNode: props.chart.nodes[props.chart.selected.id],
       selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
-      tokenList: ["ETH", "DAI", "SAI", "BAT"],
+      tokenList: TOKEN_LIST,
       selectedDropdown: "",
     };
   }
@@ -121,7 +122,7 @@ class NodeDetailsSideBar extends React.Component<
           {Object.keys(selectedNodePorts).map((port: string, i) => (
             <div className="node-details-input-items" key={i}>
               <label className="node-details-label">
-                {/* {selectedNodePorts[port].properties.type} */}
+                {selectedNodePorts[port].properties.type}
               </label>
               <div className="node-details-input-field">
                 <div className="node-details-asset-select-container">
@@ -144,13 +145,13 @@ class NodeDetailsSideBar extends React.Component<
                         onClick={(e) => this.setState({ openSelect: false })}
                       ></div>
                       <ul className="node-details-options">
-                        {tokenList.map((token: string, i: number) => (
+                        {tokenList.map((token: any, i: number) => (
                           <li
                             className="node-details-option"
                             key={i}
                             onClick={(e) => this.setAsset(token, port)}
                           >
-                            {token}
+                            {token.address}
                           </li>
                         ))}
                       </ul>

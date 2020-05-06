@@ -1,9 +1,11 @@
 import { IChart } from "@mrblenny/react-flow-chart";
-import { Aave, Uniswap, Splitter } from "../services/BlocksService";
+import { Aave, Uniswap, Splitter, End } from "../services/BlocksService";
+import { ethers } from "ethers";
 
 const aave = Aave();
 const uniswap = Uniswap();
 const splitter = Splitter();
+const end = End();
 
 export const chartSimple: IChart = {
   offset: {
@@ -68,11 +70,11 @@ export const chartSimple: IChart = {
         ...uniswap,
         name: "Uniswap:Swap",
         nodeType: "swap",
-        amountIn: 0,
-        amountOutMin: 0,
-        path: ["0x0", "0x0"],
-        to: "0x0",
-        deadline: 0,        
+        amountIn: ethers.utils.parseUnits('10', 'ether'),
+        amountOutMin: ethers.utils.parseUnits('9.9', 'ether'),
+        path: ['0xff795577d9ac8bd7d90ee22b6c1703490b6512fd', '0xaaf64bfcc32d0f15873a02163e7e500671a4ffcd'],
+        to: '0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9',
+        deadline: 1590969600,        
       },
     },
     node3: {
@@ -98,8 +100,7 @@ export const chartSimple: IChart = {
         },
       },
       properties: {
-        name: "End",
-        nodeType: "end",
+        ...end,
       },
     },
   },

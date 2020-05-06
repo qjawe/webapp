@@ -32,6 +32,14 @@ export interface ITransaction {
      }
  }
 
+ export const End = () : IBlock => {
+     return {
+         name: "End",
+         type: "end",
+         /* codegen: null, // No need */
+     }
+ }
+
 export const Uniswap = () : IBlock => {
     return {
         name: "Uniswap",

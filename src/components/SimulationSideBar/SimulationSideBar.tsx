@@ -8,16 +8,16 @@ export interface ISimulationSideBarProps {
 }
 
 function SimulationSideBar({ chart } : ISimulationSideBarProps) {
-  const initialState = { loading: true, error: false, tx: null };
+  const initialState = { loading: true, error: false, tx: "" };
   const [ state, setState ] = useState(initialState);
 
   useEffect(() => {
     if (!state.loading) return;
 
     buildTransaction(chart).then((x : any) => {
-      setState({ loading: false, error: false, tx: x });
+      setState({ loading: false, error: false, tx: JSON.stringify(x) });
     },(x: any) => {
-      setState({ loading: false, error: true, tx: null });
+      setState({ loading: false, error: true, tx: "" });
     });
   });
 

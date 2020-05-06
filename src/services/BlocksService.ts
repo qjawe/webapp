@@ -57,3 +57,38 @@ export const Uniswap = () : IBlock => {
         }
     }
 }
+
+export const UniswapAddLiquidity = () : IBlock => {
+    return {
+        name: "UniswapAddLiquidity",
+        type: "exchange",
+        codegen: (node: INode) : ITransaction => {
+            const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
+            let txData;
+            if(node.properties.tokenA.symbol == "ETH" || node.properties.tokenB.symbol == "ETH" ){
+                txData = uniswap.functions.addLiquidityEth.encode([
+                    node.properties.tokenA.symbol == "ETH"? node.properties.tokenB.address : node.properties.tokenA.address,
+                    node.properties.tokenA.symbol == "ETH"? node.properties.amountBDesired : node.properties.amountADesired,
+                    node.properties.tokenA.symbol == "ETH"? node.properties.amountBMin : node.properties.amountAMin,
+                    node.properties.tokenA.symbol == "ETH"? node.properties.amountAMin : node.properties.amountBMin,
+                    node.properties.to,
+                    node.properties.deadline]);
+                }
+            else{
+            txData = uniswap.functions.addLiquidity.encode([
+                node.properties.tokenA.address,
+                node.properties.tokenB.address,
+                node.properties.amountADesired,
+                node.properties.amountBDesired,
+                node.properties.amountAMin,
+                node.properties.amountBMin,
+                node.properties.to,
+                node.properties.deadline]);
+            }
+            const txTo = UNISWAP_ADDRESS;
+            return { to: txTo, txData: txData };
+        }
+    }
+}
+
+

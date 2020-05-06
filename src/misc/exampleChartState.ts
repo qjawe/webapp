@@ -94,10 +94,6 @@ export const chartSimple: IChart = {
             asset: "ETH",
           },
         },
-        port2: {
-          id: "port2",
-          type: "output",
-        },
       },
       properties: {
         ...end,

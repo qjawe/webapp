@@ -1,6 +1,7 @@
 import { IChart } from "@mrblenny/react-flow-chart";
 import { Aave, Uniswap, Splitter, End } from "../services/BlocksService";
 import { ethers } from "ethers";
+import { TOKEN_LIST } from "../constants";
 
 const aave = Aave();
 const uniswap = Uniswap();
@@ -28,7 +29,7 @@ export const chartSimple: IChart = {
           properties: {
             type: "reserve",
             amount: 0,
-            asset: "ETH",
+            asset: TOKEN_LIST[0],
           },
         },
       },
@@ -53,7 +54,7 @@ export const chartSimple: IChart = {
           properties: {
             type: "input",
             amount: 0,
-            asset: "ETH",
+            asset: TOKEN_LIST[0],
           },
         },
         port2: {
@@ -62,7 +63,7 @@ export const chartSimple: IChart = {
           properties: {
             type: "output",
             amount: 0,
-            asset: "ETH",
+            asset: TOKEN_LIST[0],
           },
         },
       },
@@ -94,7 +95,7 @@ export const chartSimple: IChart = {
           properties: {
             type: "end",
             amount: 0,
-            asset: "ETH",
+            asset: TOKEN_LIST[0],
           },
         },
       },

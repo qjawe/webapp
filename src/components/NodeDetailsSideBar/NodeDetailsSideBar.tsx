@@ -131,7 +131,7 @@ class NodeDetailsSideBar extends React.Component<
                     onClick={(e) => this.openSelectOption(port)}
                   >
                     <div className="node-details-value">
-                      {selectedNodePorts[port].properties.asset}
+                      {selectedNodePorts[port].properties.asset.tokenSymbol}
                     </div>
                     <FontAwesomeIcon
                       icon={faCaretDown}
@@ -151,7 +151,7 @@ class NodeDetailsSideBar extends React.Component<
                             key={i}
                             onClick={(e) => this.setAsset(token, port)}
                           >
-                            {token.address}
+                            {token.tokenSymbol}
                           </li>
                         ))}
                       </ul>

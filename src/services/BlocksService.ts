@@ -8,7 +8,9 @@ import { ethers } from "ethers";
 
 export interface ITransaction {
   to: string;
-  txData: string;
+  input: string;
+  value: string;
+  callType: string;
 }
 
 export interface IBlock {
@@ -55,7 +57,7 @@ export const Uniswap = (): IBlock => {
         node.properties.deadline,
       ]);
       const txTo = UNISWAP_ADDRESS;
-      return { to: txTo, txData: txData };
+      return { to: txTo, input: txData, value: "0", callType: "0" };
     },
   };
 };
@@ -100,7 +102,7 @@ export const UniswapAddLiquidity = (): IBlock => {
         ]);
       }
       const txTo = UNISWAP_ADDRESS;
-      return { to: txTo, txData: txData };
+      return { to: txTo, input: txData,value: "0", callType:"0" };
     },
   };
 };

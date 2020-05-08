@@ -72,7 +72,7 @@ export const connectWallet = async () => {
   return address;
 };
 
-export const execute = async (txLegs: any) => {
+export const deployContract = async (txLegs: any) => {
   let provider = ethers.getDefaultProvider("kovan");
   let privateKey =
     "0x6C4A2BBF10D87E5C19B40F9C87C08E1E46F61D246200970B9EF5218597D3FBEE";
@@ -86,4 +86,14 @@ export const execute = async (txLegs: any) => {
   let contract = await factory.deploy(lendingPool, txLegs);
   console.log("Deployed contract ", contract.address);
   await contract.deployed();
+  return contract.address;
 };
+
+export const flashloan = async (contractAddress: string, assetAddress: string) => {
+  let provider = ethers.getDefaultProvider("kovan");
+  let flashLoanExecutor = new ethers.Contract(contractAddress, FLASHLOAN_ABI, provider);
+  let tx = await flashLoanExecutor.testFlashLoan(assetAddress, ethers.utils.bigNumberify("10000000000000000000"));
+  tx.then((rcpt: any) => {
+      console.log("Transaction receipt ", rcpt);
+  });
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SimulationSideBar.scss";
 import { buildTransaction} from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
-import { execute } from "../../services/Web3Service";
+import { flashloan, deployContract } from "../../services/Web3Service";
 
 export interface ISimulationSideBarProps {
   chart: IChart;
@@ -25,10 +25,11 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
 const executeTransaction = async () => {
   console.log(chart.nodes.node1.ports.port1.properties.amount)
   console.log(chart.nodes.node1.ports.port1.properties.type)
-  console.log(chart.nodes.node1.ports.port1.properties.asset)
+  const asset = chart.nodes.node1.ports.port1.properties.asset
   const txLegs = await buildTransaction(chart);
   console.log(txLegs)
-  execute(txLegs);
+  const flashLoanExecutor = await deployContract(txLegs);
+  const tx = await flashloan(flashLoanExecutor, asset);
 }
 
   if (state.loading) {

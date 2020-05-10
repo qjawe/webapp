@@ -8,6 +8,8 @@ import { FACTORY_ADDRESS, FACTORY_ABI, AAVE_ETHEREUM } from "../../constants";
 import Web3 from "web3";
 import { AsyncSendable } from "ethers/providers";
 
+declare var web3 : any;
+
 export interface ISimulationSideBarProps {
   chart: IChart;
 }
@@ -34,15 +36,16 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
   }
 
   const submitTransaction = () => {
-    const web3 = new Web3();
-    const provider = new ethers.providers.Web3Provider(web3.currentProvider as AsyncSendable);
+    const provider = new ethers.providers.Web3Provider(web3.currentProvider);
     const signer = provider.getSigner();
 
     const Factory = new ethers.Contract(FACTORY_ADDRESS, FACTORY_ABI, signer);
     const legs = JSON.parse(state.tx).map((item: any) => {
       return { to: item.to,
        input: item.txData,
-       value: 0, }});
+       value: 0,
+       callType: 0, }});
+
     Factory.execute(AAVE_ETHEREUM, legs).then(() => { console.log('done' )});
   }
 

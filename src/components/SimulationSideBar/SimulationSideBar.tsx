@@ -4,9 +4,10 @@ import { buildTransaction} from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 import { ethers } from "ethers";
 
-import { FACTORY_ADDRESS, FACTORY_ABI, AAVE_ETHEREUM } from "../../constants";
-import Web3 from "web3";
-import { AsyncSendable } from "ethers/providers";
+import { FACTORY_ADDRESS,
+  FACTORY_ABI, 
+  AAVE_ETHEREUM,
+  AAVE_PROVIDER } from "../../constants";
 
 declare var web3 : any;
 
@@ -46,7 +47,7 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
        value: 0,
        callType: 0, }});
 
-    Factory.execute(AAVE_ETHEREUM, legs).then(() => { console.log('done' )});
+    Factory.execute(AAVE_PROVIDER, legs, AAVE_ETHEREUM, 10).then(() => { console.log('done' )});
   }
 
   return (

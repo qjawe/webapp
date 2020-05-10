@@ -84,7 +84,7 @@ export const deployContract = async (txLegs: any) => {
     wallet
   );
   let contract = await factory.deploy(lendingPool, txLegs);
-  console.log("Deployed contract ", contract.address);
+  // console.log("Deployed contract ", contract.address);
   await contract.deployed();
   return contract.address;
 };

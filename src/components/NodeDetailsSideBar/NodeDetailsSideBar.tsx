@@ -88,7 +88,7 @@ class NodeDetailsSideBar extends React.Component<
       tokenList,
     } = this.state;
 
-    console.log(selectedNodePorts["port1"].properties);
+    // console.log(selectedNodePorts["port1"].properties);
     return (
       <div className="node-details-side-bar">
         <div className="node-details-header">

@@ -23,11 +23,11 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
   });
 
 const executeTransaction = async () => {
-  console.log(chart.nodes.node1.ports.port1.properties.amount)
-  console.log(chart.nodes.node1.ports.port1.properties.type)
+  // console.log(chart.nodes.node1.ports.port1.properties.amount)
+  // console.log(chart.nodes.node1.ports.port1.properties.type)
   const asset = chart.nodes.node1.ports.port1.properties.asset
   const txLegs = await buildTransaction(chart);
-  console.log(txLegs)
+  // console.log(txLegs)
   const flashLoanExecutor = await deployContract(txLegs);
   const tx = await flashloan(flashLoanExecutor, asset);
 }

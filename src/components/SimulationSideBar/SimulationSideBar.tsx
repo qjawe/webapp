@@ -4,8 +4,8 @@ import { buildTransaction} from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 import { ethers } from "ethers";
 
-import { FACTORY_ADDRESS,
-  FACTORY_ABI, 
+import { EXECUTOR_ADDRESS,
+  EXECUTOR_ABI, 
   AAVE_ETHEREUM,
   AAVE_PROVIDER } from "../../constants";
 
@@ -40,14 +40,16 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
     const provider = new ethers.providers.Web3Provider(web3.currentProvider);
     const signer = provider.getSigner();
 
-    const Factory = new ethers.Contract(FACTORY_ADDRESS, FACTORY_ABI, signer);
+    const Executor = new ethers.Contract(EXECUTOR_ADDRESS, EXECUTOR_ABI, signer);
     const legs = JSON.parse(state.tx).map((item: any) => {
       return { to: item.to,
        input: item.txData,
        value: 0,
        callType: 0, }});
 
-    Factory.execute(AAVE_PROVIDER, legs, AAVE_ETHEREUM, 10).then(() => { console.log('done' )});
+    const amount = ethers.utils.parseEther("0.5");
+
+    Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});
   }
 
   return (

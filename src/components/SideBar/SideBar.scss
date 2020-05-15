@@ -46,8 +46,7 @@
   }
 
   .side-bar-container {
-    max-width: 400px;
-    min-width: 400px;
+    width: 348px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -55,7 +54,7 @@
   }
 
   .side-bar-node-details {
-    min-width: 400px;
+    width: 348px;
     display: flex;
     flex-direction: column;
     height: 100%;

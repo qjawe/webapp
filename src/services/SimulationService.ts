@@ -18,10 +18,12 @@ export const buildTransaction = async (chart: IChart) => {
     }
 
     queue.unshift(initialNode.pop());
+    // console.log(cloneDeep(queue))
 
     let i = 0;
     while (queue.length > 0 && i++ < 20) {
         let node = queue.pop() as INode;
+        // console.log(cloneDeep(node), cloneDeep(queue))
 
         if (node.properties && node.properties.codegen) {
             try {
@@ -30,14 +32,18 @@ export const buildTransaction = async (chart: IChart) => {
                 return Promise.reject(err);
             }
         }
+        // console.log(cloneDeep(tx))
 
         const links = Object.values(chartCopy.links).filter((v: ILink) => v.from.nodeId === node.id && v.to.nodeId).map((v: ILink) => v.to.nodeId as string);
+        // console.log(cloneDeep(links))
         links.map((node: string) => Object.values(chartCopy.nodes).filter((n : INode) => n.id === node).pop() as INode).forEach((w: INode) => queue.unshift(w));
+        // console.log(cloneDeep(queue))
     }
 
     if (queue.length > 0) {
         return Promise.reject("Graph too large.");
     }
+    // console.log(cloneDeep(tx))
 
     return tx;
 };

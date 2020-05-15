@@ -1,11 +1,20 @@
 import React from "react";
 import "./ChartTopBar.scss";
 import ToolboxItem from "../ToolboxItem";
-import { Aave, Uniswap } from "../../services/BlocksService";
+import {
+  Aave,
+  Uniswap,
+  End,
+  UniswapAddLiquidity,
+} from "../../services/BlocksService";
+import { TOKEN_LIST } from "../../constants";
+import { ethers } from "ethers";
 
 function ChartTopBar() {
   const aave = Aave();
   const uniswap = Uniswap();
+  const uniswapAddLiquidity = UniswapAddLiquidity();
+  const end = End();
 
   return (
     <div className="chart-top-bar">
@@ -16,11 +25,15 @@ function ChartTopBar() {
             id: "port1",
             type: "bottom",
             properties: {
-              custom: "property",
+              type: "reserve",
+              amount: 0,
+              asset: TOKEN_LIST[0],
             },
           },
         }}
-        properties={aave}
+        properties={{
+          ...aave
+        }}
       />
       <ToolboxItem
         type="Uniswap:Swap"
@@ -29,18 +42,24 @@ function ChartTopBar() {
             id: "port1",
             type: "top",
             properties: {
-              custom: "property",
+              type: "input",
+              amount: 0,
+              asset: TOKEN_LIST[0],
             },
           },
           port2: {
             id: "port2",
             type: "bottom",
             properties: {
-              custom: "property",
+              type: "output",
+              amount: 0,
+              asset: TOKEN_LIST[0],
             },
           },
         }}
-        properties={uniswap}
+        properties={{
+          ...uniswap
+        }}
       />
       <ToolboxItem
         type="Uniswap:Add Liquidity"
@@ -49,20 +68,23 @@ function ChartTopBar() {
             id: "port1",
             type: "top",
             properties: {
-              custom: "property",
+              type: "input",
+              amount: 0,
+              asset: TOKEN_LIST[0],
             },
           },
           port2: {
             id: "port2",
             type: "top",
             properties: {
-              custom: "property",
+              type: "input",
+              amount: 0,
+              asset: TOKEN_LIST[1],
             },
           },
         }}
         properties={{
-          name: "Uniswap:Add Liquidity",
-          type: "initial",
+          ...uniswapAddLiquidity
         }}
       />
       <ToolboxItem
@@ -72,13 +94,14 @@ function ChartTopBar() {
             id: "port1",
             type: "top",
             properties: {
-              custom: "property",
+              type: "input",
+              amount: 0,
+              asset: TOKEN_LIST[0],
             },
           },
         }}
         properties={{
-          name: "End",
-          type: "initial",
+          ...end
         }}
       />
     </div>

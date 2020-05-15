@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { INodeDetailsSideBarState, INodeDetailsSideBarProps } from "./models";
 import { ethers } from "ethers";
+import { TOKEN_LIST } from "../../constants";
 
 class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
@@ -15,7 +16,7 @@ class NodeDetailsSideBar extends React.Component<
       openSelect: false,
       selectedNode: props.chart.nodes[props.chart.selected.id],
       selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
-      tokenList: ["ETH", "DAI", "SAI", "BAT"],
+      tokenList: TOKEN_LIST,
       selectedDropdown: "",
     };
   }
@@ -41,42 +42,60 @@ class NodeDetailsSideBar extends React.Component<
     this.setState({ selectedDropdown: port, openSelect: true });
   };
 
-  setAsset = (token: string, port: string) => {
+  setAsset = (token: any, port: string) => {
+    console.log(token);
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.asset = token;
-    this.setState({ selectedNodePorts, openSelect: false });
+    this.setState({ selectedNodePorts, openSelect: false }, () => {
+      this.setNodeProperties(false);
+    });
   };
 
   setAssetAmount = (amount: string, port: string) => {
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.amount = amount;
-    this.setState({ selectedNodePorts });
+    this.setState({ selectedNodePorts }, () => {
+      this.setNodeProperties(false);
+    });
   };
 
-  setNodeProperties = () => {
-    const { chart, setChart, stateActions } = this.props;
-    const { selectedNodePorts, selectedNode } = this.state;
-    chart.nodes[selectedNode.id].ports = selectedNodePorts;
-    Object.keys(selectedNodePorts).forEach((port) => {
-      if (selectedNodePorts[port].properties.type === "input") {
-        chart.nodes[
-          selectedNode.id
-        ].properties.amountIn = ethers.utils.parseUnits(
-          selectedNodePorts[port].properties.amount + "",
-          "ether"
-        );
+  setNodeProperties = (flag: boolean) => {
+    try {
+      const { chart, setChart, stateActions } = this.props;
+      const { selectedNodePorts, selectedNode } = this.state;
+      chart.nodes[selectedNode.id].ports = selectedNodePorts;
+      chart.nodes[selectedNode.id].properties.path = ["0x00", "0x00"];
+      Object.keys(selectedNodePorts).forEach((port) => {
+        if (selectedNodePorts[port].properties.type === "input") {
+          chart.nodes[
+            selectedNode.id
+          ].properties.amountIn = ethers.utils.parseUnits(
+            selectedNodePorts[port].properties.amount + "",
+            "ether"
+          );
+          console.log();
+          chart.nodes[selectedNode.id].properties.path[0] =
+            selectedNodePorts[port].properties.asset.tokenAddress;
+        }
+        if (selectedNodePorts[port].properties.type === "output") {
+          chart.nodes[
+            selectedNode.id
+          ].properties.amountOutMin = ethers.utils.parseUnits(
+            selectedNodePorts[port].properties.amount + "",
+            "ether"
+          );
+
+          chart.nodes[selectedNode.id].properties.path[1] =
+            selectedNodePorts[port].properties.asset.tokenAddress;
+        }
+      });
+      setChart(chart);
+      if (flag) {
+        stateActions.onCanvasClick({});
       }
-      if (selectedNodePorts[port].properties.type === "output") {
-        chart.nodes[
-          selectedNode.id
-        ].properties.amountOutMin = ethers.utils.parseUnits(
-          selectedNodePorts[port].properties.amount + "",
-          "ether"
-        );
-      }
-    });
-    setChart(chart);
-    stateActions.onCanvasClick({});
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
@@ -86,8 +105,6 @@ class NodeDetailsSideBar extends React.Component<
       selectedDropdown,
       tokenList,
     } = this.state;
-
-    console.log(selectedNodePorts["port1"].properties);
     return (
       <div className="node-details-side-bar">
         <div className="node-details-header">
@@ -111,7 +128,7 @@ class NodeDetailsSideBar extends React.Component<
             </button>
             <button
               className="node-details-set-button"
-              onClick={(e) => this.setNodeProperties()}
+              onClick={(e) => this.setNodeProperties(true)}
             >
               Set
             </button>
@@ -121,7 +138,7 @@ class NodeDetailsSideBar extends React.Component<
           {Object.keys(selectedNodePorts).map((port: string, i) => (
             <div className="node-details-input-items" key={i}>
               <label className="node-details-label">
-                {/* {selectedNodePorts[port].properties.type} */}
+                {selectedNodePorts[port].properties.type}
               </label>
               <div className="node-details-input-field">
                 <div className="node-details-asset-select-container">
@@ -129,8 +146,19 @@ class NodeDetailsSideBar extends React.Component<
                     className="node-details-value-set"
                     onClick={(e) => this.openSelectOption(port)}
                   >
-                    <div className="node-details-value">
-                      {selectedNodePorts[port].properties.asset}
+                    <div className="node-details-token-container">
+                      <div className="node-details-token-icon-container">
+                        <img
+                          src={require(`../../assets/tokens-icons/${selectedNodePorts[
+                            port
+                          ].properties.asset.tokenAddress.toLowerCase()}/logo.png`)}
+                          alt="token-icon"
+                          className="node-details-token-icon"
+                        />
+                      </div>
+                      <div className="node-details-value">
+                        {selectedNodePorts[port].properties.asset.tokenSymbol}
+                      </div>
                     </div>
                     <FontAwesomeIcon
                       icon={faCaretDown}
@@ -144,13 +172,22 @@ class NodeDetailsSideBar extends React.Component<
                         onClick={(e) => this.setState({ openSelect: false })}
                       ></div>
                       <ul className="node-details-options">
-                        {tokenList.map((token: string, i: number) => (
+                        {tokenList.map((token: any, i: number) => (
                           <li
                             className="node-details-option"
                             key={i}
                             onClick={(e) => this.setAsset(token, port)}
                           >
-                            {token}
+                            <span className="token-list-icon-container">
+                              <img
+                                src={require(`../../assets/tokens-icons/${token.tokenAddress.toLowerCase()}/logo.png`)}
+                                alt="token-icon"
+                                className="token-list-icon"
+                              />
+                            </span>
+                            <span className="token-list-address">
+                              {token.tokenSymbol}
+                            </span>
                           </li>
                         ))}
                       </ul>

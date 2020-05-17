@@ -37,7 +37,7 @@ export const Aave = (): IBlock => {
   return {
     name: "Aave:Flash Loan",
     type: "initial",
-    nodeType: "flashLoan"
+    nodeType: "flashLoan",
     /* codegen: null, // Null as the contract has the logic by itself */
   };
 };
@@ -46,7 +46,7 @@ export const Splitter = (): IBlock => {
   return {
     name: "Splitter",
     type: "splitter",
-    nodeType: "splitter"
+    nodeType: "splitter",
     /* codegen: null, // No need */
   };
 };
@@ -89,7 +89,7 @@ export const Uniswap = (): IBlock => {
 
 export const UniswapAddLiquidity = (): IBlock => {
   return {
-    name: "UniswapAddLiquidity",
+    name: "Uniswap:AddLiquidity",
     type: "exchange",
     nodeType: "addLiquidity",
     tokenA: TOKEN_LIST[0],

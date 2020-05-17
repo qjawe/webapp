@@ -3,7 +3,11 @@ import "./Toolbar.scss";
 import makeBlockie from "ethereum-blockies-base64";
 import { shortenAddress } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faChevronUp,
+  faCopy,
+} from "@fortawesome/free-solid-svg-icons";
 import { Web3Service } from "../../services";
 import { AppContext } from "../../state";
 
@@ -12,7 +16,15 @@ function Toolbar() {
 
   const handleConnectWallet = async () => {
     const address = await Web3Service.connectWallet();
-    ctx.actions.setWalletAddress(address);
+    console.log(address);
+    const balance = await Web3Service.getWalletBalance();
+    ctx.actions.setWalletConfig(address, balance);
+    setShowDropdown(false);
+  };
+
+  const handleDisconnectWallet = async () => {
+    Web3Service.disConnectWallet();
+    ctx.actions.setWalletConfig("", "0");
     setShowDropdown(false);
   };
 
@@ -26,7 +38,7 @@ function Toolbar() {
         <div className="toolbar-balance">
           <div className="toolbar-balance-title">Balance</div>
           <div>
-            <span>0</span>
+            <span>{Number.parseFloat(ctx.state.walletBalance).toFixed(2)}</span>
             <span> ETH</span>
           </div>
         </div>
@@ -86,17 +98,53 @@ function Toolbar() {
       )}
       {showDropdown && (
         <div className="toolbar-dropdown-box">
-          <div className="dropdown-title">Connect to Wallet</div>
-          <div></div>
-          <div className="dropdown-menu-button-container">
-            <button
-              type="button"
-              onClick={handleConnectWallet}
-              className="dropdown-menu-button"
-            >
-              Connect
-            </button>
-          </div>
+          {!ctx.state.walletAddress && (
+            <div>
+              <div className="dropdown-title">Connect to Wallet</div>
+              <div className="dropdown-menu-button-container">
+                <button
+                  type="button"
+                  onClick={handleConnectWallet}
+                  className="dropdown-menu-button"
+                >
+                  Connect
+                </button>
+              </div>
+            </div>
+          )}
+          {ctx.state.walletAddress && (
+            <div>
+              <div className="dropdown-header">
+                <div className="dropdown-header-blockie">
+                  <img
+                    src={makeBlockie(ctx.state.walletAddress)}
+                    alt="address-blockie"
+                    className="toolbar-blockie-icon"
+                  />
+                  <span className="status-circle active"></span>
+                </div>
+              </div>
+              <div className="dropdown-wallet-container">
+                <div className="dropdown-wallet-address">
+                  <div className="dropdown-title">
+                    {shortenAddress(ctx.state.walletAddress)}
+                  </div>
+                  <div className="wallet-address-copy">
+                    <FontAwesomeIcon icon={faCopy} />
+                  </div>
+                </div>
+              </div>
+              <div className="dropdown-menu-button-container">
+                <button
+                  type="button"
+                  onClick={handleDisconnectWallet}
+                  className="dropdown-menu-button disconnect"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

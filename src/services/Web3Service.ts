@@ -11,19 +11,20 @@ import { ethers } from "ethers";
 
 const FORTMATIC_KEY = "";
 const INFURA_KEY = "";
-const PORTIS_KEY = "";
+const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
 
 let web3;
-let userAddress;
+let userAddress = "";
+let userBalance = "0";
 const wallets = [
   { walletName: "metamask", preferred: true },
   { walletName: "torus", preferred: true },
-  // {
-  //   walletName: "portis",
-  //   apiKey: PORTIS_KEY,
-  //   preferred: true,
-  //   label: "Login with Email",
-  // },
+  {
+    walletName: "portis",
+    apiKey: PORTIS_KEY,
+    preferred: true,
+    label: "Login with Email",
+  },
   { walletName: "coinbase", preferred: true },
   // {
   //   walletName: "fortmatic",
@@ -43,14 +44,17 @@ const onboard = Onboard({
     wallet: (wallet: any) => {
       web3 = new Web3(wallet.provider);
     },
-    address: (address:any) =>{
-    userAddress = address;
-    }
+    address: (address: any) => {
+      userAddress = address;
+    },
+    // balance: (balance: string) => {
+    //   userBalance = ethers.utils.formatEther(
+    //     ethers.utils.bigNumberify(balance)
+    //   );
+    //   console.log(userBalance);
+    // },
   },
   darkMode: true,
-  walletSelect: {
-    wallets,
-  },
 });
 
 // export const notify = Notify({
@@ -72,6 +76,22 @@ export const connectWallet = async () => {
   return address;
 };
 
+export const getWalletBalance = async () => {
+  const currentState = onboard.getState();
+  const balance = currentState.balance;
+  console.log(balance);
+  let userBalance = "0";
+  if (balance) {
+    userBalance = ethers.utils.formatEther(ethers.utils.bigNumberify(balance));
+  }
+
+  return userBalance;
+};
+
+export const disConnectWallet = () => {
+  onboard.walletReset();
+};
+
 export const deployContract = async (txLegs: any) => {
   let provider = ethers.getDefaultProvider("kovan");
   let privateKey =
@@ -89,11 +109,21 @@ export const deployContract = async (txLegs: any) => {
   return contract.address;
 };
 
-export const flashloan = async (contractAddress: string, assetAddress: string) => {
+export const flashloan = async (
+  contractAddress: string,
+  assetAddress: string
+) => {
   let provider = ethers.getDefaultProvider("kovan");
-  let flashLoanExecutor = new ethers.Contract(contractAddress, FLASHLOAN_ABI, provider);
-  let tx = await flashLoanExecutor.testFlashLoan(assetAddress, ethers.utils.bigNumberify("10000000000000000000"));
+  let flashLoanExecutor = new ethers.Contract(
+    contractAddress,
+    FLASHLOAN_ABI,
+    provider
+  );
+  let tx = await flashLoanExecutor.testFlashLoan(
+    assetAddress,
+    ethers.utils.bigNumberify("10000000000000000000")
+  );
   tx.then((rcpt: any) => {
-      console.log("Transaction receipt ", rcpt);
+    console.log("Transaction receipt ", rcpt);
   });
-}
+};

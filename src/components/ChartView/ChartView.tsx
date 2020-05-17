@@ -4,8 +4,10 @@ import { FlowChart } from "@mrblenny/react-flow-chart";
 
 function ChartView({ chart, stateActions }: any) {
   useEffect(() => {
-    changeNodeTextDomEl();
-  });
+    setTimeout(() => {
+      changeNodeTextDomEl();
+    }, 1);
+  }, []);
 
   const changeNodeTextDomEl = () => {
     const allNodeTextEl = document.querySelectorAll(".sc-AxhCb");
@@ -27,14 +29,14 @@ function ChartView({ chart, stateActions }: any) {
       const selectedNode = Object.keys(chart.nodes).filter(
         (node) => text?.indexOf(chart.nodes[node].type) !== -1
       )[0];
-      console.log(text, selectedNode);
+      // console.log(text, selectedNode);
       var imgContainerDom = document.createElement("div");
       imgContainerDom.className = "node-token-icon-container";
       Object.keys(chart.nodes[selectedNode].ports).forEach((port) => {
         const imgDom = createTokenIconDiv(
           chart.nodes[selectedNode].ports[port].properties.asset.tokenAddress
         );
-        console.log(imgDom);
+        // console.log(imgDom);
         imgContainerDom.appendChild(imgDom);
       });
       allNodeTextEl[i].appendChild(imgContainerDom);

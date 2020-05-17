@@ -16,7 +16,7 @@ function Toolbar() {
 
   const handleConnectWallet = async () => {
     const address = await Web3Service.connectWallet();
-    console.log(address);
+    // console.log(address);
     const balance = await Web3Service.getWalletBalance();
     ctx.actions.setWalletConfig(address, balance);
     setShowDropdown(false);
@@ -32,7 +32,7 @@ function Toolbar() {
   return (
     <div className="toolbar">
       <div className="toolbar-left">
-        <div className="toolbar-app-icon">Moneylego</div>
+        <div className="toolbar-app-icon">flashmint.</div>
       </div>
       <div className="toolbar-right">
         <div className="toolbar-balance">

@@ -16,7 +16,10 @@ class NodeDetailsSideBar extends React.Component<
       openSelect: false,
       selectedNode: props.chart.nodes[props.chart.selected.id],
       selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
-      tokenList: TOKEN_LIST,
+      tokenList:
+        props.chart.nodes[props.chart.selected.id].type === "Aave:Flash Loan"
+          ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+          : TOKEN_LIST,
       selectedDropdown: "",
     };
   }
@@ -32,6 +35,11 @@ class NodeDetailsSideBar extends React.Component<
           selectedNodePorts: this.props.chart.nodes[
             this.props.chart.selected.id + ""
           ].ports,
+          tokenList:
+            this.props.chart.nodes[this.props.chart.selected.id + ""].type ===
+            "Aave:Flash Loan"
+              ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+              : TOKEN_LIST,
         },
         () => {}
       );
@@ -43,7 +51,7 @@ class NodeDetailsSideBar extends React.Component<
   };
 
   setAsset = (token: any, port: string) => {
-    console.log(token);
+    // console.log(token);
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.asset = token;
     this.setState({ selectedNodePorts, openSelect: false }, () => {
@@ -73,7 +81,6 @@ class NodeDetailsSideBar extends React.Component<
             selectedNodePorts[port].properties.amount + "",
             "ether"
           );
-          console.log();
           chart.nodes[selectedNode.id].properties.path[0] =
             selectedNodePorts[port].properties.asset.tokenAddress;
         }

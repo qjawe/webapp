@@ -31,3 +31,22 @@ body {
   font-family: var(--bodyFont);
   position: relative;
 }
+
+.node-token-icon-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  .node-token-icon {
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    border: 1px solid;
+    margin-left: 8px;
+
+    &:nth-child(2) {
+      margin-left: -4px !important;
+    }
+  }
+}

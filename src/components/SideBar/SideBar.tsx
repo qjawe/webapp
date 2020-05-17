@@ -30,13 +30,13 @@ function SideBar({ chart, setChart, stateActions }: ISideBarProps) {
       </div>
       {!collapsed && (
         <div>
-          {!chart.selected.id && (
+          {(!chart.selected.id || chart.selected.type === "link") && (
             <div className="side-bar-container">
               <SimulationSideBar chart={chart}></SimulationSideBar>
               <TopScorer />
             </div>
           )}
-          {chart.selected.id && (
+          {chart.selected.id && chart.selected.type === "node" && (
             <div className="side-bar-node-details">
               <NodeDetailsSideBar
                 chart={chart}

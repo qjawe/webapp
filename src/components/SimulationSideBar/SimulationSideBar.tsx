@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./SimulationSideBar.scss";
-import { buildTransaction} from "../../services/SimulationService";
+import { buildTransaction } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 import { ethers } from "ethers";
 
-import { EXECUTOR_ADDRESS,
-  EXECUTOR_ABI, 
+import { AppContext } from "../../state";
+
+import { 
+  FLASHLOAN_ABI,
+  FLASHLOAN_ADDRESS,
   AAVE_ETHEREUM,
   AAVE_PROVIDER } from "../../constants";
 
@@ -15,32 +18,33 @@ export interface ISimulationSideBarProps {
   chart: IChart;
 }
 
-function SimulationSideBar({ chart } : ISimulationSideBarProps) {
+function SimulationSideBar({ chart }: ISimulationSideBarProps) {
+  const ctx = React.useContext(AppContext);
   const initialState = { loading: true, error: false, tx: "" };
-  const [ state, setState ] = useState(initialState);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     if (!state.loading) return;
 
-    buildTransaction(chart).then((x : any) => {
-      setState({ loading: false, error: false, tx: JSON.stringify(x) });
-    },(x: any) => {
-      setState({ loading: false, error: true, tx: "" });
-    });
+    buildTransaction(chart).then(
+      (x: any) => {
+        setState({ loading: false, error: false, tx: JSON.stringify(x) });
+      },
+      (x: any) => {
+        setState({ loading: false, error: true, tx: "" });
+      }
+    );
   });
 
   if (state.loading) {
-    return (
-      <div className="simulation-side-bar">
-      </div>
-    );
+    return <div className="simulation-side-bar"></div>;
   }
 
   const submitTransaction = () => {
     const provider = new ethers.providers.Web3Provider(web3.currentProvider);
     const signer = provider.getSigner();
 
-    const Executor = new ethers.Contract(EXECUTOR_ADDRESS, EXECUTOR_ABI, signer);
+    const Executor = new ethers.Contract(FLASHLOAN_ADDRESS, FLASHLOAN_ABI, signer);
     const legs = JSON.parse(state.tx).map((item: any) => {
       return { to: item.to,
        input: item.txData,
@@ -57,10 +61,17 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>
       <div className="simulation-summary">
-      <div className="simulation-summary-item">{state.error ? "Error"  : state.tx}</div>
+        <div className="simulation-summary-item">
+          {state.error ? "Error" : state.tx}
+        </div>
       </div>
       <div className="simulation-button-container">
-        <button onClick={submitTransaction} type="button" className="simulation-button" disabled={state.tx ? false : true}>
+        <button
+          type="button"
+          className="simulation-button"
+          onClick={submitTransaction}
+          disabled={!ctx.state.walletAddress}
+        >
           Execute Transaction
         </button>
       </div>

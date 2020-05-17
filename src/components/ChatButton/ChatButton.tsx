@@ -11,7 +11,7 @@ class ChatButton extends React.Component<any, any> {
     this.state = {
       // box: {},
       myProfile: {},
-      myAddress: "",
+      myAddress: this.props.walletAddress,
       isReady: false,
     };
   }
@@ -19,6 +19,12 @@ class ChatButton extends React.Component<any, any> {
     let { box } = this.state;
     box = await Box.create(window.ethereum);
     this.setState({ box });
+  }
+  async componentDidUpdate() {
+    if (this.props.walletAddress !== this.state.myAddress) {
+      console.log("Entering", this.props.walletAddress, this.state.myAddress);
+      this.handleLogin();
+    }
   }
   handleLogin = async () => {
     let { box } = this.state;

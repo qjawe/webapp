@@ -3,9 +3,10 @@ import { createContext } from "react";
 export const initialValue = {
   state: {
     walletAddress: "",
+    walletBalance: "0",
   },
   actions: {
-    setWalletAddress: (address: string) => {},
+    setWalletConfig: (address: string, balance: string) => {},
   },
 };
 

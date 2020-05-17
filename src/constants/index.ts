@@ -4,7 +4,7 @@ import EXECUTOR from "./abis/FlashloanExecutor.json";
 export const UNISWAP_ADDRESS: string = "0xcDbE04934d89e97a24BCc07c3562DC8CF17d8167";
 export const UNISWAP_ABI: string = JSON.stringify(UNISWAP);
 
-export const EXECUTOR_ADDRESS: string = "0x94a808A11FdC9D90413B4F97242411716AEE71De";
+export const EXECUTOR_ADDRESS: string = "0x6e6a53d5802B6E6A9491b7833388B453B16113Ae";
 export const EXECUTOR_ABI: string = JSON.stringify(EXECUTOR.abi);
 
 export const AAVE_ETHEREUM: string = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";

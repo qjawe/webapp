@@ -44,12 +44,13 @@ function SimulationSideBar({ chart } : ISimulationSideBarProps) {
     const legs = JSON.parse(state.tx).map((item: any) => {
       return { to: item.to,
        input: item.txData,
-       value: 0,
+       value: "0",
        callType: 0, }});
 
     const amount = ethers.utils.parseEther("0.5");
 
     Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});
+    //Executor.run(AAVE_ETHEREUM, amount, []).then(() => { console.log('done' )});
   }
 
   return (

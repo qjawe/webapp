@@ -22,7 +22,7 @@ class ChatButton extends React.Component<any, any> {
   }
   async componentDidUpdate() {
     if (this.props.walletAddress !== this.state.myAddress) {
-      console.log("Entering", this.props.walletAddress, this.state.myAddress);
+      // console.log("Entering", this.props.walletAddress, this.state.myAddress);
       this.handleLogin();
     }
   }

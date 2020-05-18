@@ -4,11 +4,11 @@ import ChartTopBar from "../ChartTopBar";
 import ChartView from "../ChartView";
 import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
-import { IChart } from "@mrblenny/react-flow-chart";
 import { ISideBarProps } from "../SideBar/models";
+import Modal from "../Modal";
 
 function MainView() {
-  const { chart, setChart, stateActions } : ISideBarProps = useChart();
+  const { chart, setChart, stateActions }: ISideBarProps = useChart();
 
   return (
     <div className="main-view">
@@ -23,6 +23,7 @@ function MainView() {
           stateActions={stateActions}
         />
       </div>
+      <Modal setChart={setChart} />
     </div>
   );
 }

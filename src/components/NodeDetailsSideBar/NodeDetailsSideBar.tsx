@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./NodeDetailsSideBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,10 @@ class NodeDetailsSideBar extends React.Component<
       openSelect: false,
       selectedNode: props.chart.nodes[props.chart.selected.id],
       selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
-      tokenList: TOKEN_LIST,
+      tokenList:
+        props.chart.nodes[props.chart.selected.id].type === "Aave:Flash Loan"
+          ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+          : TOKEN_LIST,
       selectedDropdown: "",
     };
   }
@@ -32,6 +35,11 @@ class NodeDetailsSideBar extends React.Component<
           selectedNodePorts: this.props.chart.nodes[
             this.props.chart.selected.id + ""
           ].ports,
+          tokenList:
+            this.props.chart.nodes[this.props.chart.selected.id + ""].type ===
+            "Aave:Flash Loan"
+              ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+              : TOKEN_LIST,
         },
         () => {}
       );
@@ -43,7 +51,7 @@ class NodeDetailsSideBar extends React.Component<
   };
 
   setAsset = (token: any, port: string) => {
-    console.log(token);
+    // console.log(token);
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.asset = token;
     this.setState({ selectedNodePorts, openSelect: false }, () => {
@@ -70,10 +78,11 @@ class NodeDetailsSideBar extends React.Component<
           chart.nodes[
             selectedNode.id
           ].properties.amountIn = ethers.utils.parseUnits(
-            selectedNodePorts[port].properties.amount + "",
+            (selectedNodePorts[port].properties.amount
+              ? selectedNodePorts[port].properties.amount
+              : 0) + "",
             "ether"
           );
-          console.log();
           chart.nodes[selectedNode.id].properties.path[0] =
             selectedNodePorts[port].properties.asset.tokenAddress;
         }
@@ -81,7 +90,9 @@ class NodeDetailsSideBar extends React.Component<
           chart.nodes[
             selectedNode.id
           ].properties.amountOutMin = ethers.utils.parseUnits(
-            selectedNodePorts[port].properties.amount + "",
+            (selectedNodePorts[port].properties.amount
+              ? selectedNodePorts[port].properties.amount
+              : 0) + "",
             "ether"
           );
 

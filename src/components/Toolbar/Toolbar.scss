@@ -10,9 +10,12 @@
 
   .toolbar-left {
     .toolbar-app-icon {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 28px;
+      // color: var(--themeColorBlue);
+      font-weight: 800;
       color: var(--white);
+      font-family: var(--appNameFont);
+      letter-spacing: 0.5px;
     }
   }
 

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./SimulationSideBar.scss";
 import { buildTransaction } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
+// import { flashloan, deployContract } from "../../services/Web3Service";
 import { ethers } from "ethers";
-
 import { AppContext } from "../../state";
 
 import { 
@@ -35,6 +35,16 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
       }
     );
   });
+  
+  const executeTransaction = async () => {
+    console.log(chart.nodes.node1.ports.port1.properties.amount);
+    console.log(chart.nodes.node1.ports.port1.properties.type);
+    // const asset = chart.nodes.node1.ports.port1.properties.asset;
+    const txLegs = await buildTransaction(chart);
+    console.log(txLegs);
+    // const flashLoanExecutor = await deployContract(txLegs);
+    // const tx = await flashloan(flashLoanExecutor, asset);
+  };
 
   if (state.loading) {
     return <div className="simulation-side-bar"></div>;

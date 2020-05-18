@@ -4,7 +4,6 @@ import ChartTopBar from "../ChartTopBar";
 import ChartView from "../ChartView";
 import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
-import { IChart } from "@mrblenny/react-flow-chart";
 import { ISideBarProps } from "../SideBar/models";
 import Modal from "../Modal";
 
@@ -14,7 +13,7 @@ function MainView() {
   return (
     <div className="main-view">
       <div className="chat-view-container">
-        <ChartTopBar chart={chart} />
+        <ChartTopBar />
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">

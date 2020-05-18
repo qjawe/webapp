@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./NodeDetailsSideBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
@@ -78,7 +78,9 @@ class NodeDetailsSideBar extends React.Component<
           chart.nodes[
             selectedNode.id
           ].properties.amountIn = ethers.utils.parseUnits(
-            selectedNodePorts[port].properties.amount + "",
+            (selectedNodePorts[port].properties.amount
+              ? selectedNodePorts[port].properties.amount
+              : 0) + "",
             "ether"
           );
           chart.nodes[selectedNode.id].properties.path[0] =
@@ -88,7 +90,9 @@ class NodeDetailsSideBar extends React.Component<
           chart.nodes[
             selectedNode.id
           ].properties.amountOutMin = ethers.utils.parseUnits(
-            selectedNodePorts[port].properties.amount + "",
+            (selectedNodePorts[port].properties.amount
+              ? selectedNodePorts[port].properties.amount
+              : 0) + "",
             "ether"
           );
 

@@ -79,7 +79,7 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "output",
                 amount: 0,
-                asset: TOKEN_LIST[0],
+                asset: TOKEN_LIST[1],
               },
             },
           }}

@@ -1,51 +1,49 @@
 import Web3 from "web3";
-import Notify from "bnc-notify";
+// import Notify from "bnc-notify";
 import Onboard from "bnc-onboard";
 import {
-  UNISWAP_ADDRESS,
-  UNISWAP_ABI,
+  // UNISWAP_ADDRESS,
+  // UNISWAP_ABI,
   FLASHLOAN_ABI,
-  ERC20_ABI,
+  // ERC20_ABI,
 } from "../constants";
 import { ethers } from "ethers";
 
-const FORTMATIC_KEY = "";
-const INFURA_KEY = "";
-const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
+// const FORTMATIC_KEY = "";
+// const INFURA_KEY = "";
+// const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let web3;
-let userAddress = "";
-let userBalance = "0";
-const wallets = [
-  { walletName: "metamask", preferred: true },
-  { walletName: "torus", preferred: true },
-  {
-    walletName: "portis",
-    apiKey: PORTIS_KEY,
-    preferred: true,
-    label: "Login with Email",
-  },
-  { walletName: "coinbase", preferred: true },
-  // {
-  //   walletName: "fortmatic",
-  //   apiKey: FORTMATIC_KEY,
-  //   preferred: true,
-  // },
-  { walletName: "authereum", preferred: true },
-  // {
-  //   walletName: "walletConnect",
-  //   infuraKey: INFURA_KEY,
-  // },
-];
+// let userAddress = "";
+// let userBalance = "0";
+// const wallets = [
+//   { walletName: "metamask", preferred: true },
+//   { walletName: "torus", preferred: true },
+//   {
+//     walletName: "portis",
+//     apiKey: PORTIS_KEY,
+//     preferred: true,
+//     label: "Login with Email",
+//   },
+//   { walletName: "coinbase", preferred: true },
+//   // {
+//   //   walletName: "fortmatic",
+//   //   apiKey: FORTMATIC_KEY,
+//   //   preferred: true,
+//   // },
+//   { walletName: "authereum", preferred: true },
+//   // {
+//   //   walletName: "walletConnect",
+//   //   infuraKey: INFURA_KEY,
+//   // },
+// ];
 const onboard = Onboard({
   dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
-  networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
+  networkId: 42, // [Integer] The Ethereum network ID your Dapp uses.
   subscriptions: {
     wallet: (wallet: any) => {
       web3 = new Web3(wallet.provider);
-    },
-    address: (address: any) => {
-      userAddress = address;
     },
     // balance: (balance: string) => {
     //   userBalance = ethers.utils.formatEther(

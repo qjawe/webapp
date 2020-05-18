@@ -2,7 +2,7 @@ import React from "react";
 import "./SideBar.scss";
 import SimulationSideBar from "../SimulationSideBar";
 import TopScorer from "../TopScorer";
-import { IChart } from "@mrblenny/react-flow-chart";
+// import { IChart } from "@mrblenny/react-flow-chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,

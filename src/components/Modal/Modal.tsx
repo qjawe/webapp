@@ -3,8 +3,8 @@ import "./Modal.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../state";
-import { useChart } from "../../hooks";
-import { ISideBarProps } from "../SideBar/models";
+// import { useChart } from "../../hooks";
+// import { ISideBarProps } from "../SideBar/models";
 function Modal({ setChart }: any) {
   const ctx = useContext(AppContext);
   // const { setChart }: ISideBarProps = useChart();

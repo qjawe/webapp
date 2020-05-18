@@ -3,7 +3,16 @@ import "./SimulationSideBar.scss";
 import { buildTransaction } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 // import { flashloan, deployContract } from "../../services/Web3Service";
+import { ethers } from "ethers";
 import { AppContext } from "../../state";
+
+import { 
+  FLASHLOAN_ABI,
+  FLASHLOAN_ADDRESS,
+  AAVE_ETHEREUM,
+  AAVE_PROVIDER } from "../../constants";
+
+declare var web3 : any;
 
 export interface ISimulationSideBarProps {
   chart: IChart;
@@ -26,7 +35,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
       }
     );
   });
-
+  
   const executeTransaction = async () => {
     console.log(chart.nodes.node1.ports.port1.properties.amount);
     console.log(chart.nodes.node1.ports.port1.properties.type);
@@ -41,6 +50,23 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     return <div className="simulation-side-bar"></div>;
   }
 
+  const submitTransaction = () => {
+    const provider = new ethers.providers.Web3Provider(web3.currentProvider);
+    const signer = provider.getSigner();
+
+    const Executor = new ethers.Contract(FLASHLOAN_ADDRESS, FLASHLOAN_ABI, signer);
+    const legs = JSON.parse(state.tx).map((item: any) => {
+      return { to: item.to,
+       input: item.txData,
+       value: "0",
+       callType: 0, }});
+
+    const amount = ethers.utils.parseEther("0.5");
+
+    Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});
+    //Executor.run(AAVE_ETHEREUM, amount, []).then(() => { console.log('done' )});
+  }
+
   return (
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>
@@ -53,7 +79,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
         <button
           type="button"
           className="simulation-button"
-          onClick={executeTransaction}
+          onClick={submitTransaction}
           disabled={!ctx.state.walletAddress}
         >
           Execute Transaction

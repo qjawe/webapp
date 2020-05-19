@@ -20,7 +20,7 @@ function Toolbar() {
   return (
     <div className="toolbar">
       <div className="toolbar-left">
-        <div className="toolbar-app-icon">Moneylego</div>
+        <div className="toolbar-app-icon">Flashmint</div>
       </div>
       <div className="toolbar-right">
         <div className="toolbar-balance">
@@ -39,18 +39,18 @@ function Toolbar() {
                 className="toolbar-blockie-icon"
               />
             ) : (
-              <img
-                src={require("../../assets/icons/metamask.png")}
-                alt="metamask-icon"
-                className="metamask-icon"
-              />
-            )}
+                <img
+                  src={require("../../assets/icons/metamask.png")}
+                  alt="metamask-icon"
+                  className="metamask-icon"
+                />
+              )}
             <span
               className={`status-circle ${
                 !ctx.state.walletAddress
                   ? "status-metamask de-active"
                   : "active"
-              }`}
+                }`}
             ></span>
           </div>
           <div className="toolbar-address">
@@ -60,7 +60,7 @@ function Toolbar() {
             <div
               className={`toolbar-address ${
                 !ctx.state.walletAddress ? "de-active-text" : ""
-              }`}
+                }`}
             >
               {ctx.state.walletAddress
                 ? shortenAddress(ctx.state.walletAddress)

@@ -1,10 +1,22 @@
 import React from "react";
 import TextLoop from "react-text-loop";
 import AnchorLink from "react-anchor-link-smooth-scroll";
-import "./Landing.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTelegram,
+  faDiscord,
+  faTwitterSquare,
+} from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+import "./Landing.scss";
 
 function Landing() {
+  const [selectedUsage, setSelectedUsage] = React.useState(0);
+  const usageList = [
+    require("../../assets/landing/screenshot1.png"),
+    require("../../assets/landing/screenshot2.png"),
+    require("../../assets/landing/screenshot3.png"),
+  ];
   return (
     <div className="landing">
       <div className="landing-container" id="home">
@@ -51,7 +63,12 @@ function Landing() {
                 </h1>
               </div>
               <div className="home-tagline">
-                Mint money without spending any
+                A No Code DeFi Tool to Mint money, without spending any.
+              </div>
+              <div className="home-play">
+                <Link to="/playground" className="header-play-buttons">
+                  Join
+                </Link>
               </div>
             </div>
             <div className="home-icon-container">
@@ -81,55 +98,56 @@ function Landing() {
           <div className="feature-container">
             <h1 className="feature-title">Our Features</h1>
             <p className="feature-description">
-              Flashmint is a no-code tool that empowers DeFi users to create,
-              simulate, analyse DeFi arbitrage trades
+              While presenting a sleek UI, we have provided with the best
+              possible UX.
             </p>
             <p className="feature-description">
-              As a possible tool for financial inclusion, the platform takes a
-              gamified and social approach to the problem, empowering new users
-              to learn about DeFi.
+              Even a college grad/poker fan without any knowledge of the DeFi
+              protocols can play a hit and trial on our Simulator and start
+              minting money
             </p>
+
             <div className="feature-showcase">
               <div className="feature-item">
                 <div>
                   <img
-                    src="https://pspfqlx3qgd7.arweave.net/Il2bA6IuoancZwMYqH9t3nPOdKRP94WqbGmrQwc_b_0/private.png"
+                    src={require("../../assets/icons/simulator.png")}
                     alt="demo"
                     className="feature-icons"
                   />
                 </div>
-                <h3 className="feature-title">Simulation</h3>
+                <h3 className="feature-title">Simulator</h3>
                 <p className="feature-description">
-                  The core of our product is the Simulator. We mirrored it to
-                  create a drag and drop tool.
+                  A Drag and drop tool where you can execute flashloans without
+                  interacting with the code.
                 </p>
               </div>
               <div className="feature-item">
                 <div>
                   <img
-                    src="https://pspfqlx3qgd7.arweave.net/Il2bA6IuoancZwMYqH9t3nPOdKRP94WqbGmrQwc_b_0/private.png"
+                    src={require("../../assets/icons/leaderboard.png")}
                     alt="demo"
                     className="feature-icons"
                   />
                 </div>
                 <h3 className="feature-title">Rankings</h3>
                 <p className="feature-description">
-                  Noobs in Defi, can follow the top scorers profiles to learn
-                  how the experts are earning money.
+                  No time to learn Defi, follow the top scorers to learn how the
+                  experts are earning money.
                 </p>
               </div>
               <div className="feature-item">
                 <div>
                   <img
-                    src="https://pspfqlx3qgd7.arweave.net/Il2bA6IuoancZwMYqH9t3nPOdKRP94WqbGmrQwc_b_0/private.png"
+                    src={require("../../assets/icons/community.png")}
                     alt="demo"
                     className="feature-icons"
                   />
                 </div>
-                <h3 className="feature-title">Squawk Alley - Community</h3>
+                <h3 className="feature-title">Squawk Alley</h3>
                 <p className="feature-description">
-                  We intend to enable a rich community of Flashmint performers,
-                  who will learn and earn.{" "}
+                  Enabling a rich community of Flashloan experts, to learn and
+                  earn together.{" "}
                 </p>
               </div>
             </div>
@@ -138,6 +156,57 @@ function Landing() {
         <div className="usage-section" id="usage">
           <div className="usage-container">
             <h1>How do I use Flashmint?</h1>
+            <p>
+              Our <span className="highlight">Product Demo</span> &{" "}
+              <span className="highlight">"How to Play" Guide</span> is coming
+              soon.
+            </p>
+            <div className="usage-demo-container">
+              <div className="usage-list-container">
+                <div
+                  className={`usage-list-item ${
+                    selectedUsage === 0 ? "selected" : ""
+                  }`}
+                  onClick={(e) => setSelectedUsage(0)}
+                >
+                  <div className="usage-number">1</div>
+                  <div className="usage-details">
+                    <div className="usage-details-title">Connect to wallet</div>
+                  </div>
+                </div>
+                <div
+                  className={`usage-list-item ${
+                    selectedUsage === 1 ? "selected" : ""
+                  }`}
+                  onClick={(e) => setSelectedUsage(1)}
+                >
+                  <div className="usage-number">2</div>
+                  <div className="usage-details">
+                    <div className="usage-details-title">
+                      Drag, and Drop Protocols
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={`usage-list-item ${
+                    selectedUsage === 2 ? "selected" : ""
+                  }`}
+                  onClick={(e) => setSelectedUsage(2)}
+                >
+                  <div className="usage-number">3</div>
+                  <div className="usage-details">
+                    <div className="usage-details-title">Enter the amount</div>
+                  </div>
+                </div>
+              </div>
+              <div className="usage-image-container">
+                <img
+                  src={usageList[selectedUsage]}
+                  alt="demo-icon"
+                  className="usage-image"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -145,27 +214,61 @@ function Landing() {
         <div className="footer-container">
           <div className="footer-app-section">
             <h1 className="footer-app-name">flashmint.</h1>
+            <div className="footer-social-icons-container">
+              <a
+                href="https://discord.gg/gxV7jU"
+                className="footer-social-icon"
+              >
+                <FontAwesomeIcon icon={faDiscord} />
+              </a>
+              <a href="#" className="footer-social-icon">
+                <FontAwesomeIcon icon={faTwitterSquare} />
+              </a>
+              <a href="#" className="footer-social-icon">
+                <FontAwesomeIcon icon={faTelegram} />
+              </a>
+            </div>
           </div>
           <div className="footer-link-section">
             <h3 className="footer-link-header">Quick Links</h3>
             <ul className="footer-link-list">
               <li className="footer-link-item">
-                <a href="#" className="footer-link">
+                <a
+                  href="https://aave.com/"
+                  className="footer-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Aave
                 </a>
               </li>
               <li className="footer-link-item">
-                <a href="#" className="footer-link">
+                <a
+                  href="https://uniswap.org/"
+                  className="footer-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Uniswap
                 </a>
               </li>
               <li className="footer-link-item">
-                <a href="#" className="footer-link">
+                <a
+                  href="https://kyberswap.com/"
+                  className="footer-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Kyber
                 </a>
               </li>
               <li className="footer-link-item">
-                <a href="#" className="footer-link">
+                <a
+                  href="https://docs.makerdao.com/"
+                  className="footer-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Maker
                 </a>
               </li>

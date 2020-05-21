@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700|Roboto:100,200,300,400,500,600");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root {
-  --headlinesFont: "Josefin Sans", sans-serif;
+  --headlinesFont: "Rubik", sans-serif;
   --appNameFont: "Nunito", sans-serif;
-  --bodyFont: "Roboto", sans-serif;
+  --bodyFont: "Rubik", sans-serif;
   --textColor: #323232;
   --bodyBg: #c7c7c7;
   --white: #fff;
@@ -21,7 +21,8 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .App {

@@ -3,7 +3,8 @@ import "./App.scss";
 import Toolbar from "./components/Toolbar";
 import MainView from "./components/MainView";
 import "./declarations/index.d.ts";
-import ChatButton from "./components/ChatButton";
+import Landing from "./components/Landing";
+import { withRouter, Route, Redirect } from "react-router";
 import { AppContext } from "./state";
 
 declare global {
@@ -15,11 +16,21 @@ declare global {
 function App() {
   const ctx = React.useContext(AppContext);
   return (
-    <div className="App">
-      <Toolbar />
-      <MainView />
-      <ChatButton walletAddress={ctx.state.walletAddress} />
-    </div>
+    <>
+      <Route
+        path="/playground"
+        exact
+        render={() => (
+          <>
+            <div className="App">
+              <Toolbar />
+              <MainView />
+            </div>
+          </>
+        )}
+      />
+      <Route path="/" exact render={() => <Landing></Landing>} />
+    </>
   );
 }
 

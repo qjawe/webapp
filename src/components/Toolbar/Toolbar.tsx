@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import "./Toolbar.scss";
 import makeBlockie from "ethereum-blockies-base64";
-import { shortenAddress } from "../../utils";
+import { AppUtils } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faChevronUp,
   faCopy,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import { Web3Service } from "../../services";
 import { AppContext } from "../../state";
 
@@ -32,7 +33,11 @@ function Toolbar() {
   return (
     <div className="toolbar">
       <div className="toolbar-left">
-        <div className="toolbar-app-icon">flashmint.</div>
+        <div>
+          <Link to="/" className="toolbar-app-icon">
+            flashmint.
+          </Link>
+        </div>
       </div>
       <div className="toolbar-right">
         <div className="toolbar-balance">
@@ -75,7 +80,7 @@ function Toolbar() {
               }`}
             >
               {ctx.state.walletAddress
-                ? shortenAddress(ctx.state.walletAddress)
+                ? AppUtils.shortenAddress(ctx.state.walletAddress)
                 : "Connect Wallet"}
             </div>
           </div>
@@ -127,7 +132,7 @@ function Toolbar() {
               <div className="dropdown-wallet-container">
                 <div className="dropdown-wallet-address">
                   <div className="dropdown-title">
-                    {shortenAddress(ctx.state.walletAddress)}
+                    {AppUtils.shortenAddress(ctx.state.walletAddress)}
                   </div>
                   <div className="wallet-address-copy">
                     <FontAwesomeIcon icon={faCopy} />

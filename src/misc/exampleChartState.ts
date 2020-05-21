@@ -28,7 +28,7 @@ export const chartSimple: IChart = {
           type: "output",
           properties: {
             type: "reserve",
-            amount: 0,
+            amount: "",
             asset: TOKEN_LIST[0],
           },
         },
@@ -53,7 +53,7 @@ export const chartSimple: IChart = {
           type: "input",
           properties: {
             type: "input",
-            amount: 0,
+            amount: "",
             asset: TOKEN_LIST[0],
           },
         },
@@ -62,7 +62,7 @@ export const chartSimple: IChart = {
           type: "output",
           properties: {
             type: "output",
-            amount: 0,
+            amount: "",
             asset: TOKEN_LIST[1],
           },
         },
@@ -94,7 +94,7 @@ export const chartSimple: IChart = {
           type: "input",
           properties: {
             type: "end",
-            amount: 0,
+            amount: "",
             asset: TOKEN_LIST[0],
           },
         },

@@ -162,7 +162,7 @@ class NodeDetailsSideBar extends React.Component<
                         <img
                           src={require(`../../assets/tokens-icons/${selectedNodePorts[
                             port
-                          ].properties.asset.tokenAddress.toLowerCase()}/logo.png`)}
+                          ].properties.asset.tokenSymbol}/logo.png`)}
                           alt="token-icon"
                           className="node-details-token-icon"
                         />
@@ -191,7 +191,7 @@ class NodeDetailsSideBar extends React.Component<
                           >
                             <span className="token-list-icon-container">
                               <img
-                                src={require(`../../assets/tokens-icons/${token.tokenAddress.toLowerCase()}/logo.png`)}
+                                src={require(`../../assets/tokens-icons/${token.tokenSymbol}/logo.png`)}
                                 alt="token-icon"
                                 className="token-list-icon"
                               />

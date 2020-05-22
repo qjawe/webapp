@@ -18,10 +18,7 @@ export const chartSimple: IChart = {
     node1: {
       id: "node1",
       type: "Aave:Flash Loan",
-      position: {
-        x: 500,
-        y: 100,
-      },
+      position: { x: 582, y: 63 },
       ports: {
         port1: {
           id: "port1",
@@ -44,8 +41,8 @@ export const chartSimple: IChart = {
       id: "node2",
       type: "Uniswap:Swap",
       position: {
-        x: 405,
-        y: 300,
+        x: 341,
+        y: 329,
       },
       ports: {
         port1: {
@@ -85,8 +82,8 @@ export const chartSimple: IChart = {
       id: "node3",
       type: "Kyberswap:Swap",
       position: {
-        x: 505,
-        y: 300,
+        x: 822,
+        y: 326,
       },
       ports: {
         port1: {
@@ -116,8 +113,8 @@ export const chartSimple: IChart = {
       id: "node4",
       type: "End",
       position: {
-        x: 510,
-        y: 500,
+        x: 581,
+        y: 597,
       },
       ports: {
         port1: {

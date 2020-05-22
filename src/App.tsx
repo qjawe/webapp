@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.scss";
 import Toolbar from "./components/Toolbar";
 import MainView from "./components/MainView";
 import "./declarations/index.d.ts";
 import Landing from "./components/Landing";
-import { withRouter, Route, Redirect } from "react-router";
-import { AppContext } from "./state";
+import { Route } from "react-router";
 
 declare global {
   interface Window {
     ethereum: any;
+    crate: any;
   }
 }
 
 function App() {
-  const ctx = React.useContext(AppContext);
+  useEffect(() => {
+    if (window.crate) {
+      window.crate.notify("Hello! ");
+    }
+  }, [window.crate]);
   return (
     <>
       <Route

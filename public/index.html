@@ -25,9 +25,19 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Flashmint</title>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+      new Crate({
+        server: '712217378888613968',
+        channel: '712217378888613971',
+        shard: 'https://e.widgetbot.io',
+        location: ['bottom', 'left']
+      })
+    </script>
   </head>
   <body>
-    <noscript>A No Code DeFi Tool to Mint money, without spending any.</noscript>
+    <noscript
+      >A No Code DeFi Tool to Mint money, without spending any.</noscript
+    >
     <div id="root"></div>
     <!--
       This HTML file is a template.

@@ -96,17 +96,7 @@ function Landing() {
         />
         <div className="feature-section" id="feature">
           <div className="feature-container">
-            <h1 className="feature-title">Our Features</h1>
-            <p className="feature-description">
-              While presenting a sleek UI, we have provided with the best
-              possible UX.
-            </p>
-            <p className="feature-description">
-              Even a college grad/poker fan without any knowledge of the DeFi
-              protocols can play a hit and trial on our Simulator and start
-              minting money
-            </p>
-
+            {/* <h1 className="feature-title">Our Features</h1> */}
             <div className="feature-showcase">
               <div className="feature-item">
                 <div>
@@ -151,8 +141,17 @@ function Landing() {
                 </p>
               </div>
             </div>
+            <p className="feature-description">
+              While presenting a sleek UI, we have provided with the best
+              possible UX.
+            <br />
+              Even a college grad/poker fan without any knowledge of the DeFi
+              protocols can play a hit and trial on our Simulator and start
+              minting money
+            </p>
           </div>
         </div>
+
         <div className="usage-section" id="usage">
           <div className="usage-container">
             <h1>How do I use Flashmint?</h1>
@@ -166,7 +165,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 0 ? "selected" : ""
-                  }`}
+                    }`}
                   onClick={(e) => setSelectedUsage(0)}
                 >
                   <div className="usage-number">1</div>
@@ -177,7 +176,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 1 ? "selected" : ""
-                  }`}
+                    }`}
                   onClick={(e) => setSelectedUsage(1)}
                 >
                   <div className="usage-number">2</div>
@@ -190,7 +189,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 2 ? "selected" : ""
-                  }`}
+                    }`}
                   onClick={(e) => setSelectedUsage(2)}
                 >
                   <div className="usage-number">3</div>

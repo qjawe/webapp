@@ -4,6 +4,7 @@ import ToolboxItem from "../ToolboxItem";
 import {
   Aave,
   Uniswap,
+  Kyberswap,
   End,
   UniswapAddLiquidity,
 } from "../../services/BlocksService";
@@ -85,6 +86,32 @@ function ChartTopBar({ chart }: any) {
           }}
           properties={{
             ...uniswap,
+          }}
+        />
+               <ToolboxItem
+          type="Kyber:Swap"
+          ports={{
+            port1: {
+              id: "port1",
+              type: "top",
+              properties: {
+                type: "input",
+                amount: 0,
+                asset: TOKEN_LIST[0],
+              },
+            },
+            port2: {
+              id: "port2",
+              type: "bottom",
+              properties: {
+                type: "output",
+                amount: 0,
+                asset: TOKEN_LIST[1],
+              },
+            },
+          }}
+          properties={{
+            ...Kyberswap,
           }}
         />
         <ToolboxItem

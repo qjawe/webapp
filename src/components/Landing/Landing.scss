@@ -164,7 +164,7 @@
               color: #fff;
               font-size: 72px;
               line-height: 80px;
-              margin-top: 1.3em;
+              margin-top: 1.5em;
               -webkit-margin-after: 25px;
               margin-block-end: 25px;
               z-index: 100;
@@ -235,10 +235,11 @@
       top: -10px;
     }
     .feature-section {
-      padding-top: 50px;
+      // padding-top: 50px;
+      margin-top: -20px;
       .feature-container {
         border-radius: 5px;
-        min-height: 400px;
+        // min-height: 400px;
         box-shadow: 0 0 35px #4d88ff42;
         border: 2px solid var(--themeColorBlue);
         padding: 20px;

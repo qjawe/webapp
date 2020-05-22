@@ -76,24 +76,27 @@ class NodeDetailsSideBar extends React.Component<
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.asset = token;
     selectedNodePorts[port].properties.amount = "";
-    this.setState({ selectedNodePorts, openSelect: false }, () => {
-      this.setNodeProperties(false);
-      if (
-        selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-          .amount &&
-        selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.amount
-      ) {
-        const isExactIn = selectedNodePorts[port].properties.type !== "input";
-        const amount = isExactIn
-          ? selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .amount
-          : selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .amount;
-        isExactIn
-          ? this.getSwapValues(true, amount)
-          : this.getSwapValues(false, amount);
+    this.setState(
+      { selectedNodePorts, openSelect: false, price: "", priceImpact: 0 },
+      () => {
+        this.setNodeProperties(false);
+        if (
+          selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+            .amount ||
+          selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.amount
+        ) {
+          const isExactIn = selectedNodePorts[port].properties.type !== "input";
+          const amount = isExactIn
+            ? selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                .amount
+            : selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                .amount;
+          isExactIn
+            ? this.getSwapValues(true, amount)
+            : this.getSwapValues(false, amount);
+        }
       }
-    });
+    );
   };
 
   setAssetAmount = (amount: string, port: string) => {
@@ -106,7 +109,7 @@ class NodeDetailsSideBar extends React.Component<
       Object.keys(selectedNodePorts)[1]
     ].properties.amount = isExactIn ? "" : amount;
 
-    this.setState({ selectedNodePorts }, () => {
+    this.setState({ selectedNodePorts, priceImpact: 0, price: "" }, () => {
       this.setNodeProperties(false);
       isExactIn
         ? this.getSwapValues(true, amount)
@@ -115,51 +118,59 @@ class NodeDetailsSideBar extends React.Component<
   };
 
   getSwapValues = async (isExactIn, amount) => {
-    const { selectedNodePorts } = this.state;
-    const tokenInAddress =
-      selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
-        .tokenAddress;
-    const tokenOutAddress =
-      selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.asset
-        .tokenAddress;
-    const result = await Web3Service.getSwapPriceValues(
-      amount,
-      tokenInAddress,
-      tokenOutAddress,
-      isExactIn
-    );
-    if (result) {
-      const {
-        amountsIn,
-        amountsOut,
-        executionPrice,
-        priceImpact,
-        path,
-      } = result;
-      selectedNodePorts[
-        Object.keys(selectedNodePorts)[0]
-      ].properties.amount = amountsIn;
-      selectedNodePorts[
-        Object.keys(selectedNodePorts)[1]
-      ].properties.amount = amountsOut;
-      const price = isExactIn
-        ? `${amountsOut}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-          } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-          }`
-        : `${amountsIn}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-          } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-          }`;
-      this.setState({ selectedNodePorts, priceImpact, price }, () => {
-        this.setNodeProperties(false, path, executionPrice, priceImpact, price);
-      });
+    if (amount) {
+      const { selectedNodePorts } = this.state;
+      const tokenInAddress =
+        selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
+          .tokenAddress;
+      const tokenOutAddress =
+        selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.asset
+          .tokenAddress;
+      const result = await Web3Service.getSwapPriceValues(
+        amount,
+        tokenInAddress,
+        tokenOutAddress,
+        isExactIn
+      );
+      if (result) {
+        const {
+          amountsIn,
+          amountsOut,
+          executionPrice,
+          priceImpact,
+          path,
+        } = result;
+        selectedNodePorts[
+          Object.keys(selectedNodePorts)[0]
+        ].properties.amount = amountsIn;
+        selectedNodePorts[
+          Object.keys(selectedNodePorts)[1]
+        ].properties.amount = amountsOut;
+        const price = isExactIn
+          ? `${amountsOut}  ${
+              selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                .asset.tokenSymbol
+            } per ${
+              selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                .asset.tokenSymbol
+            }`
+          : `${amountsIn}  ${
+              selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                .asset.tokenSymbol
+            } per ${
+              selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                .asset.tokenSymbol
+            }`;
+        this.setState({ selectedNodePorts, priceImpact, price }, () => {
+          this.setNodeProperties(
+            false,
+            path,
+            executionPrice,
+            priceImpact,
+            price
+          );
+        });
+      }
     }
   };
 

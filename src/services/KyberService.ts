@@ -28,7 +28,7 @@ export function useKyberswap(
   DST_TOKEN_ADDRESS,
   pAmount
 ) {
-  const amount: BigNumber = ethers.utils.parseEther(pAmount+ ""),
+  const amount: BigNumber = ethers.utils.parseEther(pAmount + "");
   const minConversionRate: BigNumber = ethers.utils.bigNumberify("0");
   const swapType: SwapType = getSwapType(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS);
 
@@ -58,9 +58,17 @@ export function useKyberswap(
   return method;
 }
 
-async function getRates(SRC_TOKEN_ADDRESS,DST_TOKEN_ADDRESS, pAmount) {
-    const SRC_QTY_WEI = ethers.utils.parseEther(pAmount+ "");
-    const provider = ethers.getDefaultProvider('kovan');
-    const kyber = new ethers.Contract(KYBER_NETWORK_PROXY_ADDRESS ,KYBER_NETWORK_PROXY_ABI, provider);
-    return await kyber.getExpectedRate(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS, SRC_QTY_WEI);
+async function getRates(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS, pAmount) {
+  const SRC_QTY_WEI = ethers.utils.parseEther(pAmount + "");
+  const provider = ethers.getDefaultProvider("kovan");
+  const kyber = new ethers.Contract(
+    KYBER_NETWORK_PROXY_ADDRESS,
+    KYBER_NETWORK_PROXY_ABI,
+    provider
+  );
+  return await kyber.getExpectedRate(
+    SRC_TOKEN_ADDRESS,
+    DST_TOKEN_ADDRESS,
+    SRC_QTY_WEI
+  );
 }

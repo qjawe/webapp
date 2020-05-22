@@ -314,7 +314,7 @@ export function useUniswap(
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips, optional
   deadline: number = DEFAULT_DEADLINE_FROM_NOW, // in seconds from now, optional
   to?: string // recipient of output, optional
-){
+): string {
   const recipient = to;
 
   if (!trade) return null;
@@ -326,78 +326,76 @@ export function useUniswap(
 
   if (!slippageAdjustedInput || !slippageAdjustedOutput) return null;
 
-  return async function onSwap() {
-    const path = trade.route.path.map((t) => t.address);
+  const path = trade.route.path.map((t) => t.address);
 
-    const deadlineFromNow: number = Math.ceil(Date.now() / 1000) + deadline;
-    const chainId = 42;
+  const deadlineFromNow: number = Math.ceil(Date.now() / 1000) + deadline;
+  const chainId = 42;
 
-    const swapType = getSwapType(
-      {
-        [Field.INPUT]: trade.inputAmount.token,
-        [Field.OUTPUT]: trade.outputAmount.token,
-      },
-      trade.tradeType === TradeType.EXACT_INPUT,
-      chainId as ChainId
-    );
-    const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
-    let method: string;
-      
-    switch (swapType) {
-      case SwapType.EXACT_TOKENS_FOR_TOKENS:
-        method = uniswap.functions.swapExactTokensForTokens.encode([
-          slippageAdjustedInput.raw.toString(),
-          slippageAdjustedOutput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
-        break;
-      case SwapType.TOKENS_FOR_EXACT_TOKENS:
-        method = uniswap.functions.swapTokensForExactTokens.encode([
-          slippageAdjustedOutput.raw.toString(),
-          slippageAdjustedInput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
-        break;
-      case SwapType.EXACT_ETH_FOR_TOKENS:
-        method = uniswap.functions.swapExactETHForTokens.encode([
-          slippageAdjustedOutput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
-        break;
-      case SwapType.TOKENS_FOR_EXACT_ETH:
-        method = uniswap.functions.swapTokensForExactETH.encode([
-          slippageAdjustedOutput.raw.toString(),
-          slippageAdjustedInput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
+  const swapType = getSwapType(
+    {
+      [Field.INPUT]: trade.inputAmount.token,
+      [Field.OUTPUT]: trade.outputAmount.token,
+    },
+    trade.tradeType === TradeType.EXACT_INPUT,
+    chainId as ChainId
+  );
+  const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
+  let method: string;
 
-        break;
-      case SwapType.EXACT_TOKENS_FOR_ETH:
-        method = uniswap.functions.swapExactTokensForETH.encode([
-          slippageAdjustedInput.raw.toString(),
-          slippageAdjustedOutput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
-        break;
-      case SwapType.ETH_FOR_EXACT_TOKENS:
-        method = uniswap.functions.swapETHForExactTokens.encode([
-          slippageAdjustedOutput.raw.toString(),
-          path,
-          recipient,
-          deadlineFromNow,
-        ]);
-        break;
-    }
-    return method;
-  };
+  switch (swapType) {
+    case SwapType.EXACT_TOKENS_FOR_TOKENS:
+      method = uniswap.functions.swapExactTokensForTokens.encode([
+        slippageAdjustedInput.raw.toString(),
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.TOKENS_FOR_EXACT_TOKENS:
+      method = uniswap.functions.swapTokensForExactTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        slippageAdjustedInput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.EXACT_ETH_FOR_TOKENS:
+      method = uniswap.functions.swapExactETHForTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.TOKENS_FOR_EXACT_ETH:
+      method = uniswap.functions.swapTokensForExactETH.encode([
+        slippageAdjustedOutput.raw.toString(),
+        slippageAdjustedInput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+
+      break;
+    case SwapType.EXACT_TOKENS_FOR_ETH:
+      method = uniswap.functions.swapExactTokensForETH.encode([
+        slippageAdjustedInput.raw.toString(),
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.ETH_FOR_EXACT_TOKENS:
+      method = uniswap.functions.swapETHForExactTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+  }
+  return method;
 }

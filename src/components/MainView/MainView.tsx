@@ -6,12 +6,14 @@ import SideBar from "../SideBar";
 import { useChart } from "../../hooks";
 import { ISideBarProps } from "../SideBar/models";
 import Modal from "../Modal";
+import DiscordWidget from "../DiscordWidget";
 
 function MainView() {
   const { chart, setChart, stateActions }: ISideBarProps = useChart();
 
   return (
     <div className="main-view">
+      <DiscordWidget></DiscordWidget>
       <div className="chat-view-container">
         <ChartTopBar />
         <ChartView chart={chart} stateActions={stateActions} />

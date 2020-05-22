@@ -8,8 +8,7 @@ import {
 import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
 import { TOKEN_LIST } from "../constants";
-import { useUniswap } from "./UniswapService";
-import { useKyberswap } from "./KyberService";
+import { UniswapService, KyberService } from ".";
 
 /*
  An export for each type of block.
@@ -81,8 +80,8 @@ export const Uniswap = (): IBlock => {
     ],
     to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
     deadline: 1590969600,
-    codegen: async (node: INode): Promise<ITransaction> => {
-      const txData = await useUniswap(
+    codegen: (node: INode): ITransaction => {
+      const txData = UniswapService.useUniswap(
         node.properties.bestTrade,
         node.properties.to
       );
@@ -101,7 +100,7 @@ export const Kyberswap = (): IBlock => {
     tokenB: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
     amount: 0,
     codegen: (node: INode): ITransaction => {
-      const txData = useKyberswap(
+      const txData = KyberService.useKyberswap(
         node.properties.tokenA,
         node.properties.tokenB,
         node.properties.amount

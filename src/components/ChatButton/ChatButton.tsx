@@ -1,47 +1,47 @@
 import React from "react";
 import "./ChatButton.scss";
-import ChatBox from "3box-chatbox-react";
-import Box from "3box";
+// import ChatBox from "3box-chatbox-react";
+// import Box from "3box";
 
 class ChatButton extends React.Component<any, any> {
-  SPACE_NAME = "MoneyLego";
-  THREAD_NAME = "globalChat";
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      // box: {},
-      myProfile: {},
-      myAddress: this.props.walletAddress,
-      isReady: false,
-    };
-  }
-  async componentDidMount() {
-    let { box } = this.state;
-    box = await Box.create(window.ethereum);
-    this.setState({ box });
-  }
-  async componentDidUpdate() {
-    if (this.props.walletAddress !== this.state.myAddress) {
-      // console.log("Entering", this.props.walletAddress, this.state.myAddress);
-      this.handleLogin();
-    }
-  }
-  handleLogin = async () => {
-    let { box } = this.state;
-    const myAddress = this.props.walletAddress;
-    await box.auth([], { address: myAddress });
-    const myProfile = await Box.getProfile(myAddress);
+  // SPACE_NAME = "MoneyLego";
+  // THREAD_NAME = "globalChat";
+  // constructor(props: any) {
+  //   super(props);
+  //   this.state = {
+  //     // box: {},
+  //     myProfile: {},
+  //     myAddress: this.props.walletAddress,
+  //     isReady: false,
+  //   };
+  // }
+  // async componentDidMount() {
+  //   let { box } = this.state;
+  //   box = await Box.create(window.ethereum);
+  //   this.setState({ box });
+  // }
+  // async componentDidUpdate() {
+  //   if (this.props.walletAddress !== this.state.myAddress) {
+  //     // console.log("Entering", this.props.walletAddress, this.state.myAddress);
+  //     this.handleLogin();
+  //   }
+  // }
+  // handleLogin = async () => {
+  //   let { box } = this.state;
+  //   const myAddress = this.props.walletAddress;
+  //   await box.auth([], { address: myAddress });
+  //   const myProfile = await Box.getProfile(myAddress);
 
-    box.onSyncDone(() => {
-      this.setState({ box });
-    });
-    this.setState({ box, myProfile, myAddress, isReady: true });
-  };
+  //   box.onSyncDone(() => {
+  //     this.setState({ box });
+  //   });
+  //   this.setState({ box, myProfile, myAddress, isReady: true });
+  // };
   render() {
-    const { box, myAddress, myProfile } = this.state;
+    // const { box, myAddress, myProfile } = this.state;
     return (
       <div className="chat-bar">
-        {box && (
+        {/* {box && (
           <ChatBox
             // required
             // spaceName='3boxtestcomments'
@@ -70,7 +70,7 @@ class ChatButton extends React.Component<any, any> {
               `https://userprofiles.co/user/${address}`
             }
           />
-        )}
+        )} */}
       </div>
     );
   }

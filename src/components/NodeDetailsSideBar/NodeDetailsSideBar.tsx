@@ -110,7 +110,7 @@ class NodeDetailsSideBar extends React.Component<
     ].properties.amount = isExactIn ? "" : amount;
 
     this.setState({ selectedNodePorts, priceImpact: 0, price: "" }, () => {
-      this.setNodeProperties(false);
+      this.setNodeProperties(false, null, null, null, null, isExactIn);
       isExactIn
         ? this.getSwapValues(true, amount)
         : this.getSwapValues(false, amount);
@@ -139,6 +139,7 @@ class NodeDetailsSideBar extends React.Component<
           executionPrice,
           priceImpact,
           path,
+          bestTrade,
         } = result;
         selectedNodePorts[
           Object.keys(selectedNodePorts)[0]
@@ -167,7 +168,9 @@ class NodeDetailsSideBar extends React.Component<
             path,
             executionPrice,
             priceImpact,
-            price
+            price,
+            null,
+            bestTrade
           );
         });
       }
@@ -179,7 +182,9 @@ class NodeDetailsSideBar extends React.Component<
     path?: string[],
     executionPrice?: number,
     priceImpact?: number,
-    price?: string
+    price?: string,
+    isExactIn?: boolean,
+    bestTrade?: any
   ) => {
     try {
       const { chart, setChart, stateActions } = this.props;
@@ -197,6 +202,12 @@ class NodeDetailsSideBar extends React.Component<
       if (price) {
         chart.nodes[selectedNode.id].properties.price = price;
       }
+      if (isExactIn) {
+        chart.nodes[selectedNode.id].properties.isExactIn = isExactIn;
+      }
+      if (bestTrade) {
+        chart.nodes[selectedNode.id].properties.bestTrade = bestTrade;
+      }
       Object.keys(selectedNodePorts).forEach((port) => {
         if (selectedNodePorts[port].properties.type === "input") {
           chart.nodes[
@@ -207,6 +218,8 @@ class NodeDetailsSideBar extends React.Component<
               : 0) + "",
             "ether"
           );
+          chart.nodes[selectedNode.id].properties.tokenIn =
+            selectedNodePorts[port].properties.asset.tokenAddress;
         }
         if (selectedNodePorts[port].properties.type === "output") {
           chart.nodes[
@@ -217,6 +230,8 @@ class NodeDetailsSideBar extends React.Component<
               : 0) + "",
             "ether"
           );
+          chart.nodes[selectedNode.id].properties.tokenOut =
+            selectedNodePorts[port].properties.asset.tokenAddress;
         }
       });
       setChart(chart);

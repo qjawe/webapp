@@ -1,5 +1,5 @@
 import { IChart } from "@mrblenny/react-flow-chart";
-import { Aave, Uniswap, End } from "../services/BlocksService";
+import { Aave, Uniswap, Kyberswap, End } from "../services/BlocksService";
 import { ethers } from "ethers";
 import { TOKEN_LIST } from "../constants";
 
@@ -44,7 +44,7 @@ export const chartSimple: IChart = {
       id: "node2",
       type: "Uniswap:Swap",
       position: {
-        x: 505,
+        x: 405,
         y: 300,
       },
       ports: {
@@ -83,6 +83,37 @@ export const chartSimple: IChart = {
     },
     node3: {
       id: "node3",
+      type: "Kyberswap:Swap",
+      position: {
+        x: 505,
+        y: 300,
+      },
+      ports: {
+        port1: {
+          id: "port1",
+          type: "input",
+          properties: {
+            type: "input",
+            amount: "",
+            asset: TOKEN_LIST[1],
+          },
+        },
+        port2: {
+          id: "port2",
+          type: "output",
+          properties: {
+            type: "output",
+            amount: "",
+            asset: TOKEN_LIST[0],
+          },
+        },
+      },
+      properties: {
+        ...Kyberswap,
+      },
+    },
+    node4: {
+      id: "node4",
       type: "End",
       position: {
         x: 510,
@@ -130,7 +161,21 @@ export const chartSimple: IChart = {
         portId: "port1",
       },
       properties: {
-        label: "Uniswap:Swap to End",
+        label: "Uniswap:Swap to Kyberswap:swap",
+      },
+    },
+    link3: {
+      id: "link3",
+      from: {
+        nodeId: "node3",
+        portId: "port2",
+      },
+      to: {
+        nodeId: "node4",
+        portId: "port1",
+      },
+      properties: {
+        label: "Kyberswap:swap to End",
       },
     },
   },

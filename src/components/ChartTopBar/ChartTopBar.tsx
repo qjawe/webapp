@@ -88,8 +88,8 @@ function ChartTopBar({ chart }: any) {
             ...uniswap,
           }}
         />
-               <ToolboxItem
-          type="Kyber:Swap"
+        <ToolboxItem
+          type="Kyberswap:Swap"
           ports={{
             port1: {
               id: "port1",

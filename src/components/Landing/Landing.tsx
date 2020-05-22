@@ -96,7 +96,15 @@ function Landing() {
         />
         <div className="feature-section" id="feature">
           <div className="feature-container">
-            {/* <h1 className="feature-title">Our Features</h1> */}
+            <h1 className="feature-title">Our Features</h1>
+            <p className="feature-description">
+              While presenting a sleek UI, we have provided with the best
+              possible UX.
+            <br />
+              Even a college grad/poker fan without any knowledge of the DeFi
+              protocols can play a hit and trial on our Simulator and start
+              minting money
+            </p>
             <div className="feature-showcase">
               <div className="feature-item">
                 <div>
@@ -141,14 +149,6 @@ function Landing() {
                 </p>
               </div>
             </div>
-            <p className="feature-description">
-              While presenting a sleek UI, we have provided with the best
-              possible UX.
-            <br />
-              Even a college grad/poker fan without any knowledge of the DeFi
-              protocols can play a hit and trial on our Simulator and start
-              minting money
-            </p>
           </div>
         </div>
 

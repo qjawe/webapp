@@ -118,7 +118,7 @@ class NodeDetailsSideBar extends React.Component<
   };
 
   getSwapValues = async (isExactIn, amount) => {
-    if (amount) {
+    if (amount && amount!=="0") {
       const { selectedNodePorts } = this.state;
       const tokenInAddress =
         selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset

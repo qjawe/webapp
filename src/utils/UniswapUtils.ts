@@ -6,7 +6,7 @@ import { ERC20_ABI } from "../constants";
 import { parseBytes32String } from "ethers/utils";
 import { useMemo } from "react";
 import { Token, TokenAmount, Pair } from "@uniswap/sdk";
-import useSWR from "swr";
+// import useSWR from "swr";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 
 export function getContract(

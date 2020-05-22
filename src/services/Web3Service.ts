@@ -15,7 +15,7 @@ import { UniswapService } from ".";
 // const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-let web3: any;
+let web3: any = ethers.getDefaultProvider('kovan');
 let walletProvider: any;
 // let userAddress = "";
 // let userBalance = "0";
@@ -45,7 +45,7 @@ const onboard = Onboard({
   networkId: 42, // [Integer] The Ethereum network ID your Dapp uses.
   subscriptions: {
     wallet: (wallet: any) => {
-      web3 = new ethers.providers.Web3Provider(wallet.provider);
+      web3 = new ethers.providers.Web3Provider(wallet.provider || ethers.getDefaultProvider());
     },
     // balance: (balance: string) => {
     //   userBalance = ethers.utils.formatEther(
@@ -134,7 +134,7 @@ export const getSwapPriceValues = async (
   tokenOutAddress: any,
   isExactIn: boolean
 ): Promise<{ amountsIn; amountsOut; executionPrice; priceImpact; path }> => {
-  // let provider = ethers.getDefaultProvider();
+  
   if (web3) {
     const res = await UniswapService.useDerivedSwapInfo(
       amount,

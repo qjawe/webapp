@@ -4,6 +4,7 @@ import { buildTransaction } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 import { ethers } from "ethers";
 import { AppContext } from "../../state"; 
+import { findInitialNodes } from "../../utils/ChartUtils";
 
 import { 
   FLASHLOAN_ABI,
@@ -50,7 +51,14 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
        value: "0",
        callType: 0, }});
 
-    const amount = ethers.utils.parseEther("0.5");
+    const initalNodes = findInitialNodes(chart);
+
+    if (initalNodes.length !== 1)  {
+        setState({ loading: false, error: true, tx: "" });
+    }
+
+    const ethAmount = initalNodes[0].properties.amount;
+    const amount = ethers.utils.parseEther(ethAmount);
 
     Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});
   }

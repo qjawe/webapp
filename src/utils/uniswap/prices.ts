@@ -1,5 +1,5 @@
 import { Fraction, JSBI, Percent, TokenAmount, Trade } from '@uniswap/sdk'
-import { ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM } from '../../constants'
+import { ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM } from '../../constants/uniswap'
 import { basisPointsToPercent } from './index'
 
 enum Field {

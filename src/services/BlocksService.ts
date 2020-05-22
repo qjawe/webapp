@@ -1,8 +1,15 @@
 import { INode } from "@mrblenny/react-flow-chart";
-import { UNISWAP_ADDRESS, UNISWAP_ABI } from "../constants";
+import {
+  UNISWAP_ADDRESS,
+  UNISWAP_ABI,
+  KYBER_NETWORK_PROXY_ABI,
+  KYBER_NETWORK_PROXY_ADDRESS,
+} from "../constants";
 import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
 import { TOKEN_LIST } from "../constants";
+import { useUniswap } from "./UniswapService";
+import { useKyberswap } from "./KyberService";
 
 /*
  An export for each type of block.
@@ -19,6 +26,7 @@ export interface IBlock {
   name: string;
   type: string;
   nodeType?: string;
+  amount?: number;
   amountIn?: BigNumber;
   amountOutMin?: BigNumber;
   path?: string[];
@@ -73,16 +81,32 @@ export const Uniswap = (): IBlock => {
     ],
     to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
     deadline: 1590969600,
-    codegen: (node: INode): ITransaction => {
-      const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
-      const txData = uniswap.functions.swapExactTokensForTokens.encode([
-        node.properties.amountIn,
-        node.properties.amountOutMin,
-        node.properties.path,
-        node.properties.to,
-        node.properties.deadline,
-      ]);
+    codegen: async (node: INode): Promise<ITransaction> => {
+      const txData = await useUniswap(
+        node.properties.bestTrade,
+        node.properties.to
+      );
       const txTo = UNISWAP_ADDRESS;
+      return { to: txTo, input: txData, value: "0", callType: "0" };
+    },
+  };
+};
+
+export const Kyberswap = (): IBlock => {
+  return {
+    name: "Kyber:Swap",
+    type: "exchange",
+    nodeType: "swap",
+    tokenA: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    tokenB: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
+    amount: 0,
+    codegen: (node: INode): ITransaction => {
+      const txData = useKyberswap(
+        node.properties.tokenA,
+        node.properties.tokenB,
+        node.properties.amount
+      );
+      const txTo = KYBER_NETWORK_PROXY_ADDRESS;
       return { to: txTo, input: txData, value: "0", callType: "0" };
     },
   };

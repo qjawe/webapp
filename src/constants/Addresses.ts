@@ -158,3 +158,8 @@ export const KOVAN_UNI_TOKEN_LIST: any = [
 //
 export const UNISWAP_ADDRESS: string =
   "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a";
+
+export const KYBER_ADDRESS:any = {
+  KOVAN:
+  "0x692f391bCc85cefCe8C237C01e1f636BbD70EA4D"
+}

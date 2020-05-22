@@ -24,6 +24,7 @@ export interface IBlock {
   path?: string[];
   tokenA?: any;
   tokenB?: any;
+  liquidity?: number;
   amountADesired?: number;
   amountBDesired?: number;
   amountAMin?: number;
@@ -129,6 +130,56 @@ export const UniswapAddLiquidity = (): IBlock => {
           node.properties.tokenB.address,
           node.properties.amountADesired,
           node.properties.amountBDesired,
+          node.properties.amountAMin,
+          node.properties.amountBMin,
+          node.properties.to,
+          node.properties.deadline,
+        ]);
+      }
+      const txTo = UNISWAP_ADDRESS;
+      return { to: txTo, input: txData, value: "0", callType: "0" };
+    },
+  };
+};
+
+export const UniswapRemoveLiquidity = (): IBlock => {
+  return {
+    name: "Uniswap:RemoveLiquidity",
+    type: "exchange",
+    nodeType: "removeLiquidity",
+    tokenA: TOKEN_LIST[0],
+    tokenB: TOKEN_LIST[1],
+    liquidity: 0,
+    amountAMin: 0,
+    amountBMin: 0,
+    to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
+    deadline: 1590969600,
+    codegen: (node: INode): ITransaction => {
+      const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
+      let txData;
+      if (
+        node.properties.tokenA.symbol === "ETH" ||
+        node.properties.tokenB.symbol === "ETH"
+      ) {
+        txData = uniswap.functions.removeLiquidityEth.encode([
+          node.properties.tokenA.symbol === "ETH"
+            ? node.properties.tokenB.address
+            : node.properties.tokenA.address,
+          node.properties.liquidity,
+          node.properties.tokenA.symbol === "ETH"
+            ? node.properties.amountBMin
+            : node.properties.amountAMin,
+          node.properties.tokenA.symbol === "ETH"
+            ? node.properties.amountAMin
+            : node.properties.amountBMin,
+          node.properties.to,
+          node.properties.deadline,
+        ]);
+      } else {
+        txData = uniswap.functions.removeLiquidity.encode([
+          node.properties.tokenA.address,
+          node.properties.tokenB.address,
+          node.properties.liquidity,
           node.properties.amountAMin,
           node.properties.amountBMin,
           node.properties.to,

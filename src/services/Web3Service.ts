@@ -8,13 +8,15 @@ import {
   // ERC20_ABI,
 } from "../constants";
 import { ethers } from "ethers";
+import { UniswapService } from ".";
 
 // const FORTMATIC_KEY = "";
 // const INFURA_KEY = "";
 // const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-let web3;
+let web3: any = ethers.getDefaultProvider('kovan');
+let walletProvider: any;
 // let userAddress = "";
 // let userBalance = "0";
 // const wallets = [
@@ -43,7 +45,7 @@ const onboard = Onboard({
   networkId: 42, // [Integer] The Ethereum network ID your Dapp uses.
   subscriptions: {
     wallet: (wallet: any) => {
-      web3 = new Web3(wallet.provider);
+      web3 = new ethers.providers.Web3Provider(wallet.provider || ethers.getDefaultProvider());
     },
     // balance: (balance: string) => {
     //   userBalance = ethers.utils.formatEther(
@@ -124,4 +126,31 @@ export const flashloan = async (
   tx.then((rcpt: any) => {
     console.log("Transaction receipt ", rcpt);
   });
+};
+
+export const getSwapPriceValues = async (
+  amount: any,
+  tokenInAddress: any,
+  tokenOutAddress: any,
+  isExactIn: boolean
+): Promise<{ amountsIn; amountsOut; executionPrice; priceImpact; path }> => {
+  
+  if (web3) {
+    const res = await UniswapService.useDerivedSwapInfo(
+      amount,
+      tokenInAddress,
+      tokenOutAddress,
+      web3,
+      isExactIn
+    );
+    const amountsIn = res.parsedAmounts.INPUT.toSignificant(6);
+    const amountsOut = res.parsedAmounts.OUTPUT.toSignificant(6);
+    return {
+      amountsIn,
+      amountsOut,
+      executionPrice: res.bestTrade.executionPrice.toSignificant(6),
+      priceImpact: res.bestTrade.slippage.toSignificant(6),
+      path: res.bestTrade.route.path.map((token) => token.address),
+    };
+  }
 };

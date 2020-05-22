@@ -5,7 +5,6 @@
   flex-direction: column;
 
   .node-details-summary {
-    flex-grow: 1;
     .node-details-input-items {
       margin: 12px 0px;
       .node-details-label {
@@ -135,6 +134,25 @@
             }
           }
         }
+      }
+    }
+  }
+
+  .node-details-additional-info {
+    padding-top: 1em;
+    border-top: 1px solid var(--labelColor);
+    font-size: 14px;
+    .node-details-additional-info-item {
+      display: flex;
+      justify-content: space-between;
+      &:nth-child(2) {
+        margin-top: 8px;
+      }
+      .node-details-additional-info-item-value {
+        color: var(--bodyBg);
+      }
+      .node-details-additional-info-item-price-impact {
+        color: var(--deActive);
       }
     }
   }

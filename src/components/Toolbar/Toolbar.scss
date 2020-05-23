@@ -10,9 +10,13 @@
 
   .toolbar-left {
     .toolbar-app-icon {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 28px;
+      // color: var(--themeColorBlue);
+      font-weight: 800;
       color: var(--white);
+      font-family: var(--appNameFont);
+      letter-spacing: 0.5px;
+      text-decoration: none;
     }
   }
 
@@ -132,10 +136,80 @@
       text-align: center;
     }
 
+    .dropdown-header {
+      display: flex;
+      justify-content: center;
+      .dropdown-header-blockie {
+        position: relative;
+        display: flex;
+        width: fit-content;
+        .toolbar-blockie-icon {
+          height: 36px;
+          width: 36px;
+          border-radius: 50%;
+        }
+
+        .status-circle {
+          position: absolute;
+          bottom: -5px;
+          right: -5px;
+          height: 12px;
+          width: 12px;
+          border: 3px solid var(--themeColorDark);
+          border-radius: 50%;
+        }
+
+        .active {
+          background-color: var(--active);
+        }
+      }
+    }
+
+    .dropdown-wallet-container {
+      .dropdown-wallet-address {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 24px;
+        margin-top: 12px;
+        background-color: var(--hoverBackground);
+        border-radius: 6px;
+        padding: 4px 12px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        &:hover {
+          background-color: var(--themeColorHover);
+          .wallet-address-copy {
+            display: block;
+          }
+        }
+        &:active {
+          background-color: var(--labelColor);
+          color: var(--white);
+        }
+        .dropdown-title {
+          text-align: center;
+          margin-right: 8px;
+        }
+        .wallet-address-copy {
+          display: none;
+        }
+      }
+    }
+
     .dropdown-menu-button-container {
       display: flex;
       justify-content: center;
       margin-top: 1em;
+      .disconnect {
+        background-color: var(--deActive) !important;
+        border: 1px solid var(--deActive) !important;
+
+        &:hover {
+          background-color: darken(rgb(240, 37, 37), 15) !important;
+          border: 1px solid darken(rgb(240, 37, 37), 15) !important;
+        }
+      }
       .dropdown-menu-button {
         min-width: 140px;
         min-height: 35px;

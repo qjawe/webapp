@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 import { IChart, INode, ILink } from "@mrblenny/react-flow-chart";
-
+import { findInitialNodes } from "../utils/ChartUtils";
 /*
  Will return a linear list of signed transactions. 
  */
@@ -11,7 +11,7 @@ export const buildTransaction = async (chart: IChart) => {
     let tx = [];
     let queue = [];
 
-    const initialNode = Object.values(chartCopy.nodes).filter((v: INode) => v.properties && v.properties.type && v.properties.type === "initial");
+    const initialNode = findInitialNodes(chartCopy);
 
     if (initialNode.length > 1) {
         return Promise.reject("Only a single initial flash loan is allowed");

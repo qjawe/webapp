@@ -3,9 +3,15 @@ import { createContext } from "react";
 export const initialValue = {
   state: {
     walletAddress: "",
+    walletBalance: "0",
+    openModal: false,
+    modalConfig: {
+      type: "",
+    },
   },
   actions: {
-    setWalletAddress: (address: string) => {},
+    setWalletConfig: (address: string, balance: string) => {},
+    setModalConfig: (openModal: boolean, config?: any) => {},
   },
 };
 

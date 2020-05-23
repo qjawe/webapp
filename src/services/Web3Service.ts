@@ -1,20 +1,10 @@
 import Web3 from "web3";
-// import Notify from "bnc-notify";
 import Onboard from "bnc-onboard";
-import {
-  // UNISWAP_ADDRESS,
-  // UNISWAP_ABI,
-  FLASHLOAN_ABI,
-  // ERC20_ABI,
-} from "../constants";
 import { ethers } from "ethers";
 import { UniswapService, KyberService } from ".";
 
-// const FORTMATIC_KEY = "";
-// const INFURA_KEY = "";
-// const PORTIS_KEY = "05b61a65-6437-4caa-a8d1-517dc1a10742";
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 let web3: any = ethers.getDefaultProvider("kovan");
 let walletProvider: any;
 // let userAddress = "";
@@ -40,6 +30,7 @@ let walletProvider: any;
 //   //   infuraKey: INFURA_KEY,
 //   // },
 // ];
+
 const onboard = Onboard({
   dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
   networkId: 42, // [Integer] The Ethereum network ID your Dapp uses.
@@ -58,11 +49,6 @@ const onboard = Onboard({
   },
   darkMode: true,
 });
-
-// export const notify = Notify({
-//   dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
-//   networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
-// });
 
 export const connectWallet = async () => {
   let address = "";
@@ -230,3 +216,4 @@ const getKyberPriceValues = async (
 
   return { amountsIn, amountsOut, executionPrice, priceImpact };
 };
+

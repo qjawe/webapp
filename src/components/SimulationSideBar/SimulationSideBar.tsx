@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./SimulationSideBar.scss";
 import { buildTransaction } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
-// import { flashloan, deployContract } from "../../services/Web3Service";
 import { ethers } from "ethers";
-import { AppContext } from "../../state";
+import { AppContext } from "../../state"; 
+import { findInitialNodes } from "../../utils/ChartUtils";
 
 import { 
   FLASHLOAN_ABI,
   FLASHLOAN_ADDRESS,
   AAVE_ETHEREUM,
-  AAVE_PROVIDER } from "../../constants";
+  } from "../../constants";
 
 declare var web3 : any;
 
@@ -19,7 +19,7 @@ export interface ISimulationSideBarProps {
 }
 
 function SimulationSideBar({ chart }: ISimulationSideBarProps) {
-  const ctx = React.useContext(AppContext);
+  const ctx = React.useContext(AppContext); 
   const initialState = { loading: true, error: false, tx: "" };
   const [state, setState] = useState(initialState);
 
@@ -36,16 +36,6 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     );
   });
   
-  const executeTransaction = async () => {
-    console.log(chart.nodes.node1.ports.port1.properties.amount);
-    console.log(chart.nodes.node1.ports.port1.properties.type);
-    // const asset = chart.nodes.node1.ports.port1.properties.asset;
-    const txLegs = await buildTransaction(chart);
-    console.log(txLegs);
-    // const flashLoanExecutor = await deployContract(txLegs);
-    // const tx = await flashloan(flashLoanExecutor, asset);
-  };
-
   if (state.loading) {
     return <div className="simulation-side-bar"></div>;
   }
@@ -57,14 +47,20 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     const Executor = new ethers.Contract(FLASHLOAN_ADDRESS, FLASHLOAN_ABI, signer);
     const legs = JSON.parse(state.tx).map((item: any) => {
       return { to: item.to,
-       input: item.txData,
+       input: item.input,
        value: "0",
        callType: 0, }});
 
-    const amount = ethers.utils.parseEther("0.5");
+    const initalNodes = findInitialNodes(chart);
+
+    if (initalNodes.length !== 1)  {
+        setState({ loading: false, error: true, tx: "" });
+    }
+
+    const ethAmount = initalNodes[0].properties.amount;
+    const amount = ethers.utils.parseEther(ethAmount);
 
     Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});
-    //Executor.run(AAVE_ETHEREUM, amount, []).then(() => { console.log('done' )});
   }
 
   return (

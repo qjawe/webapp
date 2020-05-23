@@ -39,6 +39,11 @@ export interface IBlock {
   amountBMin?: number;
   to?: string;
   deadline?: number;
+  executionPrice?: any;
+  priceImpact?: string;
+  price?: string;
+  isExactIn?: boolean;
+  bestTrade?: any;
   codegen?: (_: INode) => ITransaction;
 }
 
@@ -75,14 +80,180 @@ export const Uniswap = (): IBlock => {
     type: "exchange",
     typeService: "Uniswap",
     nodeType: "swap",
-    amountIn: ethers.utils.parseUnits("10", "ether"),
-    amountOutMin: ethers.utils.parseUnits("9.9", "ether"),
-    path: [
-      "0xff795577d9ac8bd7d90ee22b6c1703490b6512fd",
-      "0xaaf64bfcc32d0f15873a02163e7e500671a4ffcd",
-    ],
+    amountIn: ethers.utils.parseUnits("1", "ether"),
+    amountOutMin: ethers.utils.parseUnits("91.9013", "ether"),
     to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
     deadline: 1590969600,
+    path: [
+      "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+      "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+    ],
+    executionPrice: "91.9013",
+    priceImpact: "28.4032",
+    price: "91.9013  DAI per ETH",
+    isExactIn: true,
+    bestTrade: {
+      route: {
+        pairs: [
+          {
+            liquidityToken: {
+              chainId: 42,
+              address: "0xBbB8eeA618861940FaDEf3071e79458d4c2B42e3",
+              decimals: 18,
+              symbol: "UNI-V2",
+              name: "Uniswap V2",
+            },
+            tokenAmounts: [
+              {
+                numerator: [-511835662, 591389834],
+                denominator: [-1486618624, 232830643],
+                token: {
+                  chainId: 42,
+                  address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+                  decimals: 18,
+                  symbol: "WETH",
+                  name: "Wrapped Ether",
+                },
+              },
+              {
+                numerator: [-434487959, -1398925405, 17],
+                denominator: [-1486618624, 232830643],
+                token: {
+                  chainId: 42,
+                  address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+                  decimals: 18,
+                  symbol: "DAI",
+                  name: "DAI",
+                },
+              },
+            ],
+          },
+        ],
+        path: [
+          {
+            chainId: 42,
+            address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+            decimals: 18,
+            symbol: "WETH",
+            name: "Wrapped Ether",
+          },
+          {
+            chainId: 42,
+            address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+            decimals: 18,
+            symbol: "DAI",
+            name: "DAI",
+          },
+        ],
+        midPrice: {
+          numerator: [-434487959, -1398925405, 17],
+          denominator: [-511835662, 591389834],
+          baseToken: {
+            chainId: 42,
+            address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+            decimals: 18,
+            symbol: "WETH",
+            name: "Wrapped Ether",
+          },
+          quoteToken: {
+            chainId: 42,
+            address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+            decimals: 18,
+            symbol: "DAI",
+            name: "DAI",
+          },
+          scalar: {
+            numerator: [-1486618624, 232830643],
+            denominator: [-1486618624, 232830643],
+          },
+        },
+      },
+      tradeType: 0,
+      inputAmount: {
+        numerator: [-1486618624, 232830643],
+        denominator: [-1486618624, 232830643],
+        token: {
+          chainId: 42,
+          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+          decimals: 18,
+          symbol: "WETH",
+          name: "Wrapped Ether",
+        },
+      },
+      outputAmount: {
+        numerator: [653450336, -77393883, 4],
+        denominator: [-1486618624, 232830643],
+        token: {
+          chainId: 42,
+          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+          decimals: 18,
+          symbol: "DAI",
+          name: "DAI",
+        },
+      },
+      executionPrice: {
+        numerator: [653450336, -77393883, 4],
+        denominator: [-1486618624, 232830643],
+        baseToken: {
+          chainId: 42,
+          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+          decimals: 18,
+          symbol: "WETH",
+          name: "Wrapped Ether",
+        },
+        quoteToken: {
+          chainId: 42,
+          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+          decimals: 18,
+          symbol: "DAI",
+          name: "DAI",
+        },
+        scalar: {
+          numerator: [-1486618624, 232830643],
+          denominator: [-1486618624, 232830643],
+        },
+      },
+      nextMidPrice: {
+        numerator: [-1087938295, -1321531522, 12],
+        denominator: [-1998454286, 824220478],
+        baseToken: {
+          chainId: 42,
+          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+          decimals: 18,
+          symbol: "WETH",
+          name: "Wrapped Ether",
+        },
+        quoteToken: {
+          chainId: 42,
+          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+          decimals: 18,
+          symbol: "DAI",
+          name: "DAI",
+        },
+        scalar: {
+          numerator: [-1486618624, 232830643],
+          denominator: [-1486618624, 232830643],
+        },
+      },
+      slippage: {
+        numerator: [
+          -1483979136,
+          311003999,
+          -608944537,
+          1952642229,
+          -1773780792,
+          160939557,
+        ],
+        denominator: [
+          1070071808,
+          -839269187,
+          -319417083,
+          -225175760,
+          -814289247,
+          566625405,
+        ],
+      },
+    },
     codegen: (node: INode): ITransaction => {
       const txData = UniswapService.useUniswap(
         node.properties.bestTrade,

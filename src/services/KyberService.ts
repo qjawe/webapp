@@ -1,6 +1,7 @@
 import {
   KYBER_NETWORK_PROXY_ABI,
   KYBER_NETWORK_PROXY_ADDRESS,
+  AAVE_ETHEREUM,
 } from "../constants";
 
 import { ethers, Contract } from "ethers";
@@ -11,12 +12,12 @@ enum SwapType {
   SWAP_TOKEN_TO_TOKEN,
 }
 
-const wethAddress = "";
+const wethAddress: string = AAVE_ETHEREUM;
 
-function getSwapType(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS): SwapType {
-  if (SRC_TOKEN_ADDRESS.equals(wethAddress)) {
+function getSwapType(SRC_TOKEN_ADDRESS: string, DST_TOKEN_ADDRESS: string): SwapType {
+  if (SRC_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, { sensitivity: "base", }) === 0) {
     return SwapType.SWAP_ETHER_TO_TOKEN;
-  } else if (DST_TOKEN_ADDRESS.equals(wethAddress)) {
+  } else if (DST_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, { sensitivity: "base", }) === 0) {
     return SwapType.SWAP_TOKEN_TO_ETHER;
   } else {
     return SwapType.SWAP_TOKEN_TO_TOKEN;
@@ -24,8 +25,8 @@ function getSwapType(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS): SwapType {
 }
 
 export function useKyberswap(
-  SRC_TOKEN_ADDRESS, // trade to execute, required
-  DST_TOKEN_ADDRESS,
+  SRC_TOKEN_ADDRESS: string, // trade to execute, required
+  DST_TOKEN_ADDRESS: string,
   pAmount
 ) {
   const amount: BigNumber = ethers.utils.parseEther(pAmount + "");

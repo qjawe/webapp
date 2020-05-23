@@ -48,7 +48,7 @@ function ChartView({ chart, stateActions }: any) {
       imgContainerDom.className = "node-token-icon-container";
       Object.keys(chart.nodes[selectedNode].ports).forEach((port) => {
         const imgDom = createTokenIconDiv(
-          chart.nodes[selectedNode].ports[port].properties.asset.tokenAddress
+          chart.nodes[selectedNode].ports[port].properties.asset.tokenSymbol
         );
         // console.log(imgDom);
         imgContainerDom.appendChild(imgDom);
@@ -56,9 +56,9 @@ function ChartView({ chart, stateActions }: any) {
       allNodeTextEl[i].appendChild(imgContainerDom);
     });
   };
-  const createTokenIconDiv = (tokenAddress: string) => {
+  const createTokenIconDiv = (tokenSymbol: string) => {
     var imgDom = document.createElement("img");
-    imgDom.src = require(`../../assets/tokens-icons/${tokenAddress.toLowerCase()}/logo.png`);
+    imgDom.src = require(`../../assets/tokens-icons/${tokenSymbol}/logo.png`);
     imgDom.className = "node-token-icon";
     return imgDom;
   };

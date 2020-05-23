@@ -13,7 +13,7 @@ function MainView() {
   return (
     <div className="main-view">
       <div className="chat-view-container">
-        <ChartTopBar />
+        <ChartTopBar chart={chart} />
         <ChartView chart={chart} stateActions={stateActions} />
       </div>
       <div className="simulation-container">

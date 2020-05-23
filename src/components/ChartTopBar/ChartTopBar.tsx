@@ -4,6 +4,7 @@ import ToolboxItem from "../ToolboxItem";
 import {
   Aave,
   Uniswap,
+  Kyberswap,
   End,
   UniswapAddLiquidity,
 } from "../../services/BlocksService";
@@ -13,7 +14,7 @@ import {
   faFileImport,
   faFileExport,
 } from "@fortawesome/free-solid-svg-icons";
-import { TOKEN_LIST } from "../../constants";
+import { TOKEN_LIST, UNI_TOKEN_LIST } from "../../constants";
 import { AppContext } from "../../state";
 
 function ChartTopBar({ chart }: any) {
@@ -88,6 +89,32 @@ function ChartTopBar({ chart }: any) {
           }}
         />
         <ToolboxItem
+          type="Kyberswap:Swap"
+          ports={{
+            port1: {
+              id: "port1",
+              type: "top",
+              properties: {
+                type: "input",
+                amount: 0,
+                asset: TOKEN_LIST[0],
+              },
+            },
+            port2: {
+              id: "port2",
+              type: "bottom",
+              properties: {
+                type: "output",
+                amount: 0,
+                asset: TOKEN_LIST[1],
+              },
+            },
+          }}
+          properties={{
+            ...Kyberswap,
+          }}
+        />
+        <ToolboxItem
           type="Uniswap:Add Liquidity"
           ports={{
             port1: {
@@ -106,6 +133,15 @@ function ChartTopBar({ chart }: any) {
                 type: "input",
                 amount: 0,
                 asset: TOKEN_LIST[1],
+              },
+            },
+            port3: {
+              id: "port3",
+              type: "bottom",
+              properties: {
+                type: "output",
+                amount: 0,
+                asset: UNI_TOKEN_LIST[0],
               },
             },
           }}

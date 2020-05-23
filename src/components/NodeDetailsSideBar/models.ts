@@ -6,6 +6,8 @@ export interface INodeDetailsSideBarState {
   selectedNodePorts: any;
   tokenList: string[];
   selectedDropdown: string;
+  priceImpact: number;
+  price: string;
 }
 
 export interface INodeDetailsSideBarProps {

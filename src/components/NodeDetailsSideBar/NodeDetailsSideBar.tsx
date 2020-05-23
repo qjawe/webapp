@@ -5,11 +5,12 @@ import { faArrowLeft, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { INodeDetailsSideBarState, INodeDetailsSideBarProps } from "./models";
 import { ethers } from "ethers";
 import { TOKEN_LIST } from "../../constants";
+import { Web3Service } from "../../services";
 
 class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
   INodeDetailsSideBarState
-> {
+  > {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -21,6 +22,16 @@ class NodeDetailsSideBar extends React.Component<
           ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
           : TOKEN_LIST,
       selectedDropdown: "",
+      priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
+        .properties.priceImpact
+        ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
+          .priceImpact
+        : 0,
+      price: this.props.chart.nodes[this.props.chart.selected.id + ""]
+        .properties.price
+        ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
+          .price
+        : "",
     };
   }
 
@@ -37,11 +48,21 @@ class NodeDetailsSideBar extends React.Component<
           ].ports,
           tokenList:
             this.props.chart.nodes[this.props.chart.selected.id + ""].type ===
-            "Aave:Flash Loan"
+              "Aave:Flash Loan"
               ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
               : TOKEN_LIST,
+          priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
+            .properties.priceImpact
+            ? this.props.chart.nodes[this.props.chart.selected.id + ""]
+              .properties.priceImpact
+            : 0,
+          price: this.props.chart.nodes[this.props.chart.selected.id + ""]
+            .properties.price
+            ? this.props.chart.nodes[this.props.chart.selected.id + ""]
+              .properties.price
+            : "",
         },
-        () => {}
+        () => { }
       );
     }
   }
@@ -54,25 +75,182 @@ class NodeDetailsSideBar extends React.Component<
     // console.log(token);
     const { selectedNodePorts } = this.state;
     selectedNodePorts[port].properties.asset = token;
-    this.setState({ selectedNodePorts, openSelect: false }, () => {
-      this.setNodeProperties(false);
-    });
+    selectedNodePorts[port].properties.amount = "";
+    this.setState(
+      { selectedNodePorts, openSelect: false, price: "", priceImpact: 0 },
+      () => {
+        this.setNodeProperties(false);
+        if (
+          selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+            .amount ||
+          selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.amount
+        ) {
+          const isExactIn = selectedNodePorts[port].properties.type !== "input";
+          const amount = isExactIn
+            ? selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+              .amount
+            : selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+              .amount;
+          isExactIn
+            ? this.getSwapValues(true, amount)
+            : this.getSwapValues(false, amount);
+        }
+      }
+    );
   };
 
   setAssetAmount = (amount: string, port: string) => {
     const { selectedNodePorts } = this.state;
-    selectedNodePorts[port].properties.amount = amount;
-    this.setState({ selectedNodePorts }, () => {
-      this.setNodeProperties(false);
+    const isExactIn = selectedNodePorts[port].properties.type === "input";
+    selectedNodePorts[
+      Object.keys(selectedNodePorts)[0]
+    ].properties.amount = isExactIn ? amount : "";
+    selectedNodePorts[
+      Object.keys(selectedNodePorts)[1]
+    ].properties.amount = isExactIn ? "" : amount;
+
+    this.setState({ selectedNodePorts, priceImpact: 0, price: "" }, () => {
+      this.setNodeProperties(false, null, null, null, null, isExactIn);
+      isExactIn
+        ? this.getSwapValues(true, amount)
+        : this.getSwapValues(false, amount);
     });
   };
 
-  setNodeProperties = (flag: boolean) => {
+  getSwapValues = async (isExactIn, amount) => {
+    if (amount && amount !== "0") {
+      const { selectedNodePorts, selectedNode } = this.state;
+      const tokenInAddress =
+        selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
+          .tokenAddress;
+      const tokenOutAddress =
+        selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.asset
+          .tokenAddress;
+      const typeService = selectedNode.properties.typeService;
+      console.log(selectedNode, typeService);
+      const result = await Web3Service.getSwapPriceValues(
+        typeService,
+        amount,
+        tokenInAddress,
+        tokenOutAddress,
+        isExactIn
+      );
+      if (result) {
+        if (typeService === "Uniswap") {
+          const {
+            amountsIn,
+            amountsOut,
+            executionPrice,
+            priceImpact,
+            path,
+            bestTrade,
+          } = result;
+          selectedNodePorts[
+            Object.keys(selectedNodePorts)[0]
+          ].properties.amount = amountsIn;
+          selectedNodePorts[
+            Object.keys(selectedNodePorts)[1]
+          ].properties.amount = amountsOut;
+          const price = isExactIn
+            ? `${amountsOut}  ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+              .asset.tokenSymbol
+            } per ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+              .asset.tokenSymbol
+            }`
+            : `${amountsIn}  ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+              .asset.tokenSymbol
+            } per ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+              .asset.tokenSymbol
+            }`;
+          this.setState({ selectedNodePorts, priceImpact, price }, () => {
+            this.setNodeProperties(
+              false,
+              path,
+              executionPrice,
+              priceImpact,
+              price,
+              null,
+              bestTrade
+            );
+          });
+        }
+        else if (typeService === "Kyber") {
+          const {
+            amountsIn,
+            amountsOut,
+            executionPrice,
+            priceImpact,
+          } = result;
+          selectedNodePorts[
+            Object.keys(selectedNodePorts)[0]
+          ].properties.amount = amountsIn;
+          selectedNodePorts[
+            Object.keys(selectedNodePorts)[1]
+          ].properties.amount = amountsOut;
+          const price = isExactIn
+            ? `${amountsOut}  ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+              .asset.tokenSymbol
+            } per ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+              .asset.tokenSymbol
+            }`
+            : `${amountsIn}  ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+              .asset.tokenSymbol
+            } per ${
+            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+              .asset.tokenSymbol
+            }`;
+          this.setState({ selectedNodePorts, priceImpact, price }, () => {
+            this.setNodeProperties(
+              false,
+              null,
+              executionPrice,
+              priceImpact,
+              price,
+            );
+          });
+        }
+      }
+    }
+  };
+
+  setNodeProperties = (
+    flag: boolean,
+    path?: string[],
+    executionPrice?: number,
+    priceImpact?: number,
+    price?: string,
+    isExactIn?: boolean,
+    bestTrade?: any
+  ) => {
     try {
       const { chart, setChart, stateActions } = this.props;
       const { selectedNodePorts, selectedNode } = this.state;
       chart.nodes[selectedNode.id].ports = selectedNodePorts;
-      chart.nodes[selectedNode.id].properties.path = ["0x00", "0x00"];
+      if (path) {
+        chart.nodes[selectedNode.id].properties.path = path;
+      }
+      if (executionPrice) {
+        chart.nodes[selectedNode.id].properties.executionPrice = executionPrice;
+      }
+      if (priceImpact) {
+        chart.nodes[selectedNode.id].properties.priceImpact = priceImpact;
+      }
+      if (price) {
+        chart.nodes[selectedNode.id].properties.price = price;
+      }
+      if (isExactIn) {
+        chart.nodes[selectedNode.id].properties.isExactIn = isExactIn;
+      }
+      if (bestTrade) {
+        chart.nodes[selectedNode.id].properties.bestTrade = bestTrade;
+      }
       Object.keys(selectedNodePorts).forEach((port) => {
         if (selectedNodePorts[port].properties.type === "input") {
           chart.nodes[
@@ -83,7 +261,7 @@ class NodeDetailsSideBar extends React.Component<
               : 0) + "",
             "ether"
           );
-          chart.nodes[selectedNode.id].properties.path[0] =
+          chart.nodes[selectedNode.id].properties.tokenIn =
             selectedNodePorts[port].properties.asset.tokenAddress;
         }
         if (selectedNodePorts[port].properties.type === "output") {
@@ -95,8 +273,7 @@ class NodeDetailsSideBar extends React.Component<
               : 0) + "",
             "ether"
           );
-
-          chart.nodes[selectedNode.id].properties.path[1] =
+          chart.nodes[selectedNode.id].properties.tokenOut =
             selectedNodePorts[port].properties.asset.tokenAddress;
         }
       });
@@ -160,9 +337,7 @@ class NodeDetailsSideBar extends React.Component<
                     <div className="node-details-token-container">
                       <div className="node-details-token-icon-container">
                         <img
-                          src={require(`../../assets/tokens-icons/${selectedNodePorts[
-                            port
-                          ].properties.asset.tokenAddress.toLowerCase()}/logo.png`)}
+                          src={require(`../../assets/tokens-icons/${selectedNodePorts[port].properties.asset.tokenSymbol}/logo.png`)}
                           alt="token-icon"
                           className="node-details-token-icon"
                         />
@@ -191,7 +366,7 @@ class NodeDetailsSideBar extends React.Component<
                           >
                             <span className="token-list-icon-container">
                               <img
-                                src={require(`../../assets/tokens-icons/${token.tokenAddress.toLowerCase()}/logo.png`)}
+                                src={require(`../../assets/tokens-icons/${token.tokenSymbol}/logo.png`)}
                                 alt="token-icon"
                                 className="token-list-icon"
                               />
@@ -210,13 +385,7 @@ class NodeDetailsSideBar extends React.Component<
                     type="number"
                     className="node-details-asset-amount"
                     placeholder="Amount"
-                    value={
-                      Number.parseFloat(
-                        selectedNodePorts[port].properties.amount
-                      ) === 0
-                        ? ""
-                        : selectedNodePorts[port].properties.amount
-                    }
+                    value={selectedNodePorts[port].properties.amount}
                     onChange={(e) => this.setAssetAmount(e.target.value, port)}
                   />
                 </div>
@@ -224,6 +393,26 @@ class NodeDetailsSideBar extends React.Component<
             </div>
           ))}
         </div>
+        {this.state.price || this.state.priceImpact ? (
+          <div className="node-details-additional-info">
+            {this.state.price && (
+              <div className="node-details-additional-info-item">
+                <span>Price</span>
+                <span className="node-details-additional-info-item-value">
+                  {this.state.price}
+                </span>
+              </div>
+            )}
+            {this.state.priceImpact && (
+              <div className="node-details-additional-info-item">
+                <span>Price Impact</span>
+                <span className="node-details-additional-info-item-price-impact">
+                  {this.state.priceImpact}%
+                </span>
+              </div>
+            )}
+          </div>
+        ) : null}
       </div>
     );
   }

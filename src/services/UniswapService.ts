@@ -1,199 +1,401 @@
-// import {
-//   ChainId,
-//   JSBI,
-//   Pair,
-//   Token,
-//   TokenAmount,
-//   WETH,
-//   Trade,
-// } from "@uniswap/sdk";
-// import {
-//   getTokenDecimals,
-//   getTokenSymbol,
-//   getTokenName,
-//   usePair,
-// } from "../utils/UniswapUtils";
-// import { parseUnits } from "ethers/utils";
-// import { useMemo } from "react";
+import {
+  ChainId,
+  JSBI,
+  Pair,
+  Token,
+  TradeType,
+  TokenAmount,
+  WETH,
+  Trade,
+} from "@uniswap/sdk";
+import {
+  getTokenDecimals,
+  getTokenSymbol,
+  getTokenName,
+  usePair,
+} from "../utils/UniswapUtils";
+import { ethers } from "ethers";
+import {
+  INITIAL_ALLOWED_SLIPPAGE,
+  DEFAULT_DEADLINE_FROM_NOW,
+} from "../constants/uniswap";
+import { computeSlippageAdjustedAmounts } from "../utils/uniswap/prices";
+import {
+  calculateGasMargin,
+  getRouterContract,
+  isAddress,
+} from "../utils/uniswap";
+import { UNISWAP_ADDRESS, UNISWAP_ABI } from "../constants";
+import { parseUnits, BigNumber } from "ethers/utils";
+import { useMemo } from "react";
 
-// const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
-// const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
+const DAI = new Token(
+  ChainId.MAINNET,
+  "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  18,
+  "DAI",
+  "Dai Stablecoin"
+);
+const USDC = new Token(
+  ChainId.MAINNET,
+  "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  6,
+  "USDC",
+  "USD//C"
+);
 
-// export interface SerializedToken {
-//   chainId: number;
-//   address: string;
-//   decimals: number;
-//   symbol: string;
-//   name: string;
-// }
+enum Field {
+  INPUT = "INPUT",
+  OUTPUT = "OUTPUT",
+}
 
-// const deserializeToken = (serializedToken: SerializedToken): Token => {
-//   return new Token(
-//     serializedToken.chainId,
-//     serializedToken.address,
-//     serializedToken.decimals,
-//     serializedToken.symbol,
-//     serializedToken.name
-//   );
-// };
+export interface SerializedToken {
+  chainId: number;
+  address: string;
+  decimals: number;
+  symbol: string;
+  name: string;
+}
 
-// const getDeSerializeToken = async (tokenAddress: string, library: any) => {
-//   const [decimals, symbol, name] = await Promise.all([
-//     getTokenDecimals(tokenAddress, library).catch(() => null),
-//     getTokenSymbol(tokenAddress, library).catch(() => "UNKNOWN"),
-//     getTokenName(tokenAddress, library).catch(() => "Unknown"),
-//   ]);
-//   return deserializeToken({
-//     chainId: 42,
-//     address: tokenAddress,
-//     decimals,
-//     symbol,
-//     name,
-//   });
-// };
+const deserializeToken = (serializedToken: SerializedToken): Token => {
+  return new Token(
+    serializedToken.chainId,
+    serializedToken.address,
+    serializedToken.decimals,
+    serializedToken.symbol,
+    serializedToken.name
+  );
+};
 
-// const tryParseAmount = (
-//   value?: string,
-//   token?: Token
-// ): TokenAmount | undefined => {
-//   if (!value || !token) return;
-//   try {
-//     const typedValueParsed = parseUnits(value, token.decimals).toString();
-//     if (typedValueParsed !== "0")
-//       return new TokenAmount(token, JSBI.BigInt(typedValueParsed));
-//   } catch (error) {
-//     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
-//     console.debug(`Failed to parse input amount: "${value}"`, error);
-//   }
-// };
+const getDeSerializeToken = async (
+  tokenAddress: string,
+  library: any,
+  chainId: any
+) => {
+  // if (tokenAddress !== "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE") {
+  const [decimals, symbol, name] = await Promise.all([
+    getTokenDecimals(tokenAddress, library).catch((e) => {
+      console.log(e);
+      return null;
+    }),
+    getTokenSymbol(tokenAddress, library).catch((e) => {
+      console.log(e);
+      return "UNKNOWN";
+    }),
+    getTokenName(tokenAddress, library).catch((e) => {
+      console.log(e);
+      return "Unknown";
+    }),
+  ]);
 
-// function useAllCommonPairs(tokenA: Token, tokenB: Token): Pair[] {
-//   const chainId = 1;
+  return deserializeToken({
+    chainId,
+    address: tokenAddress,
+    decimals,
+    symbol,
+    name,
+  });
+};
 
-//   // check for direct pair between tokens
-//   const pairBetween = usePair(tokenA, tokenB)
+const tryParseAmount = (
+  value?: string,
+  token?: Token
+): TokenAmount | undefined => {
+  if (!value || !token) return;
+  try {
+    const typedValueParsed = parseUnits(value, token.decimals).toString();
+    if (typedValueParsed !== "0")
+      return new TokenAmount(token, JSBI.BigInt(typedValueParsed));
+  } catch (error) {
+    // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
+    console.debug(`Failed to parse input amount: "${value}"`, error);
+  }
+};
 
-//   // get token<->WETH pairs
-//   const aToETH = usePair(tokenA, WETH[chainId])
-//   const bToETH = usePair(tokenB, WETH[chainId])
+async function useAllCommonPairs(
+  tokenA: Token,
+  tokenB: Token,
+  library: any,
+  chainId: any
+) {
+  // check for direct pair between tokens
+  const pairBetween = await usePair(tokenA, tokenB, library);
 
-//   // only pass along valid pairs, non-duplicated pairs
-//   return useMemo(
-//     () =>
-//       [pairBetween, aToETH, bToETH?],
-//     [pairBetween, aToETH, bToETH?]
-//   )
-// }
+  // get token<->WETH pairs
+  const aToETH = await usePair(tokenA, WETH[chainId as ChainId], library);
+  const bToETH = await usePair(tokenB, WETH[chainId as ChainId], library);
 
-// /**
-//  * Returns the best trade for the exact amount of tokens in to the given token out
-//  */
-// const useTradeExactIn = (amountIn?: TokenAmount, tokenOut?: Token): Trade | null => {
-//     const inputToken = amountIn?.token
-//     const outputToken = tokenOut
+  // get token<->DAI pairs
+  const aToDAI = await usePair(
+    tokenA,
+    chainId === ChainId.MAINNET ? DAI : undefined,
+    library
+  );
+  const bToDAI = await usePair(
+    tokenB,
+    chainId === ChainId.MAINNET ? DAI : undefined,
+    library
+  );
 
-//     const allowedPairs = useAllCommonPairs(inputToken, outputToken)
+  // get token<->USDC pairs
+  const aToUSDC = await usePair(
+    tokenA,
+    chainId === ChainId.MAINNET ? USDC : undefined,
+    library
+  );
+  const bToUSDC = await usePair(
+    tokenB,
+    chainId === ChainId.MAINNET ? USDC : undefined,
+    library
+  );
 
-//     return useMemo(() => {
-//       if (amountIn && tokenOut && allowedPairs.length > 0) {
-//         return Trade.bestTradeExactIn(allowedPairs, amountIn, tokenOut)[0] ?? null
-//       }
-//       return null
-//     }, [allowedPairs, amountIn, tokenOut])
-//   }
+  // get connecting pairs
+  const DAIToETH = await usePair(
+    chainId === ChainId.MAINNET ? DAI : undefined,
+    WETH[chainId as ChainId],
+    library
+  );
+  const USDCToETH = await usePair(
+    chainId === ChainId.MAINNET ? USDC : undefined,
+    WETH[chainId as ChainId],
+    library
+  );
+  const DAIToUSDC = await usePair(
+    chainId === ChainId.MAINNET ? DAI : undefined,
+    chainId === ChainId.MAINNET ? USDC : undefined,
+    library
+  );
 
-//   /**
-//    * Returns the best trade for the token in to the exact amount of token out
-//    */
-// const useTradeExactOut = (tokenIn?: Token, amountOut?: TokenAmount): Trade | null => {
-//     const inputToken = tokenIn
-//     const outputToken = amountOut?.token
+  // only pass along valid pairs, non-duplicated pairs
+  const pairs = [
+    pairBetween,
+    aToETH,
+    bToETH,
+    aToDAI,
+    bToDAI,
+    aToUSDC,
+    bToUSDC,
+    DAIToETH,
+    USDCToETH,
+    DAIToUSDC,
+  ]
+    // filter out invalid pairs
+    .filter((p): p is Pair => !!p)
+    // filter out duplicated pairs
+    .filter(
+      (p, i, pairs) =>
+        i ===
+        pairs.findIndex(
+          (pair) => pair?.liquidityToken.address === p.liquidityToken.address
+        )
+    );
+  return pairs;
+}
 
-//     const allowedPairs = useAllCommonPairs(inputToken, outputToken)
+/**
+ * Returns the best trade for the exact amount of tokens in to the given token out
+ */
+const useTradeExactIn = async (
+  amountIn?: TokenAmount,
+  tokenOut?: Token,
+  library?: any
+) => {
+  const inputToken = amountIn?.token;
+  const outputToken = tokenOut;
 
-//     return useMemo(() => {
-//       if (tokenIn && amountOut && allowedPairs.length > 0) {
-//         return Trade.bestTradeExactOut(allowedPairs, tokenIn, amountOut)[0] ?? null
-//       }
-//       return null
-//     }, [allowedPairs, tokenIn, amountOut])
-//   }
+  const allowedPairs = await useAllCommonPairs(
+    inputToken,
+    outputToken,
+    library,
+    ChainId.KOVAN
+  );
+  if (amountIn && tokenOut && allowedPairs.length > 0) {
+    return Trade.bestTradeExactIn(allowedPairs, amountIn, tokenOut)[0] ?? null;
+  }
+  return null;
+};
 
-// // from the current swap inputs, compute the best trade and return it.
-// export const useDerivedSwapInfo = async (
-//   typedValue: any,
-//   tokenInAddress: any,
-//   tokenOutAddress: any,
-//   library: any,
-//   isExactIn: boolean
-// ) => {
-//   const tokenIn = await getDeSerializeToken(tokenInAddress, library);
-//   const tokenOut = await getDeSerializeToken(tokenOutAddress, library);
+/**
+ * Returns the best trade for the token in to the exact amount of token out
+ */
+const useTradeExactOut = async (
+  tokenIn?: Token,
+  amountOut?: TokenAmount,
+  library?: any
+) => {
+  const inputToken = tokenIn;
+  const outputToken = amountOut?.token;
 
-//   const amount = tryParseAmount(typedValue, isExactIn ? tokenIn : tokenOut);
+  const allowedPairs = await useAllCommonPairs(
+    inputToken,
+    outputToken,
+    library,
+    ChainId.KOVAN
+  );
 
-//   const bestTradeExactIn = useTradeExactIn(isExactIn ? amount : null, tokenOut);
-//   const bestTradeExactOut = useTradeExactOut(
-//     tokenIn,
-//     !isExactIn ? amount : null
-//   );
+  if (tokenIn && amountOut && allowedPairs.length > 0) {
+    return Trade.bestTradeExactOut(allowedPairs, tokenIn, amountOut)[0] ?? null;
+  }
+  return null;
+};
 
-//   const bestTrade = isExactIn ? bestTradeExactIn : bestTradeExactOut;
+// from the current swap inputs, compute the best trade and return it.
+export const useDerivedSwapInfo = async (
+  typedValue: any,
+  tokenInAddress: any,
+  tokenOutAddress: any,
+  library: any,
+  isExactIn: boolean
+) => {
+  const chainId = ChainId.KOVAN;
+  const tokenIn = await getDeSerializeToken(tokenInAddress, library, chainId);
+  const tokenOut = await getDeSerializeToken(tokenOutAddress, library, chainId);
 
-//   const parsedAmounts = {
-//     [Field.INPUT]: isExactIn ? amount : bestTrade?.inputAmount,
-//     [Field.OUTPUT]: isExactIn ? bestTrade?.outputAmount : amount,
-//   };
+  const amount = tryParseAmount(typedValue, isExactIn ? tokenIn : tokenOut);
+  const bestTradeExactIn = await useTradeExactIn(
+    isExactIn ? amount : null,
+    tokenOut,
+    library
+  );
+  const bestTradeExactOut = await useTradeExactOut(
+    tokenIn,
+    !isExactIn ? amount : null,
+    library
+  );
 
-//   const tokenBalances = {
-//     [Field.INPUT]: relevantTokenBalances?.[tokenIn?.address],
-//     [Field.OUTPUT]: relevantTokenBalances?.[tokenOut?.address],
-//   };
+  const bestTrade = isExactIn ? bestTradeExactIn : bestTradeExactOut;
 
-//   const tokens = {
-//     [Field.INPUT]: tokenIn,
-//     [Field.OUTPUT]: tokenOut,
-//   };
+  const parsedAmounts = {
+    [Field.INPUT]: isExactIn ? amount : bestTrade?.inputAmount,
+    [Field.OUTPUT]: isExactIn ? bestTrade?.outputAmount : amount,
+  };
 
-//   // get link to trade on v1, if a better rate exists
-//   const v1TradeLinkIfBetter = useV1TradeLinkIfBetter(
-//     isExactIn,
-//     tokens[Field.INPUT],
-//     tokens[Field.OUTPUT],
-//     isExactIn ? parsedAmounts[Field.INPUT] : parsedAmounts[Field.OUTPUT],
-//     bestTrade,
-//     V1_TRADE_LINK_THRESHOLD
-//   );
+  return {
+    parsedAmounts,
+    bestTrade,
+  };
+};
 
-//   let error: string | undefined;
-//   if (!account) {
-//     error = "Connect Wallet";
-//   }
+enum SwapType {
+  EXACT_TOKENS_FOR_TOKENS,
+  EXACT_TOKENS_FOR_ETH,
+  EXACT_ETH_FOR_TOKENS,
+  TOKENS_FOR_EXACT_TOKENS,
+  TOKENS_FOR_EXACT_ETH,
+  ETH_FOR_EXACT_TOKENS,
+}
 
-//   if (!parsedAmounts[Field.INPUT]) {
-//     error = error ?? "Enter an amount";
-//   }
+function getSwapType(
+  tokens: { [field in Field]?: Token },
+  isExactIn: boolean,
+  chainId: number
+): SwapType {
+  if (isExactIn) {
+    if (tokens[Field.INPUT]?.equals(WETH[chainId as ChainId])) {
+      return SwapType.EXACT_ETH_FOR_TOKENS;
+    } else if (tokens[Field.OUTPUT]?.equals(WETH[chainId as ChainId])) {
+      return SwapType.EXACT_TOKENS_FOR_ETH;
+    } else {
+      return SwapType.EXACT_TOKENS_FOR_TOKENS;
+    }
+  } else {
+    if (tokens[Field.INPUT]?.equals(WETH[chainId as ChainId])) {
+      return SwapType.ETH_FOR_EXACT_TOKENS;
+    } else if (tokens[Field.OUTPUT]?.equals(WETH[chainId as ChainId])) {
+      return SwapType.TOKENS_FOR_EXACT_ETH;
+    } else {
+      return SwapType.TOKENS_FOR_EXACT_TOKENS;
+    }
+  }
+}
 
-//   if (!parsedAmounts[Field.OUTPUT]) {
-//     error = error ?? "Enter an amount";
-//   }
+export function useUniswap(
+  trade?: Trade, // trade to execute, required
+  allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips, optional
+  deadline: number = DEFAULT_DEADLINE_FROM_NOW, // in seconds from now, optional
+  to?: string // recipient of output, optional
+): string {
+  const recipient = to;
 
-//   if (
-//     tokenBalances[Field.INPUT] &&
-//     parsedAmounts[Field.INPUT] &&
-//     tokenBalances[Field.INPUT].lessThan(parsedAmounts[Field.INPUT])
-//   ) {
-//     error = "Insufficient " + tokens[Field.INPUT]?.symbol + " balance";
-//   }
+  if (!trade) return null;
+  // will always be defined
+  const {
+    [Field.INPUT]: slippageAdjustedInput,
+    [Field.OUTPUT]: slippageAdjustedOutput,
+  } = computeSlippageAdjustedAmounts(trade, allowedSlippage);
 
-//   return {
-//     tokens,
-//     tokenBalances,
-//     parsedAmounts,
-//     bestTrade,
-//     error,
-//     v1TradeLinkIfBetter,
-//   };
-// };
+  if (!slippageAdjustedInput || !slippageAdjustedOutput) return null;
 
-export const nice = () => {};
+  const path = trade.route.path.map((t) => t.address);
+
+  const deadlineFromNow: number = Math.ceil(Date.now() / 1000) + deadline;
+  const chainId = 42;
+
+  const swapType = getSwapType(
+    {
+      [Field.INPUT]: trade.inputAmount.token,
+      [Field.OUTPUT]: trade.outputAmount.token,
+    },
+    trade.tradeType === TradeType.EXACT_INPUT,
+    chainId as ChainId
+  );
+  const uniswap = new ethers.utils.Interface(UNISWAP_ABI);
+  let method: string;
+
+  switch (swapType) {
+    case SwapType.EXACT_TOKENS_FOR_TOKENS:
+      method = uniswap.functions.swapExactTokensForTokens.encode([
+        slippageAdjustedInput.raw.toString(),
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.TOKENS_FOR_EXACT_TOKENS:
+      method = uniswap.functions.swapTokensForExactTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        slippageAdjustedInput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.EXACT_ETH_FOR_TOKENS:
+      method = uniswap.functions.swapExactETHForTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.TOKENS_FOR_EXACT_ETH:
+      method = uniswap.functions.swapTokensForExactETH.encode([
+        slippageAdjustedOutput.raw.toString(),
+        slippageAdjustedInput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+
+      break;
+    case SwapType.EXACT_TOKENS_FOR_ETH:
+      method = uniswap.functions.swapExactTokensForETH.encode([
+        slippageAdjustedInput.raw.toString(),
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+    case SwapType.ETH_FOR_EXACT_TOKENS:
+      method = uniswap.functions.swapETHForExactTokens.encode([
+        slippageAdjustedOutput.raw.toString(),
+        path,
+        recipient,
+        deadlineFromNow,
+      ]);
+      break;
+  }
+  return method;
+}

@@ -105,9 +105,12 @@ class NodeDetailsSideBar extends React.Component<
     selectedNodePorts[
       Object.keys(selectedNodePorts)[0]
     ].properties.amount = isExactIn ? amount : "";
-    selectedNodePorts[
-      Object.keys(selectedNodePorts)[1]
-    ].properties.amount = isExactIn ? "" : amount;
+
+    if(Object.keys(selectedNodePorts)[1]) {
+      selectedNodePorts[
+        Object.keys(selectedNodePorts)[1]
+      ].properties.amount = isExactIn ? "" : amount;
+    }
 
     this.setState({ selectedNodePorts, priceImpact: 0, price: "" }, () => {
       this.setNodeProperties(false, null, null, null, null, isExactIn);
@@ -117,17 +120,26 @@ class NodeDetailsSideBar extends React.Component<
     });
   };
 
-  getSwapValues = async (isExactIn, amount) => {
+  getSwapValues = async (isExactIn: boolean, amount) => {
     if (amount && amount !== "0") {
       const { selectedNodePorts, selectedNode } = this.state;
+
+      const typeService = selectedNode.properties.typeService;
+      console.log(selectedNode, typeService);
+      if (typeService === "Aave") {
+        selectedNodePorts[
+          Object.keys(selectedNodePorts)[0]
+        ].properties.amount = amount;
+
+        return;
+      }
+
       const tokenInAddress =
         selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
           .tokenAddress;
       const tokenOutAddress =
         selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties.asset
           .tokenAddress;
-      const typeService = selectedNode.properties.typeService;
-      console.log(selectedNode, typeService);
       const result = await Web3Service.getSwapPriceValues(
         typeService,
         amount,

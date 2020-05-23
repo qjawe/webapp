@@ -26,7 +26,7 @@ export const chartSimple: IChart = {
           type: "output",
           properties: {
             type: "reserve",
-            amount: "",
+            amount: "1",
             asset: TOKEN_LIST[0],
           },
         },

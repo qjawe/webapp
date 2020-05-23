@@ -57,7 +57,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
         setState({ loading: false, error: true, tx: "" });
     }
 
-    const ethAmount = initalNodes[0].properties.amount;
+    const ethAmount = Object.values(initalNodes[0].ports)[0].properties.amount;
     const amount = ethers.utils.parseEther(ethAmount);
 
     Executor.run(AAVE_ETHEREUM, amount, legs).then(() => { console.log('done' )});

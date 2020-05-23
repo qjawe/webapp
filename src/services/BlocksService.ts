@@ -24,6 +24,7 @@ export interface ITransaction {
 export interface IBlock {
   name: string;
   type: string;
+  typeService?: string;
   nodeType?: string;
   amount?: number;
   amountIn?: BigNumber;
@@ -45,6 +46,7 @@ export const Aave = (): IBlock => {
   return {
     name: "Aave:Flash Loan",
     type: "initial",
+    typeService: "Aave",
     nodeType: "flashLoan",
     /* codegen: null, // Null as the contract has the logic by itself */
   };
@@ -71,6 +73,7 @@ export const Uniswap = (): IBlock => {
   return {
     name: "Uniswap:Swap",
     type: "exchange",
+    typeService: "Uniswap",
     nodeType: "swap",
     amountIn: ethers.utils.parseUnits("10", "ether"),
     amountOutMin: ethers.utils.parseUnits("9.9", "ether"),
@@ -95,6 +98,7 @@ export const Kyberswap = (): IBlock => {
   return {
     name: "Kyber:Swap",
     type: "exchange",
+    typeService: "Kyber",
     nodeType: "swap",
     tokenA: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     tokenB: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",

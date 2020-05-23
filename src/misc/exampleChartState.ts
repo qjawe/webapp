@@ -6,6 +6,7 @@ import { TOKEN_LIST } from "../constants";
 const aave = Aave();
 const uniswap = Uniswap();
 // const splitter = Splitter();
+const kyberswap = Kyberswap();
 const end = End();
 
 export const chartSimple: IChart = {
@@ -106,7 +107,7 @@ export const chartSimple: IChart = {
         },
       },
       properties: {
-        ...Kyberswap,
+        ...kyberswap,
       },
     },
     node4: {

@@ -8,7 +8,7 @@ import {
   // ERC20_ABI,
 } from "../constants";
 import { ethers } from "ethers";
-import { UniswapService } from ".";
+import { UniswapService, KyberService } from ".";
 
 // const FORTMATIC_KEY = "";
 // const INFURA_KEY = "";
@@ -130,7 +130,48 @@ export const flashloan = async (
   });
 };
 
+enum SwapType {
+  UNSWAP,
+  KYBER,
+}
+
+const getSwapType = (type: string) => {
+  console.log(type);
+  if (type === "Uniswap") return SwapType.UNSWAP;
+  else if (type === "Kyber") return SwapType.KYBER;
+};
+
 export const getSwapPriceValues = async (
+  swapType: string,
+  amount: any,
+  tokenInAddress: any,
+  tokenOutAddress: any,
+  isExactIn: boolean
+): Promise<{
+  amountsIn;
+  amountsOut;
+  executionPrice;
+  priceImpact;
+  path?;
+  bestTrade?;
+}> => {
+  const typeService = getSwapType(swapType);
+  console.log(typeService);
+  switch (typeService) {
+    case SwapType.UNSWAP:
+      return getUniswapPriceValues(
+        amount,
+        tokenInAddress,
+        tokenOutAddress,
+        isExactIn
+      );
+    case SwapType.KYBER:
+      console.log("switch kyber entry");
+      return getKyberPriceValues(amount, tokenInAddress, tokenOutAddress);
+  }
+};
+
+export const getUniswapPriceValues = async (
   amount: any,
   tokenInAddress: any,
   tokenOutAddress: any,
@@ -162,4 +203,30 @@ export const getSwapPriceValues = async (
       bestTrade: res.bestTrade,
     };
   }
+};
+
+const getKyberPriceValues = async (
+  amount: any,
+  tokenInAddress: any,
+  tokenOutAddress: any
+): Promise<{
+  amountsIn;
+  amountsOut;
+  executionPrice;
+  priceImpact;
+}> => {
+  console.log("kyber entry");
+  const value = await KyberService.getRates(
+    tokenInAddress,
+    tokenOutAddress,
+    amount
+  );
+  const fetchPrice = ethers.utils.arrayify(value);
+  console.log(fetchPrice[0], fetchPrice[1]);
+  const executionPrice = fetchPrice[0];
+  const priceImpact = fetchPrice[1];
+  const amountsOut = fetchPrice[0];
+  const amountsIn = amount;
+
+  return { amountsIn, amountsOut, executionPrice, priceImpact };
 };

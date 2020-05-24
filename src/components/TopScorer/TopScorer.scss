@@ -30,10 +30,10 @@
   }
 
   .top-scorer-body {
-    height: 240px;
+    height: 204px;
     .top-scorer-table {
       margin: 1em;
-      height: 208px;
+      height: 172px;
       overflow: hidden;
       .top-scorer-table-head-container {
         .top-scorer-table-head {
@@ -52,7 +52,7 @@
         }
       }
       .top-scorer-table-body-container {
-        height: 178px;
+        height: 142px;
         overflow-y: auto;
         .top-scorer-table-body {
           display: flex;

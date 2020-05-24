@@ -22,10 +22,11 @@ export const buildTransaction = async (chart: IChart) => {
     let i = 0;
     while (queue.length > 0 && i++ < 20) {
         let node = queue.pop() as INode;
-
+        
         if (node.properties && node.properties.codegen) {
             try {
-                tx.push(node.properties.codegen(node));
+                const getCodegen = await node.properties.codegen(node);
+                tx.push(getCodegen);
             } catch (err) {
                 return Promise.reject(err);
             }

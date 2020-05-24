@@ -8,7 +8,7 @@ import {
 import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
 import { TOKEN_LIST } from "../constants";
-import { UniswapService, KyberService } from ".";
+import { UniswapService, KyberService, Web3Service } from ".";
 
 /*
  An export for each type of block.
@@ -26,7 +26,7 @@ export interface IBlock {
   type: string;
   typeService?: string;
   nodeType?: string;
-  amount?: number;
+  amount?: string;
   amountIn?: BigNumber;
   amountOutMin?: BigNumber;
   path?: string[];
@@ -44,7 +44,7 @@ export interface IBlock {
   price?: string;
   isExactIn?: boolean;
   bestTrade?: any;
-  codegen?: (_: INode) => ITransaction;
+  codegen?: (_: INode) => ITransaction | Promise<ITransaction>;
 }
 
 export const Aave = (): IBlock => {
@@ -80,184 +80,33 @@ export const Uniswap = (): IBlock => {
     type: "exchange",
     typeService: "Uniswap",
     nodeType: "swap",
-    amountIn: ethers.utils.parseUnits("1", "ether"),
+    amount: "1",
     amountOutMin: ethers.utils.parseUnits("91.9013", "ether"),
     to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
     deadline: 1590969600,
-    path: [
-      "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-      "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-    ],
+    tokenA: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+    tokenB: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
     executionPrice: "91.9013",
     priceImpact: "28.4032",
     price: "91.9013  DAI per ETH",
     isExactIn: true,
-    bestTrade: {
-      route: {
-        pairs: [
-          {
-            liquidityToken: {
-              chainId: 42,
-              address: "0xBbB8eeA618861940FaDEf3071e79458d4c2B42e3",
-              decimals: 18,
-              symbol: "UNI-V2",
-              name: "Uniswap V2",
-            },
-            tokenAmounts: [
-              {
-                numerator: [-511835662, 591389834],
-                denominator: [-1486618624, 232830643],
-                token: {
-                  chainId: 42,
-                  address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-                  decimals: 18,
-                  symbol: "WETH",
-                  name: "Wrapped Ether",
-                },
-              },
-              {
-                numerator: [-434487959, -1398925405, 17],
-                denominator: [-1486618624, 232830643],
-                token: {
-                  chainId: 42,
-                  address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-                  decimals: 18,
-                  symbol: "DAI",
-                  name: "DAI",
-                },
-              },
-            ],
-          },
-        ],
-        path: [
-          {
-            chainId: 42,
-            address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-            decimals: 18,
-            symbol: "WETH",
-            name: "Wrapped Ether",
-          },
-          {
-            chainId: 42,
-            address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-            decimals: 18,
-            symbol: "DAI",
-            name: "DAI",
-          },
-        ],
-        midPrice: {
-          numerator: [-434487959, -1398925405, 17],
-          denominator: [-511835662, 591389834],
-          baseToken: {
-            chainId: 42,
-            address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-            decimals: 18,
-            symbol: "WETH",
-            name: "Wrapped Ether",
-          },
-          quoteToken: {
-            chainId: 42,
-            address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-            decimals: 18,
-            symbol: "DAI",
-            name: "DAI",
-          },
-          scalar: {
-            numerator: [-1486618624, 232830643],
-            denominator: [-1486618624, 232830643],
-          },
-        },
-      },
-      tradeType: 0,
-      inputAmount: {
-        numerator: [-1486618624, 232830643],
-        denominator: [-1486618624, 232830643],
-        token: {
-          chainId: 42,
-          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-          decimals: 18,
-          symbol: "WETH",
-          name: "Wrapped Ether",
-        },
-      },
-      outputAmount: {
-        numerator: [653450336, -77393883, 4],
-        denominator: [-1486618624, 232830643],
-        token: {
-          chainId: 42,
-          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-          decimals: 18,
-          symbol: "DAI",
-          name: "DAI",
-        },
-      },
-      executionPrice: {
-        numerator: [653450336, -77393883, 4],
-        denominator: [-1486618624, 232830643],
-        baseToken: {
-          chainId: 42,
-          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-          decimals: 18,
-          symbol: "WETH",
-          name: "Wrapped Ether",
-        },
-        quoteToken: {
-          chainId: 42,
-          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-          decimals: 18,
-          symbol: "DAI",
-          name: "DAI",
-        },
-        scalar: {
-          numerator: [-1486618624, 232830643],
-          denominator: [-1486618624, 232830643],
-        },
-      },
-      nextMidPrice: {
-        numerator: [-1087938295, -1321531522, 12],
-        denominator: [-1998454286, 824220478],
-        baseToken: {
-          chainId: 42,
-          address: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-          decimals: 18,
-          symbol: "WETH",
-          name: "Wrapped Ether",
-        },
-        quoteToken: {
-          chainId: 42,
-          address: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
-          decimals: 18,
-          symbol: "DAI",
-          name: "DAI",
-        },
-        scalar: {
-          numerator: [-1486618624, 232830643],
-          denominator: [-1486618624, 232830643],
-        },
-      },
-      slippage: {
-        numerator: [
-          -1483979136,
-          311003999,
-          -608944537,
-          1952642229,
-          -1773780792,
-          160939557,
-        ],
-        denominator: [
-          1070071808,
-          -839269187,
-          -319417083,
-          -225175760,
-          -814289247,
-          566625405,
-        ],
-      },
-    },
-    codegen: (node: INode): ITransaction => {
+    codegen: async (node: INode): Promise<ITransaction> => {
       console.log("Enter block service", node.properties.to);
+      console.log(
+        node.properties.amount,
+        node.properties.tokenA,
+        node.properties.tokenB,
+        node.properties.isExactIn
+      );
+      const trade = await Web3Service.getUniswapPriceValues(
+        node.properties.amount,
+        node.properties.tokenA,
+        node.properties.tokenB,
+        node.properties.isExactIn
+      );
+      console.log(trade);
       const txData = UniswapService.useUniswap(
-        node.properties.bestTrade,
+        trade.bestTrade,
         node.properties.to
       );
       const txTo = UNISWAP_ADDRESS;
@@ -274,7 +123,7 @@ export const Kyberswap = (): IBlock => {
     nodeType: "swap",
     tokenA: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     tokenB: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
-    amount: 0,
+    amount: "0",
     codegen: (node: INode): ITransaction => {
       const txData = KyberService.useKyberswap(
         node.properties.tokenA,

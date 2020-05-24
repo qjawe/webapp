@@ -8,7 +8,7 @@ import {
 import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
 import { TOKEN_LIST } from "../constants";
-import { UniswapService, KyberService } from ".";
+import { UniswapService, KyberService, Web3Service } from ".";
 
 /*
  An export for each type of block.
@@ -26,7 +26,7 @@ export interface IBlock {
   type: string;
   typeService?: string;
   nodeType?: string;
-  amount?: number;
+  amount?: string;
   amountIn?: BigNumber;
   amountOutMin?: BigNumber;
   path?: string[];
@@ -39,7 +39,11 @@ export interface IBlock {
   amountBMin?: number;
   to?: string;
   deadline?: number;
-  codegen?: (_: INode) => ITransaction;
+  executionPrice?: any;
+  priceImpact?: string;
+  price?: string;
+  isExactIn?: boolean;
+  codegen?: (_: INode) => ITransaction | Promise<ITransaction>;
 }
 
 export const Aave = (): IBlock => {
@@ -65,6 +69,7 @@ export const End = (): IBlock => {
   return {
     name: "End",
     type: "end",
+    typeService: "End",
     /* codegen: null, // No need */
   };
 };
@@ -75,17 +80,33 @@ export const Uniswap = (): IBlock => {
     type: "exchange",
     typeService: "Uniswap",
     nodeType: "swap",
-    amountIn: ethers.utils.parseUnits("10", "ether"),
-    amountOutMin: ethers.utils.parseUnits("9.9", "ether"),
-    path: [
-      "0xff795577d9ac8bd7d90ee22b6c1703490b6512fd",
-      "0xaaf64bfcc32d0f15873a02163e7e500671a4ffcd",
-    ],
+    amount: "1",
+    amountOutMin: ethers.utils.parseUnits("91.9013", "ether"),
     to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
     deadline: 1590969600,
-    codegen: (node: INode): ITransaction => {
+    tokenA: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+    tokenB: "0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD",
+    executionPrice: "91.9013",
+    priceImpact: "28.4032",
+    price: "91.9013  DAI per ETH",
+    isExactIn: true,
+    codegen: async (node: INode): Promise<ITransaction> => {
+      console.log("Enter block service", node.properties.to);
+      console.log(
+        node.properties.amount,
+        node.properties.tokenA,
+        node.properties.tokenB,
+        node.properties.isExactIn
+      );
+      const trade = await Web3Service.getUniswapPriceValues(
+        node.properties.amount,
+        node.properties.tokenA,
+        node.properties.tokenB,
+        node.properties.isExactIn
+      );
+      console.log(trade);
       const txData = UniswapService.useUniswap(
-        node.properties.bestTrade,
+        trade.bestTrade,
         node.properties.to
       );
       const txTo = UNISWAP_ADDRESS;
@@ -102,7 +123,7 @@ export const Kyberswap = (): IBlock => {
     nodeType: "swap",
     tokenA: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     tokenB: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
-    amount: 0,
+    amount: "0",
     codegen: (node: INode): ITransaction => {
       const txData = KyberService.useKyberswap(
         node.properties.tokenA,

@@ -26,7 +26,7 @@ export const chartSimple: IChart = {
           type: "output",
           properties: {
             type: "reserve",
-            amount: "",
+            amount: "1",
             asset: TOKEN_LIST[0],
           },
         },
@@ -51,7 +51,7 @@ export const chartSimple: IChart = {
           type: "input",
           properties: {
             type: "input",
-            amount: "",
+            amount: "1",
             asset: TOKEN_LIST[0],
           },
         },
@@ -60,23 +60,13 @@ export const chartSimple: IChart = {
           type: "output",
           properties: {
             type: "output",
-            amount: "",
+            amount: "91.9013",
             asset: TOKEN_LIST[1],
           },
         },
       },
       properties: {
         ...uniswap,
-        name: "Uniswap:Swap",
-        nodeType: "swap",
-        amountIn: ethers.utils.parseUnits("10", "ether"),
-        amountOutMin: ethers.utils.parseUnits("9.9", "ether"),
-        path: [
-          "0xff795577d9ac8bd7d90ee22b6c1703490b6512fd",
-          "0xaaf64bfcc32d0f15873a02163e7e500671a4ffcd",
-        ],
-        to: "0x038AD9777dC231274553ff927CcB0Fd21Cd42fb9",
-        deadline: 1590969600,
       },
     },
     node3: {

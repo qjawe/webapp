@@ -10,7 +10,7 @@ import { Web3Service } from "../../services";
 class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
   INodeDetailsSideBarState
-  > {
+> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -25,12 +25,12 @@ class NodeDetailsSideBar extends React.Component<
       priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
         .properties.priceImpact
         ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
-          .priceImpact
+            .priceImpact
         : 0,
       price: this.props.chart.nodes[this.props.chart.selected.id + ""]
         .properties.price
         ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
-          .price
+            .price
         : "",
     };
   }
@@ -48,21 +48,21 @@ class NodeDetailsSideBar extends React.Component<
           ].ports,
           tokenList:
             this.props.chart.nodes[this.props.chart.selected.id + ""].type ===
-              "Aave:Flash Loan"
+            "Aave:Flash Loan"
               ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
               : TOKEN_LIST,
           priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
             .properties.priceImpact
             ? this.props.chart.nodes[this.props.chart.selected.id + ""]
-              .properties.priceImpact
+                .properties.priceImpact
             : 0,
           price: this.props.chart.nodes[this.props.chart.selected.id + ""]
             .properties.price
             ? this.props.chart.nodes[this.props.chart.selected.id + ""]
-              .properties.price
+                .properties.price
             : "",
         },
-        () => { }
+        () => {}
       );
     }
   }
@@ -88,9 +88,9 @@ class NodeDetailsSideBar extends React.Component<
           const isExactIn = selectedNodePorts[port].properties.type !== "input";
           const amount = isExactIn
             ? selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .amount
+                .amount
             : selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .amount;
+                .amount;
           isExactIn
             ? this.getSwapValues(true, amount)
             : this.getSwapValues(false, amount);
@@ -106,7 +106,7 @@ class NodeDetailsSideBar extends React.Component<
       Object.keys(selectedNodePorts)[0]
     ].properties.amount = isExactIn ? amount : "";
 
-    if(Object.keys(selectedNodePorts)[1]) {
+    if (Object.keys(selectedNodePorts)[1]) {
       selectedNodePorts[
         Object.keys(selectedNodePorts)[1]
       ].properties.amount = isExactIn ? "" : amount;
@@ -126,14 +126,13 @@ class NodeDetailsSideBar extends React.Component<
 
       const typeService = selectedNode.properties.typeService;
       console.log(selectedNode, typeService);
-      if (typeService === "Aave") {
+      if (typeService === "Aave" || typeService === "End") {
         selectedNodePorts[
           Object.keys(selectedNodePorts)[0]
         ].properties.amount = amount;
-
+        this.setState({ selectedNodePorts });
         return;
       }
-
       const tokenInAddress =
         selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
           .tokenAddress;
@@ -165,19 +164,19 @@ class NodeDetailsSideBar extends React.Component<
           ].properties.amount = amountsOut;
           const price = isExactIn
             ? `${amountsOut}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-            } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-            }`
+                selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                  .asset.tokenSymbol
+              } per ${
+                selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                  .asset.tokenSymbol
+              }`
             : `${amountsIn}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-            } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-            }`;
+                selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                  .asset.tokenSymbol
+              } per ${
+                selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                  .asset.tokenSymbol
+              }`;
           this.setState({ selectedNodePorts, priceImpact, price }, () => {
             this.setNodeProperties(
               false,
@@ -189,14 +188,8 @@ class NodeDetailsSideBar extends React.Component<
               bestTrade
             );
           });
-        }
-        else if (typeService === "Kyber") {
-          const {
-            amountsIn,
-            amountsOut,
-            executionPrice,
-            priceImpact,
-          } = result;
+        } else if (typeService === "Kyber") {
+          const { amountsIn, amountsOut, executionPrice, priceImpact } = result;
           selectedNodePorts[
             Object.keys(selectedNodePorts)[0]
           ].properties.amount = amountsIn;
@@ -205,26 +198,26 @@ class NodeDetailsSideBar extends React.Component<
           ].properties.amount = amountsOut;
           const price = isExactIn
             ? `${amountsOut}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-            } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-            }`
+                selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                  .asset.tokenSymbol
+              } per ${
+                selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                  .asset.tokenSymbol
+              }`
             : `${amountsIn}  ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-              .asset.tokenSymbol
-            } per ${
-            selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-              .asset.tokenSymbol
-            }`;
+                selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
+                  .asset.tokenSymbol
+              } per ${
+                selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
+                  .asset.tokenSymbol
+              }`;
           this.setState({ selectedNodePorts, priceImpact, price }, () => {
             this.setNodeProperties(
               false,
               null,
               executionPrice,
               priceImpact,
-              price,
+              price
             );
           });
         }

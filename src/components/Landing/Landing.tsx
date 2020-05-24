@@ -26,7 +26,16 @@ function Landing() {
         <div className="squares square7" />
         <div className="header-section">
           <div className="header-bar">
-            <div className="header-app-icon">flashmint.</div>
+            <div className="header-app-icon">
+              <span className="app-icon-logo-container">
+                <img
+                  src={require("../../assets/icons/logo.png")}
+                  alt="logo"
+                  className="app-icon-logo"
+                />
+              </span>
+              flashmint.
+            </div>
             <div className="header-action-button-container">
               <div className="header-tabs">
                 <Link to="/">Home</Link>
@@ -100,7 +109,7 @@ function Landing() {
             <p className="feature-description">
               While presenting a sleek UI, we have provided with the best
               possible UX.
-            <br />
+              <br />
               Even a college grad/poker fan without any knowledge of the DeFi
               protocols can play a hit and trial on our Simulator and start
               minting money
@@ -165,7 +174,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 0 ? "selected" : ""
-                    }`}
+                  }`}
                   onClick={(e) => setSelectedUsage(0)}
                 >
                   <div className="usage-number">1</div>
@@ -176,7 +185,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 1 ? "selected" : ""
-                    }`}
+                  }`}
                   onClick={(e) => setSelectedUsage(1)}
                 >
                   <div className="usage-number">2</div>
@@ -189,7 +198,7 @@ function Landing() {
                 <div
                   className={`usage-list-item ${
                     selectedUsage === 2 ? "selected" : ""
-                    }`}
+                  }`}
                   onClick={(e) => setSelectedUsage(2)}
                 >
                   <div className="usage-number">3</div>

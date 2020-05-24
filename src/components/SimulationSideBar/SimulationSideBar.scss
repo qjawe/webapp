@@ -15,8 +15,47 @@
 
   .simulation-summary {
     flex-grow: 1;
+    max-height: 473px;
+    overflow-y: auto;
     .simulation-summary-item {
-      margin: 4px 0px;
+      padding: 12px 0px;
+      border-bottom: 1px solid var(--themeColorHover);
+      .simulation-summary-node-name {
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .simulation-summary-children-container {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-top: 6px;
+        .simulation-summary-children-message {
+          flex-grow: 1;
+          color: var(--labelColor);
+        }
+        .simulation-summary-children-icon {
+          display: flex;
+          align-items: center;
+          margin-right: 4px;
+          .simulation-token-icon {
+            height: 20px;
+            width: 20px;
+          }
+        }
+        .lost {
+          color: var(--deActive);
+        }
+        .success {
+          color: var(--active);
+        }
+        .simulation-summary-children-amount {
+          margin-right: 4px;
+          font-weight: 500;
+        }
+        .simulation-summary-children-token-symbol {
+          font-weight: 500;
+        }
+      }
     }
   }
 

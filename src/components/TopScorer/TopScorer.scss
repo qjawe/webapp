@@ -30,6 +30,46 @@
   }
 
   .top-scorer-body {
-    min-height: 240px;
+    height: 204px;
+    .top-scorer-table {
+      margin: 1em;
+      height: 172px;
+      overflow: hidden;
+      .top-scorer-table-head-container {
+        .top-scorer-table-head {
+          display: flex;
+          padding: 8px 16px;
+          background-color: var(--themeColor);
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+          text-transform: uppercase;
+          font-size: 13px;
+          .top-scorer-table-head-item {
+            &:nth-child(1) {
+              width: 80%;
+            }
+          }
+        }
+      }
+      .top-scorer-table-body-container {
+        height: 142px;
+        overflow-y: auto;
+        .top-scorer-table-body {
+          display: flex;
+          padding: 8px 16px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          cursor: pointer;
+          font-size: 13px;
+          &:hover {
+            background-color: var(--themeColorHover);
+          }
+          .top-scorer-table-body-item {
+            &:nth-child(1) {
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
   }
 }

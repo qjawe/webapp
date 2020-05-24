@@ -2,6 +2,7 @@ import Web3 from "web3";
 import Onboard from "bnc-onboard";
 import { ethers } from "ethers";
 import { UniswapService, KyberService } from ".";
+import { FLASHLOAN_ABI } from "../constants";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -134,6 +135,7 @@ export const getUniswapPriceValues = async (
   path;
   bestTrade;
 }> => {
+  console.log(amount, tokenInAddress, tokenOutAddress, web3, isExactIn);
   if (web3) {
     const res = await UniswapService.useDerivedSwapInfo(
       amount,
@@ -142,6 +144,7 @@ export const getUniswapPriceValues = async (
       web3,
       isExactIn
     );
+    console.log(res);
     const amountsIn = res.parsedAmounts.INPUT.toSignificant(6);
     const amountsOut = res.parsedAmounts.OUTPUT.toSignificant(6);
     return {
@@ -180,4 +183,3 @@ const getKyberPriceValues = async (
 
   return { amountsIn, amountsOut, executionPrice, priceImpact };
 };
-

@@ -35,6 +35,13 @@ function Toolbar() {
       <div className="toolbar-left">
         <div>
           <Link to="/" className="toolbar-app-icon">
+            <span className="toolbar-app-icon-logo-container">
+              <img
+                src={require("../../assets/icons/logo.png")}
+                alt="logo"
+                className="toolbar-app-icon-logo"
+              />
+            </span>
             flashmint.
           </Link>
         </div>
@@ -56,18 +63,18 @@ function Toolbar() {
                 className="toolbar-blockie-icon"
               />
             ) : (
-                <img
-                  src={require("../../assets/icons/metamask.png")}
-                  alt="metamask-icon"
-                  className="metamask-icon"
-                />
-              )}
+              <img
+                src={require("../../assets/icons/metamask.png")}
+                alt="metamask-icon"
+                className="metamask-icon"
+              />
+            )}
             <span
               className={`status-circle ${
                 !ctx.state.walletAddress
                   ? "status-metamask de-active"
                   : "active"
-                }`}
+              }`}
             ></span>
           </div>
           <div className="toolbar-address">
@@ -77,7 +84,7 @@ function Toolbar() {
             <div
               className={`toolbar-address ${
                 !ctx.state.walletAddress ? "de-active-text" : ""
-                }`}
+              }`}
             >
               {ctx.state.walletAddress
                 ? AppUtils.shortenAddress(ctx.state.walletAddress)

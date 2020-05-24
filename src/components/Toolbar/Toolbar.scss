@@ -17,6 +17,15 @@
       font-family: var(--appNameFont);
       letter-spacing: 0.5px;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      .toolbar-app-icon-logo-container {
+        display: flex;
+        .toolbar-app-icon-logo {
+          height: 42px;
+          width: 42px;
+        }
+      }
     }
   }
 

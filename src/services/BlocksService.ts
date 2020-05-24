@@ -255,6 +255,7 @@ export const Uniswap = (): IBlock => {
       },
     },
     codegen: (node: INode): ITransaction => {
+      console.log("Enter block service", node.properties.to);
       const txData = UniswapService.useUniswap(
         node.properties.bestTrade,
         node.properties.to

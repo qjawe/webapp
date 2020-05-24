@@ -311,11 +311,12 @@ function getSwapType(
 
 export function useUniswap(
   trade: Trade, // trade to execute, required
+  to: string, // recipient of output, optional
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips, optional
-  deadline: number = DEFAULT_DEADLINE_FROM_NOW, // in seconds from now, optional
-  to?: string // recipient of output, optional
+  deadline: number = DEFAULT_DEADLINE_FROM_NOW // in seconds from now, optional
 ): string {
   const recipient = to;
+  console.log("Use uniswap", recipient);
 
   if (!trade) throw new Error("Uniswap codegen: no trade defined.");
   // will always be defined
@@ -325,7 +326,8 @@ export function useUniswap(
     [Field.OUTPUT]: slippageAdjustedOutput,
   } = computeSlippageAdjustedAmounts(trade, allowedSlippage);
 
-  if (!slippageAdjustedInput || !slippageAdjustedOutput) throw new Error("Unisweap codegen.");
+  if (!slippageAdjustedInput || !slippageAdjustedOutput)
+    throw new Error("Unisweap codegen.");
 
   const path = trade.route.path.map((t) => t.address);
 

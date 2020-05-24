@@ -106,7 +106,7 @@ class NodeDetailsSideBar extends React.Component<
       Object.keys(selectedNodePorts)[0]
     ].properties.amount = isExactIn ? amount : "";
 
-    if(Object.keys(selectedNodePorts)[1]) {
+    if (Object.keys(selectedNodePorts)[1]) {
       selectedNodePorts[
         Object.keys(selectedNodePorts)[1]
       ].properties.amount = isExactIn ? "" : amount;
@@ -255,7 +255,6 @@ class NodeDetailsSideBar extends React.Component<
         chart.nodes[selectedNode.id].properties.isExactIn = isExactIn;
       }
       if (bestTrade) {
-        console.log(JSON.stringify(bestTrade));
         chart.nodes[selectedNode.id].properties.bestTrade = bestTrade;
       }
       Object.keys(selectedNodePorts).forEach((port) => {

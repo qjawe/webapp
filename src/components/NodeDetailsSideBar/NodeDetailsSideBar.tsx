@@ -126,14 +126,13 @@ class NodeDetailsSideBar extends React.Component<
 
       const typeService = selectedNode.properties.typeService;
       console.log(selectedNode, typeService);
-      if (typeService === "Aave") {
+      if (typeService === "Aave" || typeService === "End") {
         selectedNodePorts[
           Object.keys(selectedNodePorts)[0]
         ].properties.amount = amount;
-
+        this.setState({ selectedNodePorts });
         return;
       }
-
       const tokenInAddress =
         selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties.asset
           .tokenAddress;

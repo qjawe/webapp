@@ -43,7 +43,6 @@ export interface IBlock {
   priceImpact?: string;
   price?: string;
   isExactIn?: boolean;
-  bestTrade?: any;
   codegen?: (_: INode) => ITransaction | Promise<ITransaction>;
 }
 
@@ -70,6 +69,7 @@ export const End = (): IBlock => {
   return {
     name: "End",
     type: "end",
+    typeService: "End",
     /* codegen: null, // No need */
   };
 };

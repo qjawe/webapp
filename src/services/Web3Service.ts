@@ -159,7 +159,7 @@ export const getUniswapPriceValues = async (
 };
 
 const getKyberPriceValues = async (
-  amount: any,
+  pAmount: any,
   tokenInAddress: any,
   tokenOutAddress: any
 ): Promise<{
@@ -172,14 +172,16 @@ const getKyberPriceValues = async (
   const value = await KyberService.getRates(
     tokenInAddress,
     tokenOutAddress,
-    amount
+    pAmount
   );
-  const fetchPrice = ethers.utils.arrayify(value);
-  console.log(fetchPrice[0], fetchPrice[1]);
-  const executionPrice = fetchPrice[0];
-  const priceImpact = fetchPrice[1];
-  const amountsOut = fetchPrice[0];
-  const amountsIn = amount;
-
+  console.log(value);
+  // const fetchPrice = ethers.utils.formatEther(value[0]);
+  // console.log(fetchPrice);
+  // console.log(fetchPrice[0], fetchPrice[1]);
+  const executionPrice = ethers.utils.formatEther(value[0]);
+  const priceImpact = ethers.utils.formatEther(value[1]);
+  const amountsOut = ethers.utils.formatEther(value[0]);
+  const amountsIn = pAmount;
+console.log(amountsIn, amountsOut, executionPrice, priceImpact)
   return { amountsIn, amountsOut, executionPrice, priceImpact };
 };

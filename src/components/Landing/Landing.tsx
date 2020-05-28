@@ -47,9 +47,14 @@ function Landing() {
                 <AnchorLink href="#usage">How to Play</AnchorLink>
               </div>
               <div className="header-tabs">
-                <Link to="/playground" className="header-play-buttons">
+                <a
+                  href="https://flashmint.typeform.com/to/YI2qD6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="header-play-buttons"
+                >
                   Play
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -75,9 +80,14 @@ function Landing() {
                 A No Code DeFi Tool to Mint money, without spending any.
               </div>
               <div className="home-play">
-                <Link to="/playground" className="header-play-buttons">
+                <a
+                  href="https://flashmint.typeform.com/to/YI2qD6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="header-play-buttons"
+                >
                   Join
-                </Link>
+                </a>
               </div>
             </div>
             <div className="home-icon-container">

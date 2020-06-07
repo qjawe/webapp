@@ -23,4 +23,68 @@
     text-align: center;
     position: relative;
   }
+
+  .node-inner {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    min-width: 180px;
+    position: relative;
+    transition: all 0.15s linear;
+    &:hover {
+      box-shadow: 0px 0px 7px 9px rgba(77, 137, 255, 0.16);
+    }
+
+    .service-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--white);
+
+      .service-icon {
+        height: 14px;
+        width: 14px;
+        display: flex;
+        align-items: center;
+        margin-right: 4px;
+      }
+    }
+    .node-token-icon-container {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      .node-token-icon {
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        border: 1px solid;
+        margin-left: 8px;
+
+        &:nth-child(2) {
+          margin-left: -4px !important;
+        }
+      }
+    }
+    .aave-node {
+      background: linear-gradient(258deg, #b6509e, #2ebac6) !important;
+      border-radius: 4px;
+    }
+    .uniswap-node {
+      background: linear-gradient(76deg, #b34af2, #dc6be5 96%) !important;
+      border-radius: 4px;
+    }
+    .kyber-node {
+      background: linear-gradient(76deg, #2e9f9a, #00d395 96%) !important;
+      border-radius: 4px;
+    }
+  }
 }

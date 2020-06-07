@@ -22,8 +22,9 @@ function ChartTopBar({ chart }: any) {
 
   const [showToolboxMenu, setShowToolboxMenu] = React.useState(false);
   const aave = Aave();
-  const uniswap = Uniswap();
+  const uniswapSwap = Uniswap();
   const uniswapAddLiquidity = UniswapAddLiquidity();
+  const kyberSwap = Kyberswap();
   const end = End();
 
   const exportFlow = async () => {
@@ -85,7 +86,7 @@ function ChartTopBar({ chart }: any) {
             },
           }}
           properties={{
-            ...uniswap,
+            ...uniswapSwap,
           }}
         />
         <ToolboxItem
@@ -111,7 +112,7 @@ function ChartTopBar({ chart }: any) {
             },
           }}
           properties={{
-            ...Kyberswap,
+            ...kyberSwap,
           }}
         />
         <ToolboxItem

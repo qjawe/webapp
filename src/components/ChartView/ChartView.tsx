@@ -1,6 +1,81 @@
 import React, { useEffect } from "react";
 import "./ChartView.scss";
-import { FlowChart } from "@mrblenny/react-flow-chart";
+import { FlowChart, INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
+
+/**
+ * Create the custom component,
+ * Make sure it has the same prop signature
+ */
+const getNodeBackground = (nodeType) => {
+  console.log(nodeType);
+  switch (nodeType.toLowerCase()) {
+    case "aave":
+      return "aave-node";
+    case "uniswap":
+      return "uniswap-node";
+    case "kyber":
+      return "kyber-node";
+    default:
+      return "";
+  }
+};
+
+const getNodeServiceIcon = (nodeType) => {
+  switch (nodeType.toLowerCase()) {
+    case "aave":
+      return (
+        <span>
+          <img
+            src={require("../../assets/service-icons/aave.svg")}
+            alt="aave"
+            className="service-icon"
+          />
+        </span>
+      );
+    case "uniswap":
+      return (
+        <span role="img" aria-label="unicorn" className="service-icon">
+          🦄
+        </span>
+      );
+    case "kyber":
+      return (
+        <span>
+          <img
+            src={require("../../assets/service-icons/kyberswap.svg")}
+            alt="kyberswap"
+            className="service-icon"
+          />
+        </span>
+      );
+    default:
+      return "";
+  }
+};
+const NodeInnerCustom = ({ node, config }: INodeInnerDefaultProps) => {
+  return (
+    <div className={`node-inner`}>
+      <div
+        className={`service-badge ${getNodeBackground(
+          node.properties.typeService
+        )}`}
+      >
+        {getNodeServiceIcon(node.properties.typeService)}
+        {node.properties.typeService}
+      </div>
+      <div>{node.properties.name}</div>
+      <div className="node-token-icon-container">
+        {Object.keys(node.ports).map((port) => (
+          <img
+            src={require(`../../assets/tokens-icons/${node.ports[port].properties.asset.tokenSymbol}/logo.png`)}
+            alt="token-icon"
+            className="node-token-icon"
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function ChartView({ chart, stateActions }: any) {
   useEffect(() => {
@@ -64,7 +139,13 @@ function ChartView({ chart, stateActions }: any) {
   };
   return (
     <div className="chart-view">
-      <FlowChart chart={chart} callbacks={stateActions} />
+      <FlowChart
+        chart={chart}
+        callbacks={stateActions}
+        Components={{
+          NodeInner: NodeInnerCustom,
+        }}
+      />
     </div>
   );
 }

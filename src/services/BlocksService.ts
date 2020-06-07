@@ -48,7 +48,7 @@ export interface IBlock {
 
 export const Aave = (): IBlock => {
   return {
-    name: "Aave:Flash Loan",
+    name: "Flash Loan",
     type: "initial",
     typeService: "Aave",
     nodeType: "flashLoan",
@@ -69,14 +69,14 @@ export const End = (): IBlock => {
   return {
     name: "End",
     type: "end",
-    typeService: "End",
+    typeService: "Aave",
     /* codegen: null, // No need */
   };
 };
 
 export const Uniswap = (): IBlock => {
   return {
-    name: "Uniswap:Swap",
+    name: "Swap Token",
     type: "exchange",
     typeService: "Uniswap",
     nodeType: "swap",
@@ -117,7 +117,7 @@ export const Uniswap = (): IBlock => {
 
 export const Kyberswap = (): IBlock => {
   return {
-    name: "Kyber:Swap",
+    name: "Swap Token",
     type: "exchange",
     typeService: "Kyber",
     nodeType: "swap",
@@ -138,9 +138,10 @@ export const Kyberswap = (): IBlock => {
 
 export const UniswapAddLiquidity = (): IBlock => {
   return {
-    name: "Uniswap:AddLiquidity",
+    name: "Add Liquidity",
     type: "exchange",
     nodeType: "addLiquidity",
+    typeService: "Uniswap",
     tokenA: TOKEN_LIST[0],
     tokenB: TOKEN_LIST[1],
     amountADesired: 0,
@@ -192,8 +193,9 @@ export const UniswapAddLiquidity = (): IBlock => {
 
 export const UniswapRemoveLiquidity = (): IBlock => {
   return {
-    name: "Uniswap:RemoveLiquidity",
+    name: "Remove Liquidity",
     type: "exchange",
+    typeService: "Uniswap",
     nodeType: "removeLiquidity",
     tokenA: TOKEN_LIST[0],
     tokenB: TOKEN_LIST[1],

@@ -1680,16 +1680,15 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.15.0.tgz#870524ade408b50ce74971509aa170e9d85c0575"
   integrity sha512-QuAva3K3YFDtQidi8xAfOQcb+aExJus3p0GhPNscOE+r152klBdiZUHLp818zEeQZT7PRSm83gEknmeUYjGU9A==
 
-"@mrblenny/react-flow-chart@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@mrblenny/react-flow-chart/-/react-flow-chart-0.0.12.tgz#6e81767838b897d9358a91d2bc8254aa3fe86f77"
-  integrity sha512-a/SJB+YBHA6JMgDpO49iwR72FLlVNm2rPri20WhgnKNMOT0ln0/Ffxhvz/ODaPmXWM2LgtkAbDA3cLNRE5MgZA==
+"@mrblenny/react-flow-chart@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@mrblenny/react-flow-chart/-/react-flow-chart-0.0.13.tgz#aac792543950775e61e406857e474fb2680dc94c"
+  integrity sha512-vK1HDX16yA+p3fA2sypoKIlQdxh3v32/ne2JVPp/riWrjHROJhd/RgRo4cKK+1+U34XvGLQZ1N+/j8f0Y7WgKw==
   dependencies:
     pathfinding "^0.4.18"
     react-draggable "^4.3.1"
     react-resize-observer "^1.1.1"
     react-zoom-pan-pinch "^1.6.1"
-    styled-components "^5.1.0"
     uuid "^3.3.2"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":

@@ -33,9 +33,6 @@ export const chartSimple: IChart = {
       },
       properties: {
         ...aave,
-        name: "Aave:Flash Loan",
-        type: "initial",
-        nodeType: "flashLoan",
       },
     },
     node2: {

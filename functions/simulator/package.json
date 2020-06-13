@@ -1,0 +1,24 @@
+{
+  "name": "flashmint-simulator",
+  "version": "0.0.1",
+  "description": "netlify functions:create - default template for node fetch function",
+  "main": "simulator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "netlify",
+    "serverless",
+    "js"
+  ],
+  "author": "Netlify",
+  "license": "MIT",
+  "dependencies": {
+    "curl-request": "1.1.1",
+    "ethers": "^4.0.47",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.9.1"
+  }
+}

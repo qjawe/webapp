@@ -41,12 +41,12 @@ function ChartView({ chart, stateActions }: any) {
       const text = el.children[1].textContent;
       // console.log(text);
       const selectedNode = Object.keys(chart.nodes).filter(
-        (node) => text?.indexOf(chart.nodes[node].id) !== -1
+        node => text?.indexOf(chart.nodes[node].id) !== -1
       )[0];
       // console.log(text, selectedNode);
       var imgContainerDom = document.createElement("div");
       imgContainerDom.className = "node-token-icon-container";
-      Object.keys(chart.nodes[selectedNode].ports).forEach((port) => {
+      Object.keys(chart.nodes[selectedNode].ports).forEach(port => {
         const imgDom = createTokenIconDiv(
           chart.nodes[selectedNode].ports[port].properties.asset.tokenSymbol
         );

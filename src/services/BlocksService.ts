@@ -3,7 +3,7 @@ import {
   UNISWAP_ADDRESS,
   UNISWAP_ABI,
   KYBER_NETWORK_PROXY_ABI,
-  KYBER_NETWORK_PROXY_ADDRESS,
+  KYBER_NETWORK_PROXY_ADDRESS
 } from "../constants";
 import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
@@ -51,7 +51,7 @@ export const Aave = (): IBlock => {
     name: "Aave:Flash Loan",
     type: "initial",
     typeService: "Aave",
-    nodeType: "flashLoan",
+    nodeType: "flashLoan"
     /* codegen: null, // Null as the contract has the logic by itself */
   };
 };
@@ -60,7 +60,7 @@ export const Splitter = (): IBlock => {
   return {
     name: "Splitter",
     type: "splitter",
-    nodeType: "splitter",
+    nodeType: "splitter"
     /* codegen: null, // No need */
   };
 };
@@ -69,7 +69,7 @@ export const End = (): IBlock => {
   return {
     name: "End",
     type: "end",
-    typeService: "End",
+    typeService: "End"
     /* codegen: null, // No need */
   };
 };
@@ -111,7 +111,7 @@ export const Uniswap = (): IBlock => {
       );
       const txTo = UNISWAP_ADDRESS;
       return { to: txTo, input: txData, value: "0", callType: "0" };
-    },
+    }
   };
 };
 
@@ -132,7 +132,7 @@ export const Kyberswap = (): IBlock => {
       );
       const txTo = KYBER_NETWORK_PROXY_ADDRESS;
       return { to: txTo, input: txData, value: "0", callType: "0" };
-    },
+    }
   };
 };
 
@@ -170,7 +170,7 @@ export const UniswapAddLiquidity = (): IBlock => {
             ? node.properties.amountAMin
             : node.properties.amountBMin,
           node.properties.to,
-          node.properties.deadline,
+          node.properties.deadline
         ]);
       } else {
         txData = uniswap.functions.addLiquidity.encode([
@@ -181,12 +181,12 @@ export const UniswapAddLiquidity = (): IBlock => {
           node.properties.amountAMin,
           node.properties.amountBMin,
           node.properties.to,
-          node.properties.deadline,
+          node.properties.deadline
         ]);
       }
       const txTo = UNISWAP_ADDRESS;
       return { to: txTo, input: txData, value: "0", callType: "0" };
-    },
+    }
   };
 };
 
@@ -221,7 +221,7 @@ export const UniswapRemoveLiquidity = (): IBlock => {
             ? node.properties.amountAMin
             : node.properties.amountBMin,
           node.properties.to,
-          node.properties.deadline,
+          node.properties.deadline
         ]);
       } else {
         txData = uniswap.functions.removeLiquidity.encode([
@@ -231,11 +231,11 @@ export const UniswapRemoveLiquidity = (): IBlock => {
           node.properties.amountAMin,
           node.properties.amountBMin,
           node.properties.to,
-          node.properties.deadline,
+          node.properties.deadline
         ]);
       }
       const txTo = UNISWAP_ADDRESS;
       return { to: txTo, input: txData, value: "0", callType: "0" };
-    },
+    }
   };
 };

@@ -10,8 +10,8 @@ export const AppProvider = (props: any) => {
       state: {
         ...globalState.state,
         walletAddress: address,
-        walletBalance: balance,
-      },
+        walletBalance: balance
+      }
     });
   };
   const setModalConfig = (openModal: boolean, config?: any) => {
@@ -21,8 +21,8 @@ export const AppProvider = (props: any) => {
         state: {
           ...globalState.state,
           openModal: openModal,
-          modalConfig: config,
-        },
+          modalConfig: config
+        }
       });
     } else {
       setGlobalState({
@@ -31,15 +31,15 @@ export const AppProvider = (props: any) => {
           ...globalState.state,
           openModal: openModal,
           modalConfig: {
-            type: "",
-          },
-        },
+            type: ""
+          }
+        }
       });
     }
   };
   const actions = {
     setWalletConfig,
-    setModalConfig,
+    setModalConfig
   };
   return (
     <AppContext.Provider value={{ state: globalState.state, actions }}>

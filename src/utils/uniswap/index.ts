@@ -11,7 +11,7 @@ import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.
 import {
   UNISWAP_ADDRESS as ROUTER_ADDRESS,
   ERC20_ABI,
-  ERC20_BYTES32_ABI,
+  ERC20_BYTES32_ABI
 } from "../../constants";
 // import ERC20_ABI from '../../constants/abis/erc20.json'
 // import ERC20_BYTES32_ABI from '../../constants/abis/erc20_bytes32.json'
@@ -31,7 +31,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   3: "ropsten.",
   4: "rinkeby.",
   5: "goerli.",
-  42: "kovan.",
+  42: "kovan."
 };
 
 export function getEtherscanLink(
@@ -39,9 +39,8 @@ export function getEtherscanLink(
   data: string,
   type: "transaction" | "address"
 ): string {
-  const prefix = `https://${
-    ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]
-  }etherscan.io`;
+  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] ||
+    ETHERSCAN_PREFIXES[1]}etherscan.io`;
 
   switch (type) {
     case "transaction": {
@@ -90,7 +89,7 @@ export function calculateSlippageAmount(
     JSBI.divide(
       JSBI.multiply(value.raw, JSBI.BigInt(10000 + slippage)),
       JSBI.BigInt(10000)
-    ),
+    )
   ];
 }
 

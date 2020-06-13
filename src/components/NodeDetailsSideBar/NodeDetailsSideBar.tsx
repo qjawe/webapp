@@ -31,7 +31,7 @@ class NodeDetailsSideBar extends React.Component<
         .properties.price
         ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
             .price
-        : "",
+        : ""
     };
   }
 
@@ -60,7 +60,7 @@ class NodeDetailsSideBar extends React.Component<
             .properties.price
             ? this.props.chart.nodes[this.props.chart.selected.id + ""]
                 .properties.price
-            : "",
+            : ""
         },
         () => {}
       );
@@ -154,7 +154,7 @@ class NodeDetailsSideBar extends React.Component<
             executionPrice,
             priceImpact,
             path,
-            bestTrade,
+            bestTrade
           } = result;
           selectedNodePorts[
             Object.keys(selectedNodePorts)[0]
@@ -256,7 +256,7 @@ class NodeDetailsSideBar extends React.Component<
       if (bestTrade) {
         chart.nodes[selectedNode.id].properties.bestTrade = bestTrade;
       }
-      Object.keys(selectedNodePorts).forEach((port) => {
+      Object.keys(selectedNodePorts).forEach(port => {
         if (selectedNodePorts[port].properties.type === "input") {
           chart.nodes[
             selectedNode.id
@@ -296,7 +296,7 @@ class NodeDetailsSideBar extends React.Component<
       selectedNodePorts,
       openSelect,
       selectedDropdown,
-      tokenList,
+      tokenList
     } = this.state;
     return (
       <div className="node-details-side-bar">
@@ -304,7 +304,7 @@ class NodeDetailsSideBar extends React.Component<
           <div className="node-details-header-title">
             <div
               className="node-details-back"
-              onClick={(e) => this.props.stateActions.onCanvasClick({})}
+              onClick={e => this.props.stateActions.onCanvasClick({})}
             >
               <FontAwesomeIcon icon={faArrowLeft} />
             </div>
@@ -315,13 +315,13 @@ class NodeDetailsSideBar extends React.Component<
           <div className="node-details-header-actions">
             <button
               className="node-details-delete-button"
-              onClick={(e) => this.props.stateActions.onDeleteKey({})}
+              onClick={e => this.props.stateActions.onDeleteKey({})}
             >
               Delete
             </button>
             <button
               className="node-details-set-button"
-              onClick={(e) => this.setNodeProperties(true)}
+              onClick={e => this.setNodeProperties(true)}
             >
               Set
             </button>
@@ -337,7 +337,7 @@ class NodeDetailsSideBar extends React.Component<
                 <div className="node-details-asset-select-container">
                   <div
                     className="node-details-value-set"
-                    onClick={(e) => this.openSelectOption(port)}
+                    onClick={e => this.openSelectOption(port)}
                   >
                     <div className="node-details-token-container">
                       <div className="node-details-token-icon-container">
@@ -360,14 +360,14 @@ class NodeDetailsSideBar extends React.Component<
                     <div className="node-details-options-container">
                       <div
                         className="node-details-select-overlay"
-                        onClick={(e) => this.setState({ openSelect: false })}
+                        onClick={e => this.setState({ openSelect: false })}
                       ></div>
                       <ul className="node-details-options">
                         {tokenList.map((token: any, i: number) => (
                           <li
                             className="node-details-option"
                             key={i}
-                            onClick={(e) => this.setAsset(token, port)}
+                            onClick={e => this.setAsset(token, port)}
                           >
                             <span className="token-list-icon-container">
                               <img
@@ -391,7 +391,7 @@ class NodeDetailsSideBar extends React.Component<
                     className="node-details-asset-amount"
                     placeholder="Amount"
                     value={selectedNodePorts[port].properties.amount}
-                    onChange={(e) => this.setAssetAmount(e.target.value, port)}
+                    onChange={e => this.setAssetAmount(e.target.value, port)}
                   />
                 </div>
               </div>

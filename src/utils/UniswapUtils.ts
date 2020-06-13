@@ -71,7 +71,7 @@ function getReserves(
     .then(
       ({
         reserve0,
-        reserve1,
+        reserve1
       }: {
         reserve0: { toString: () => string };
         reserve1: { toString: () => string };
@@ -94,7 +94,7 @@ export enum SWRKeys {
   Allowances,
   Reserves,
   TotalSupply,
-  V1PairAddress,
+  V1PairAddress
 }
 
 /*

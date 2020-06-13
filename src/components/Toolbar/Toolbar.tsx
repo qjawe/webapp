@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faChevronUp,
-  faCopy,
+  faCopy
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Web3Service } from "../../services";
@@ -93,7 +93,7 @@ function Toolbar() {
           </div>
           <div
             className="toolbar-dropdown-icon"
-            onClick={(e) => setShowDropdown(!showDropdown)}
+            onClick={e => setShowDropdown(!showDropdown)}
           >
             <FontAwesomeIcon
               icon={showDropdown ? faChevronUp : faChevronDown}
@@ -105,7 +105,7 @@ function Toolbar() {
       {showDropdown && (
         <div
           className="dropdown-overlay"
-          onClick={(e) => setShowDropdown(false)}
+          onClick={e => setShowDropdown(false)}
         ></div>
       )}
       {showDropdown && (

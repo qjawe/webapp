@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SimulationSideBar.scss";
 import {
   buildTransaction,
-  showSimulation,
+  showSimulation
 } from "../../services/SimulationService";
 import { IChart } from "@mrblenny/react-flow-chart";
 import { ethers } from "ethers";
@@ -12,7 +12,7 @@ import { findInitialNodes } from "../../utils/ChartUtils";
 import {
   FLASHLOAN_ABI,
   FLASHLOAN_ADDRESS,
-  AAVE_ETHEREUM,
+  AAVE_ETHEREUM
 } from "../../constants";
 import _ from "lodash";
 
@@ -32,7 +32,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   useEffect(() => {
     // if (!state.loading) return;
     showChartSimulation();
-  }, []);
+  }, [showChartSimulation]);
 
   if (state.loading) {
     return <div className="simulation-side-bar"></div>;
@@ -41,7 +41,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   const showChartSimulation = async () => {
     const { simulations, totalTokensProfit } = await showSimulation(chart);
     let parsedSimulations = [];
-    simulations.forEach((simulation) => {
+    simulations.forEach(simulation => {
       if (parsedSimulations.length) {
         let hasNameCheck = false;
         let selectedSimulation = 0;
@@ -56,7 +56,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
             amount: simulation.amount,
             token: simulation.token,
             message: simulation.message,
-            type: simulation.type,
+            type: simulation.type
           });
         } else {
           parsedSimulations.push({
@@ -66,9 +66,9 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                 amount: simulation.amount,
                 token: simulation.token,
                 message: simulation.message,
-                type: simulation.type,
-              },
-            ],
+                type: simulation.type
+              }
+            ]
           });
         }
       } else {
@@ -79,9 +79,9 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
               amount: simulation.amount,
               token: simulation.token,
               message: simulation.message,
-              type: simulation.type,
-            },
-          ],
+              type: simulation.type
+            }
+          ]
         });
       }
     });
@@ -132,12 +132,12 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>
       <div className="simulation-summary">
-        {simulations.map((simulation) => (
+        {simulations.map(simulation => (
           <div className="simulation-summary-item">
             <div className="simulation-summary-node-name">
               {simulation.nodeName}
             </div>
-            {simulation.children.map((child) => (
+            {simulation.children.map(child => (
               <div className="simulation-summary-children-container">
                 <div className="simulation-summary-children-message">
                   {child.message}
@@ -170,7 +170,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
         ))}
         <div className="simulation-summary-item">
           <div className="simulation-summary-node-name">Summary</div>
-          {totalTokensProfit.map((token) => (
+          {totalTokensProfit.map(token => (
             <div className="simulation-summary-children-container">
               <div className="simulation-summary-children-message">
                 {token.amount < 0 ? "You lost" : "You profit"}

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTelegram,
   faDiscord,
-  faTwitterSquare,
+  faTwitterSquare
 } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import "./Landing.scss";
@@ -15,7 +15,7 @@ function Landing() {
   const usageList = [
     require("../../assets/landing/screenshot1.png"),
     require("../../assets/landing/screenshot2.png"),
-    require("../../assets/landing/screenshot3.png"),
+    require("../../assets/landing/screenshot3.png")
   ];
   return (
     <div className="landing">
@@ -185,7 +185,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 0 ? "selected" : ""
                   }`}
-                  onClick={(e) => setSelectedUsage(0)}
+                  onClick={e => setSelectedUsage(0)}
                 >
                   <div className="usage-number">1</div>
                   <div className="usage-details">
@@ -196,7 +196,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 1 ? "selected" : ""
                   }`}
-                  onClick={(e) => setSelectedUsage(1)}
+                  onClick={e => setSelectedUsage(1)}
                 >
                   <div className="usage-number">2</div>
                   <div className="usage-details">
@@ -209,7 +209,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 2 ? "selected" : ""
                   }`}
-                  onClick={(e) => setSelectedUsage(2)}
+                  onClick={e => setSelectedUsage(2)}
                 >
                   <div className="usage-number">3</div>
                   <div className="usage-details">

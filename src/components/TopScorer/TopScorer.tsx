@@ -11,7 +11,7 @@ function TopScorer() {
         <span className="top-scorer-title">Top Scorer</span>
         <span
           className="top-scorer-collapse-icon"
-          onClick={(e) => setCollapse(!collapse)}
+          onClick={e => setCollapse(!collapse)}
         >
           <FontAwesomeIcon icon={!collapse ? faChevronDown : faChevronUp} />
         </span>

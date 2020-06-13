@@ -2,13 +2,13 @@ import { Fraction, JSBI, Percent, TokenAmount, Trade } from "@uniswap/sdk";
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
   ALLOWED_PRICE_IMPACT_LOW,
-  ALLOWED_PRICE_IMPACT_MEDIUM,
+  ALLOWED_PRICE_IMPACT_MEDIUM
 } from "../../constants/uniswap";
 import { basisPointsToPercent } from "./index";
 
 enum Field {
   INPUT = "INPUT",
-  OUTPUT = "OUTPUT",
+  OUTPUT = "OUTPUT"
 }
 const BASE_FEE = new Percent(JSBI.BigInt(30), JSBI.BigInt(10000));
 const ONE_HUNDRED_PERCENT = new Percent(JSBI.BigInt(10000), JSBI.BigInt(10000));
@@ -53,7 +53,7 @@ export function computeTradePriceBreakdown(
 
   return {
     priceImpactWithoutFee: priceImpactWithoutFeePercent,
-    realizedLPFee: realizedLPFeeAmount,
+    realizedLPFee: realizedLPFeeAmount
   };
 }
 
@@ -71,7 +71,7 @@ export function computeSlippageAdjustedAmounts(
   );
   return {
     [Field.INPUT]: trade?.maximumAmountIn(pct),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct),
+    [Field.OUTPUT]: trade?.minimumAmountOut(pct)
   };
 }
 

@@ -75,7 +75,7 @@ export const showSimulation = (
 
     if (node.ports && node.properties) {
       try {
-        Object.keys(node.ports).forEach((port) => {
+        Object.keys(node.ports).forEach(port => {
           if (node.ports[port] && node.ports[port].type === "input") {
             if (node.ports[port].properties.amount) {
               const simulation = {
@@ -83,7 +83,7 @@ export const showSimulation = (
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,
                 message: "You spend",
-                type: "spend",
+                type: "spend"
               };
               simulations.push(simulation);
 
@@ -108,7 +108,7 @@ export const showSimulation = (
                     amount: -Number.parseFloat(
                       node.ports[port].properties.amount
                     ),
-                    token: node.ports[port].properties.asset,
+                    token: node.ports[port].properties.asset
                   };
                   totalTokensProfit.push(tokenDetail);
                 }
@@ -117,7 +117,7 @@ export const showSimulation = (
                   amount: -Number.parseFloat(
                     node.ports[port].properties.amount
                   ),
-                  token: node.ports[port].properties.asset,
+                  token: node.ports[port].properties.asset
                 };
                 totalTokensProfit.push(tokenDetail);
               }
@@ -130,7 +130,7 @@ export const showSimulation = (
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,
                 message: "You get",
-                type: "get",
+                type: "get"
               };
               simulations.push(simulation);
               if (totalTokensProfit.length) {
@@ -154,7 +154,7 @@ export const showSimulation = (
                     amount: +Number.parseFloat(
                       node.ports[port].properties.amount
                     ),
-                    token: node.ports[port].properties.asset,
+                    token: node.ports[port].properties.asset
                   };
                   totalTokensProfit.push(tokenDetail);
                 }
@@ -163,7 +163,7 @@ export const showSimulation = (
                   amount: +Number.parseFloat(
                     node.ports[port].properties.amount
                   ),
-                  token: node.ports[port].properties.asset,
+                  token: node.ports[port].properties.asset
                 };
                 totalTokensProfit.push(tokenDetail);
               }

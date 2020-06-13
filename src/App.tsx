@@ -18,7 +18,7 @@ function App() {
     if (window.crate) {
       window.crate.notify("Hello! ");
     }
-  }, [window.crate]);
+  }, []);
   return (
     <>
       <Route

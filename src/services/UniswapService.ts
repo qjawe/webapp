@@ -6,24 +6,24 @@ import {
   TradeType,
   TokenAmount,
   WETH,
-  Trade,
+  Trade
 } from "@uniswap/sdk";
 import {
   getTokenDecimals,
   getTokenSymbol,
   getTokenName,
-  usePair,
+  usePair
 } from "../utils/UniswapUtils";
 import { ethers } from "ethers";
 import {
   INITIAL_ALLOWED_SLIPPAGE,
-  DEFAULT_DEADLINE_FROM_NOW,
+  DEFAULT_DEADLINE_FROM_NOW
 } from "../constants/uniswap";
 import { computeSlippageAdjustedAmounts } from "../utils/uniswap/prices";
 import {
   calculateGasMargin,
   getRouterContract,
-  isAddress,
+  isAddress
 } from "../utils/uniswap";
 import { UNISWAP_ADDRESS, UNISWAP_ABI } from "../constants";
 import { parseUnits, BigNumber } from "ethers/utils";
@@ -46,7 +46,7 @@ const USDC = new Token(
 
 enum Field {
   INPUT = "INPUT",
-  OUTPUT = "OUTPUT",
+  OUTPUT = "OUTPUT"
 }
 
 export interface SerializedToken {
@@ -74,18 +74,18 @@ const getDeSerializeToken = async (
 ) => {
   // if (tokenAddress !== "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE") {
   const [decimals, symbol, name] = await Promise.all([
-    getTokenDecimals(tokenAddress, library).catch((e) => {
+    getTokenDecimals(tokenAddress, library).catch(e => {
       console.log(e);
       return null;
     }),
-    getTokenSymbol(tokenAddress, library).catch((e) => {
+    getTokenSymbol(tokenAddress, library).catch(e => {
       console.log(e);
       return "UNKNOWN";
     }),
-    getTokenName(tokenAddress, library).catch((e) => {
+    getTokenName(tokenAddress, library).catch(e => {
       console.log(e);
       return "Unknown";
-    }),
+    })
   ]);
 
   return deserializeToken({
@@ -93,7 +93,7 @@ const getDeSerializeToken = async (
     address: tokenAddress,
     decimals,
     symbol,
-    name,
+    name
   });
 };
 
@@ -177,7 +177,7 @@ async function useAllCommonPairs(
     bToUSDC,
     DAIToETH,
     USDCToETH,
-    DAIToUSDC,
+    DAIToUSDC
   ]
     // filter out invalid pairs
     .filter((p): p is Pair => !!p)
@@ -186,7 +186,7 @@ async function useAllCommonPairs(
       (p, i, pairs) =>
         i ===
         pairs.findIndex(
-          (pair) => pair?.liquidityToken.address === p.liquidityToken.address
+          pair => pair?.liquidityToken.address === p.liquidityToken.address
         )
     );
   return pairs;
@@ -267,12 +267,12 @@ export const useDerivedSwapInfo = async (
 
   const parsedAmounts = {
     [Field.INPUT]: isExactIn ? amount : bestTrade?.inputAmount,
-    [Field.OUTPUT]: isExactIn ? bestTrade?.outputAmount : amount,
+    [Field.OUTPUT]: isExactIn ? bestTrade?.outputAmount : amount
   };
 
   return {
     parsedAmounts,
-    bestTrade,
+    bestTrade
   };
 };
 
@@ -282,7 +282,7 @@ enum SwapType {
   EXACT_ETH_FOR_TOKENS,
   TOKENS_FOR_EXACT_TOKENS,
   TOKENS_FOR_EXACT_ETH,
-  ETH_FOR_EXACT_TOKENS,
+  ETH_FOR_EXACT_TOKENS
 }
 
 function getSwapType(
@@ -323,13 +323,13 @@ export function useUniswap(
 
   const {
     [Field.INPUT]: slippageAdjustedInput,
-    [Field.OUTPUT]: slippageAdjustedOutput,
+    [Field.OUTPUT]: slippageAdjustedOutput
   } = computeSlippageAdjustedAmounts(trade, allowedSlippage);
 
   if (!slippageAdjustedInput || !slippageAdjustedOutput)
     throw new Error("Unisweap codegen.");
 
-  const path = trade.route.path.map((t) => t.address);
+  const path = trade.route.path.map(t => t.address);
 
   const deadlineFromNow: number = Math.ceil(Date.now() / 1000) + deadline;
   const chainId = 42;
@@ -337,7 +337,7 @@ export function useUniswap(
   const swapType = getSwapType(
     {
       [Field.INPUT]: trade.inputAmount.token,
-      [Field.OUTPUT]: trade.outputAmount.token,
+      [Field.OUTPUT]: trade.outputAmount.token
     },
     trade.tradeType === TradeType.EXACT_INPUT,
     chainId as ChainId
@@ -352,7 +352,7 @@ export function useUniswap(
         slippageAdjustedOutput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
       break;
     case SwapType.TOKENS_FOR_EXACT_TOKENS:
@@ -361,7 +361,7 @@ export function useUniswap(
         slippageAdjustedInput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
       break;
     case SwapType.EXACT_ETH_FOR_TOKENS:
@@ -369,7 +369,7 @@ export function useUniswap(
         slippageAdjustedOutput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
       break;
     case SwapType.TOKENS_FOR_EXACT_ETH:
@@ -378,7 +378,7 @@ export function useUniswap(
         slippageAdjustedInput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
 
       break;
@@ -388,7 +388,7 @@ export function useUniswap(
         slippageAdjustedOutput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
       break;
     case SwapType.ETH_FOR_EXACT_TOKENS:
@@ -396,7 +396,7 @@ export function useUniswap(
         slippageAdjustedOutput.raw.toString(),
         path,
         recipient,
-        deadlineFromNow,
+        deadlineFromNow
       ]);
       break;
   }

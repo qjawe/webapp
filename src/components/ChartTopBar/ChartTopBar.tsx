@@ -6,13 +6,13 @@ import {
   Uniswap,
   Kyberswap,
   End,
-  UniswapAddLiquidity,
+  UniswapAddLiquidity
 } from "../../services/BlocksService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisV,
   faFileImport,
-  faFileExport,
+  faFileExport
 } from "@fortawesome/free-solid-svg-icons";
 import { TOKEN_LIST, UNI_TOKEN_LIST } from "../../constants";
 import { AppContext } from "../../state";
@@ -54,12 +54,12 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "reserve",
                 amount: 0,
-                asset: TOKEN_LIST[0],
-              },
-            },
+                asset: TOKEN_LIST[0]
+              }
+            }
           }}
           properties={{
-            ...aave,
+            ...aave
           }}
         />
         <ToolboxItem
@@ -71,8 +71,8 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "input",
                 amount: 0,
-                asset: TOKEN_LIST[0],
-              },
+                asset: TOKEN_LIST[0]
+              }
             },
             port2: {
               id: "port2",
@@ -80,12 +80,12 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "output",
                 amount: 0,
-                asset: TOKEN_LIST[1],
-              },
-            },
+                asset: TOKEN_LIST[1]
+              }
+            }
           }}
           properties={{
-            ...uniswap,
+            ...uniswap
           }}
         />
         <ToolboxItem
@@ -97,8 +97,8 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "input",
                 amount: 0,
-                asset: TOKEN_LIST[0],
-              },
+                asset: TOKEN_LIST[0]
+              }
             },
             port2: {
               id: "port2",
@@ -106,12 +106,12 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "output",
                 amount: 0,
-                asset: TOKEN_LIST[1],
-              },
-            },
+                asset: TOKEN_LIST[1]
+              }
+            }
           }}
           properties={{
-            ...Kyberswap,
+            ...Kyberswap
           }}
         />
         <ToolboxItem
@@ -123,8 +123,8 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "input",
                 amount: 0,
-                asset: TOKEN_LIST[0],
-              },
+                asset: TOKEN_LIST[0]
+              }
             },
             port2: {
               id: "port2",
@@ -132,8 +132,8 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "input",
                 amount: 0,
-                asset: TOKEN_LIST[1],
-              },
+                asset: TOKEN_LIST[1]
+              }
             },
             port3: {
               id: "port3",
@@ -141,12 +141,12 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "output",
                 amount: 0,
-                asset: UNI_TOKEN_LIST[0],
-              },
-            },
+                asset: UNI_TOKEN_LIST[0]
+              }
+            }
           }}
           properties={{
-            ...uniswapAddLiquidity,
+            ...uniswapAddLiquidity
           }}
         />
         <ToolboxItem
@@ -158,26 +158,26 @@ function ChartTopBar({ chart }: any) {
               properties: {
                 type: "input",
                 amount: 0,
-                asset: TOKEN_LIST[0],
-              },
-            },
+                asset: TOKEN_LIST[0]
+              }
+            }
           }}
           properties={{
-            ...end,
+            ...end
           }}
         />
       </div>
       <div className="chart-toolbox-menu-container">
         <div
           className="toolbar-dropdown-icon"
-          onClick={(e) => setShowToolboxMenu(!showToolboxMenu)}
+          onClick={e => setShowToolboxMenu(!showToolboxMenu)}
         >
           <FontAwesomeIcon icon={faEllipsisV} />
         </div>
         {showToolboxMenu && (
           <div
             className="menu-overlay"
-            onClick={(e) => setShowToolboxMenu(false)}
+            onClick={e => setShowToolboxMenu(false)}
           ></div>
         )}
         {showToolboxMenu && (

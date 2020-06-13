@@ -5,7 +5,7 @@ import { IChart, IFlowChartCallbacks } from "@mrblenny/react-flow-chart";
 import { chartSimple } from "../misc/exampleChartState";
 import { ISideBarProps } from "../components/SideBar/models";
 
-export function useChart() : ISideBarProps {
+export function useChart(): ISideBarProps {
   const [chart, setChart] = useState<IChart>(chartSimple);
 
   const stateActions = mapValues(actions, (func: any) => (...args: any) => {

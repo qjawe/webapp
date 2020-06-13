@@ -1,7 +1,7 @@
 import {
   KYBER_NETWORK_PROXY_ABI,
   KYBER_NETWORK_PROXY_ADDRESS,
-  AAVE_ETHEREUM,
+  AAVE_ETHEREUM
 } from "../constants";
 
 import { ethers, Contract } from "ethers";
@@ -9,15 +9,26 @@ import { BigNumber } from "ethers/utils";
 enum SwapType {
   SWAP_ETHER_TO_TOKEN,
   SWAP_TOKEN_TO_ETHER,
-  SWAP_TOKEN_TO_TOKEN,
+  SWAP_TOKEN_TO_TOKEN
 }
 
 const wethAddress: string = AAVE_ETHEREUM;
 
-function getSwapType(SRC_TOKEN_ADDRESS: string, DST_TOKEN_ADDRESS: string): SwapType {
-  if (SRC_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, { sensitivity: "base", }) === 0) {
+function getSwapType(
+  SRC_TOKEN_ADDRESS: string,
+  DST_TOKEN_ADDRESS: string
+): SwapType {
+  if (
+    SRC_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, {
+      sensitivity: "base"
+    }) === 0
+  ) {
     return SwapType.SWAP_ETHER_TO_TOKEN;
-  } else if (DST_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, { sensitivity: "base", }) === 0) {
+  } else if (
+    DST_TOKEN_ADDRESS.localeCompare(wethAddress, undefined, {
+      sensitivity: "base"
+    }) === 0
+  ) {
     return SwapType.SWAP_TOKEN_TO_ETHER;
   } else {
     return SwapType.SWAP_TOKEN_TO_TOKEN;
@@ -39,14 +50,14 @@ export function useKyberswap(
     case SwapType.SWAP_ETHER_TO_TOKEN:
       method = kyber.functions.swapEtherToToken.encode([
         DST_TOKEN_ADDRESS,
-        minConversionRate,
+        minConversionRate
       ]);
       break;
     case SwapType.SWAP_TOKEN_TO_ETHER:
       method = kyber.functions.swapTokenToEther.encode([
         SRC_TOKEN_ADDRESS,
         amount,
-        minConversionRate,
+        minConversionRate
       ]);
       break;
     case SwapType.SWAP_TOKEN_TO_TOKEN:
@@ -54,7 +65,7 @@ export function useKyberswap(
         SRC_TOKEN_ADDRESS,
         amount,
         DST_TOKEN_ADDRESS,
-        minConversionRate,
+        minConversionRate
       ]);
       break;
   }

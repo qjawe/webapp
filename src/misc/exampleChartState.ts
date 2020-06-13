@@ -12,7 +12,7 @@ const end = End();
 export const chartSimple: IChart = {
   offset: {
     x: 0,
-    y: 0,
+    y: 0
   },
   scale: 1,
   nodes: {
@@ -27,23 +27,23 @@ export const chartSimple: IChart = {
           properties: {
             type: "reserve",
             amount: "1",
-            asset: TOKEN_LIST[0],
-          },
-        },
+            asset: TOKEN_LIST[0]
+          }
+        }
       },
       properties: {
         ...aave,
         name: "Aave:Flash Loan",
         type: "initial",
-        nodeType: "flashLoan",
-      },
+        nodeType: "flashLoan"
+      }
     },
     node2: {
       id: "node2",
       type: "Uniswap:Swap",
       position: {
         x: 341,
-        y: 329,
+        y: 329
       },
       ports: {
         port1: {
@@ -52,8 +52,8 @@ export const chartSimple: IChart = {
           properties: {
             type: "input",
             amount: "1",
-            asset: TOKEN_LIST[0],
-          },
+            asset: TOKEN_LIST[0]
+          }
         },
         port2: {
           id: "port2",
@@ -61,20 +61,20 @@ export const chartSimple: IChart = {
           properties: {
             type: "output",
             amount: "91.9013",
-            asset: TOKEN_LIST[1],
-          },
-        },
+            asset: TOKEN_LIST[1]
+          }
+        }
       },
       properties: {
-        ...uniswap,
-      },
+        ...uniswap
+      }
     },
     node3: {
       id: "node3",
       type: "Kyberswap:Swap",
       position: {
         x: 822,
-        y: 326,
+        y: 326
       },
       ports: {
         port1: {
@@ -83,8 +83,8 @@ export const chartSimple: IChart = {
           properties: {
             type: "input",
             amount: "",
-            asset: TOKEN_LIST[1],
-          },
+            asset: TOKEN_LIST[1]
+          }
         },
         port2: {
           id: "port2",
@@ -92,20 +92,20 @@ export const chartSimple: IChart = {
           properties: {
             type: "output",
             amount: "",
-            asset: TOKEN_LIST[0],
-          },
-        },
+            asset: TOKEN_LIST[0]
+          }
+        }
       },
       properties: {
-        ...kyberswap,
-      },
+        ...kyberswap
+      }
     },
     node4: {
       id: "node4",
       type: "End",
       position: {
         x: 581,
-        y: 597,
+        y: 597
       },
       ports: {
         port1: {
@@ -114,59 +114,59 @@ export const chartSimple: IChart = {
           properties: {
             type: "end",
             amount: "",
-            asset: TOKEN_LIST[0],
-          },
-        },
+            asset: TOKEN_LIST[0]
+          }
+        }
       },
       properties: {
-        ...end,
-      },
-    },
+        ...end
+      }
+    }
   },
   links: {
     link1: {
       id: "link1",
       from: {
         nodeId: "node1",
-        portId: "port1",
+        portId: "port1"
       },
       to: {
         nodeId: "node2",
-        portId: "port1",
+        portId: "port1"
       },
       properties: {
-        label: "Aave:Flash Loan to Uniswap:Swap",
-      },
+        label: "Aave:Flash Loan to Uniswap:Swap"
+      }
     },
     link2: {
       id: "link2",
       from: {
         nodeId: "node2",
-        portId: "port2",
+        portId: "port2"
       },
       to: {
         nodeId: "node3",
-        portId: "port1",
+        portId: "port1"
       },
       properties: {
-        label: "Uniswap:Swap to Kyberswap:swap",
-      },
+        label: "Uniswap:Swap to Kyberswap:swap"
+      }
     },
     link3: {
       id: "link3",
       from: {
         nodeId: "node3",
-        portId: "port2",
+        portId: "port2"
       },
       to: {
         nodeId: "node4",
-        portId: "port1",
+        portId: "port1"
       },
       properties: {
-        label: "Kyberswap:swap to End",
-      },
-    },
+        label: "Kyberswap:swap to End"
+      }
+    }
   },
   selected: {},
-  hovered: {},
+  hovered: {}
 };

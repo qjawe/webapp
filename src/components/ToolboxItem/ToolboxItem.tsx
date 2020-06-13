@@ -15,7 +15,7 @@ export const ToolboxItem = ({ type, ports, properties }: IToolboxItemProps) => {
   return (
     <Outer
       draggable={true}
-      onDragStart={(event) => {
+      onDragStart={event => {
         event.dataTransfer.setData(
           REACT_FLOW_CHART,
           JSON.stringify({ type, ports, properties })

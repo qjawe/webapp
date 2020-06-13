@@ -6,13 +6,13 @@ export const initialValue = {
     walletBalance: "0",
     openModal: false,
     modalConfig: {
-      type: "",
-    },
+      type: ""
+    }
   },
   actions: {
     setWalletConfig: (address: string, balance: string) => {},
-    setModalConfig: (openModal: boolean, config?: any) => {},
-  },
+    setModalConfig: (openModal: boolean, config?: any) => {}
+  }
 };
 
 export const AppContext = createContext(initialValue);

@@ -6,7 +6,7 @@ import TopScorer from "../TopScorer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
-  faChevronRight,
+  faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
 import NodeDetailsSideBar from "../NodeDetailsSideBar";
 import { ISideBarProps } from "./models";
@@ -15,7 +15,7 @@ function SideBar({ chart, setChart, stateActions }: ISideBarProps) {
   const [collapsed, setCollapsed] = React.useState<boolean>(false);
   return (
     <div className="side-bar">
-      <div className="collapse-bar" onClick={(e) => setCollapsed(!collapsed)}>
+      <div className="collapse-bar" onClick={e => setCollapsed(!collapsed)}>
         {collapsed && (
           <div className="collapse-bar-left">
             <FontAwesomeIcon icon={faChevronLeft} />

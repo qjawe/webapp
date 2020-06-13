@@ -40,7 +40,7 @@ const onboard = Onboard({
       web3 = new ethers.providers.Web3Provider(
         wallet.provider || ethers.getDefaultProvider()
       );
-    },
+    }
     // balance: (balance: string) => {
     //   userBalance = ethers.utils.formatEther(
     //     ethers.utils.bigNumberify(balance)
@@ -48,7 +48,7 @@ const onboard = Onboard({
     //   console.log(userBalance);
     // },
   },
-  darkMode: true,
+  darkMode: true
 });
 
 export const connectWallet = async () => {
@@ -83,7 +83,7 @@ export const disConnectWallet = () => {
 
 enum SwapType {
   UNSWAP,
-  KYBER,
+  KYBER
 }
 
 const getSwapType = (type: string) => {
@@ -152,8 +152,8 @@ export const getUniswapPriceValues = async (
       amountsOut,
       executionPrice: res.bestTrade.executionPrice.toSignificant(6),
       priceImpact: res.bestTrade.slippage.toSignificant(6),
-      path: res.bestTrade.route.path.map((token) => token.address),
-      bestTrade: res.bestTrade,
+      path: res.bestTrade.route.path.map(token => token.address),
+      bestTrade: res.bestTrade
     };
   }
 };

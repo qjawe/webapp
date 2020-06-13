@@ -170,14 +170,14 @@ function ChartTopBar({ chart }: any) {
       <div className="chart-toolbox-menu-container">
         <div
           className="toolbar-dropdown-icon"
-          onClick={e => setShowToolboxMenu(!showToolboxMenu)}
+          onClick={() => setShowToolboxMenu(!showToolboxMenu)}
         >
           <FontAwesomeIcon icon={faEllipsisV} />
         </div>
         {showToolboxMenu && (
           <div
             className="menu-overlay"
-            onClick={e => setShowToolboxMenu(false)}
+            onClick={() => setShowToolboxMenu(false)}
           ></div>
         )}
         {showToolboxMenu && (

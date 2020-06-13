@@ -185,7 +185,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 0 ? "selected" : ""
                   }`}
-                  onClick={e => setSelectedUsage(0)}
+                  onClick={() => setSelectedUsage(0)}
                 >
                   <div className="usage-number">1</div>
                   <div className="usage-details">
@@ -196,7 +196,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 1 ? "selected" : ""
                   }`}
-                  onClick={e => setSelectedUsage(1)}
+                  onClick={() => setSelectedUsage(1)}
                 >
                   <div className="usage-number">2</div>
                   <div className="usage-details">
@@ -209,7 +209,7 @@ function Landing() {
                   className={`usage-list-item ${
                     selectedUsage === 2 ? "selected" : ""
                   }`}
-                  onClick={e => setSelectedUsage(2)}
+                  onClick={() => setSelectedUsage(2)}
                 >
                   <div className="usage-number">3</div>
                   <div className="usage-details">

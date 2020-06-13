@@ -120,7 +120,7 @@ class NodeDetailsSideBar extends React.Component<
     });
   };
 
-  getSwapValues = async (isExactIn: boolean, amount) => {
+  getSwapValues = async (isExactIn: boolean, amount: string) => {
     if (amount && amount !== "0") {
       const { selectedNodePorts, selectedNode } = this.state;
 
@@ -227,11 +227,11 @@ class NodeDetailsSideBar extends React.Component<
 
   setNodeProperties = (
     flag: boolean,
-    path?: string[],
-    executionPrice?: number,
-    priceImpact?: number,
-    price?: string,
-    isExactIn?: boolean,
+    path?: string[] | null,
+    executionPrice?: number | null,
+    priceImpact?: number | null,
+    price?: string | null,
+    isExactIn?: boolean | null,
     bestTrade?: any
   ) => {
     try {
@@ -304,7 +304,7 @@ class NodeDetailsSideBar extends React.Component<
           <div className="node-details-header-title">
             <div
               className="node-details-back"
-              onClick={e => this.props.stateActions.onCanvasClick({})}
+              onClick={() => this.props.stateActions.onCanvasClick({})}
             >
               <FontAwesomeIcon icon={faArrowLeft} />
             </div>
@@ -315,13 +315,13 @@ class NodeDetailsSideBar extends React.Component<
           <div className="node-details-header-actions">
             <button
               className="node-details-delete-button"
-              onClick={e => this.props.stateActions.onDeleteKey({})}
+              onClick={() => this.props.stateActions.onDeleteKey({})}
             >
               Delete
             </button>
             <button
               className="node-details-set-button"
-              onClick={e => this.setNodeProperties(true)}
+              onClick={() => this.setNodeProperties(true)}
             >
               Set
             </button>
@@ -337,7 +337,7 @@ class NodeDetailsSideBar extends React.Component<
                 <div className="node-details-asset-select-container">
                   <div
                     className="node-details-value-set"
-                    onClick={e => this.openSelectOption(port)}
+                    onClick={() => this.openSelectOption(port)}
                   >
                     <div className="node-details-token-container">
                       <div className="node-details-token-icon-container">
@@ -360,14 +360,14 @@ class NodeDetailsSideBar extends React.Component<
                     <div className="node-details-options-container">
                       <div
                         className="node-details-select-overlay"
-                        onClick={e => this.setState({ openSelect: false })}
+                        onClick={() => this.setState({ openSelect: false })}
                       ></div>
                       <ul className="node-details-options">
                         {tokenList.map((token: any, i: number) => (
                           <li
                             className="node-details-option"
                             key={i}
-                            onClick={e => this.setAsset(token, port)}
+                            onClick={() => this.setAsset(token, port)}
                           >
                             <span className="token-list-icon-container">
                               <img

@@ -15,7 +15,7 @@ function SideBar({ chart, setChart, stateActions }: ISideBarProps) {
   const [collapsed, setCollapsed] = React.useState<boolean>(false);
   return (
     <div className="side-bar">
-      <div className="collapse-bar" onClick={e => setCollapsed(!collapsed)}>
+      <div className="collapse-bar" onClick={() => setCollapsed(!collapsed)}>
         {collapsed && (
           <div className="collapse-bar-left">
             <FontAwesomeIcon icon={faChevronLeft} />

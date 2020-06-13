@@ -1,4 +1,7 @@
-import { ChainId } from "../constants";
+import JSBI from 'jsbi';
+
+import { ChainId, SolidityType } from "../constants";
+import { validateAndParseAddress, validateSolidityTypeInstance } from 'utils';
 
 export class Token {
   public readonly chainId: ChainId;

@@ -27,7 +27,7 @@ function Modal({ setChart }: any) {
       <div
         className={`modal-overlay ${!ctx.state.openModal ? "closed" : null}`}
         id="modal-overlay"
-        onClick={e => ctx.actions.setModalConfig(false)}
+        onClick={() => ctx.actions.setModalConfig(false)}
       ></div>
 
       <div
@@ -37,7 +37,7 @@ function Modal({ setChart }: any) {
         <button
           className="close-button"
           id="close-button"
-          onClick={e => ctx.actions.setModalConfig(false)}
+          onClick={() => ctx.actions.setModalConfig(false)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>

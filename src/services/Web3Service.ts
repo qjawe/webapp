@@ -1,36 +1,8 @@
-import Web3 from "web3";
 import Onboard from "bnc-onboard";
 import { ethers } from "ethers";
 import { UniswapService, KyberService } from ".";
-import { FLASHLOAN_ABI } from "../constants";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 let web3: any = ethers.getDefaultProvider("kovan");
-let walletProvider: any;
-// let userAddress = "";
-// let userBalance = "0";
-// const wallets = [
-//   { walletName: "metamask", preferred: true },
-//   { walletName: "torus", preferred: true },
-//   {
-//     walletName: "portis",
-//     apiKey: PORTIS_KEY,
-//     preferred: true,
-//     label: "Login with Email",
-//   },
-//   { walletName: "coinbase", preferred: true },
-//   // {
-//   //   walletName: "fortmatic",
-//   //   apiKey: FORTMATIC_KEY,
-//   //   preferred: true,
-//   // },
-//   { walletName: "authereum", preferred: true },
-//   // {
-//   //   walletName: "walletConnect",
-//   //   infuraKey: INFURA_KEY,
-//   // },
-// ];
 
 const onboard = Onboard({
   dappId: "052b3fe9-87d5-4614-b2e9-6dd81115979a", // [String] The API key created by step one above
@@ -41,12 +13,6 @@ const onboard = Onboard({
         wallet.provider || ethers.getDefaultProvider()
       );
     }
-    // balance: (balance: string) => {
-    //   userBalance = ethers.utils.formatEther(
-    //     ethers.utils.bigNumberify(balance)
-    //   );
-    //   console.log(userBalance);
-    // },
   },
   darkMode: true
 });
@@ -90,6 +56,8 @@ const getSwapType = (type: string) => {
   console.log(type);
   if (type === "Uniswap") return SwapType.UNSWAP;
   else if (type === "Kyber") return SwapType.KYBER;
+
+  throw("Unknown swap.");
 };
 
 export const getSwapPriceValues = async (
@@ -120,6 +88,8 @@ export const getSwapPriceValues = async (
       console.log("switch kyber entry");
       return getKyberPriceValues(amount, tokenInAddress, tokenOutAddress);
   }
+
+  return Promise.reject();
 };
 
 export const getUniswapPriceValues = async (
@@ -156,6 +126,8 @@ export const getUniswapPriceValues = async (
       bestTrade: res.bestTrade
     };
   }
+
+  return Promise.reject();
 };
 
 const getKyberPriceValues = async (

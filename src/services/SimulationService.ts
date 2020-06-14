@@ -1,6 +1,8 @@
 import { cloneDeep } from "lodash";
 import { IChart, INode, ILink } from "@mrblenny/react-flow-chart";
 import { findInitialNodes } from "../utils/ChartUtils";
+import { Simulation, Profit } from "../entities";
+
 /*
  Will return a linear list of signed transactions. 
  */
@@ -54,11 +56,11 @@ export const buildTransaction = async (chart: IChart) => {
 
 export const showSimulation = (
   chart: IChart
-): Promise<{ simulations: any[]; totalTokensProfit: any[] }> => {
+): Promise<{ simulations: Simulation[]; totalTokensProfit: Profit[] }> => {
   let chartCopy = cloneDeep(chart);
 
-  let simulations = [];
-  let totalTokensProfit = [];
+  let simulations: Simulation[] = [];
+  let totalTokensProfit: Profit[] = [];
   let queue = [];
 
   const initialNode = findInitialNodes(chartCopy);
@@ -78,7 +80,7 @@ export const showSimulation = (
         Object.keys(node.ports).forEach(port => {
           if (node.ports[port] && node.ports[port].type === "input") {
             if (node.ports[port].properties.amount) {
-              const simulation = {
+              const simulation : Simulation = {
                 name: node.properties.name,
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,
@@ -92,7 +94,7 @@ export const showSimulation = (
                 let selectedToken = 0;
                 totalTokensProfit.forEach((details, i) => {
                   if (
-                    details.token.tokenAddress ===
+                    details.token.address ===
                     node.ports[port].properties.asset.tokenAddress
                   ) {
                     hasTokenCheck = true;
@@ -125,7 +127,7 @@ export const showSimulation = (
           }
           if (node.ports[port] && node.ports[port].type === "output") {
             if (node.ports[port].properties.amount) {
-              const simulation = {
+              const simulation : Simulation = {
                 name: node.properties.name,
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,
@@ -138,7 +140,7 @@ export const showSimulation = (
                 let selectedToken = 0;
                 totalTokensProfit.forEach((details, i) => {
                   if (
-                    details.token.tokenAddress ===
+                    details.token.address ===
                     node.ports[port].properties.asset.tokenAddress
                   ) {
                     hasTokenCheck = true;

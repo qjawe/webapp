@@ -1,8 +1,7 @@
 {
   "include": [
     "src",
-    "jsx": "react",
-    "test"
+    "test",
   ],
   "compilerOptions": {
     "target": "es2018",

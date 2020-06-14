@@ -14,7 +14,8 @@ import {
   FLASHLOAN_ADDRESS,
   AAVE_ETHEREUM
 } from "../../constants";
-import _ from "lodash";
+
+import { Simulation /*, Profit */ } from "../../entities";
 
 declare var web3: any;
 
@@ -26,13 +27,12 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   const ctx = React.useContext(AppContext);
   const initialState = { loading: false, error: false, tx: "" };
   const [state, setState] = useState(initialState);
-  const [simulations, setSimulations] = useState([]);
-  const [totalTokensProfit, setTotalTokensProfit] = useState([]);
+  const [simulations, setSimulations] = useState<Simulation[]>([]);
+  // const [totalTokensProfit, setTotalTokensProfit] = useState<Profit[]>([]);
 
-  useEffect(() => {
   const showChartSimulation = async () => {
-    const { simulations, totalTokensProfit } = await showSimulation(chart);
-    let parsedSimulations = [];
+    const { simulations /*, totalTokensProfit */} = await showSimulation(chart);
+    let parsedSimulations: any[] = [];
     simulations.forEach(simulation => {
       if (parsedSimulations.length) {
         let hasNameCheck = false;
@@ -78,9 +78,11 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
       }
     });
 
-    setSimulations(parsedSimulations);
-    setTotalTokensProfit(totalTokensProfit);
+    setSimulations(parsedSimulations as any);
+    /*setTotalTokensProfit(totalTokensProfit as any);*/
   };
+
+  useEffect(() => {
 
     // if (!state.loading) return;
     showChartSimulation();
@@ -136,9 +138,9 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
         {simulations.map(simulation => (
           <div className="simulation-summary-item">
             <div className="simulation-summary-node-name">
-              {simulation.nodeName}
+              {simulation.name}
             </div>
-            {simulation.children.map(child => (
+            {/*simulation.children.map(child => (
               <div className="simulation-summary-children-container">
                 <div className="simulation-summary-children-message">
                   {child.message}
@@ -166,12 +168,12 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                   {child.token.tokenSymbol}
                 </div>
               </div>
-            ))}
+                ))*/}
           </div>
         ))}
         <div className="simulation-summary-item">
           <div className="simulation-summary-node-name">Summary</div>
-          {totalTokensProfit.map(token => (
+          {/*totalTokensProfit.map(token => (
             <div className="simulation-summary-children-container">
               <div className="simulation-summary-children-message">
                 {token.amount < 0 ? "You lost" : "You profit"}
@@ -207,7 +209,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                 {token.token.tokenSymbol}
               </div>
             </div>
-          ))}
+              ))*/}
         </div>
       </div>
       <div className="simulation-button-container">

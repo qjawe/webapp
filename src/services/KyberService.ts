@@ -4,7 +4,7 @@ import {
   AAVE_ETHEREUM
 } from "../constants";
 
-import { ethers, Contract } from "ethers";
+import { ethers } from "ethers";
 import { BigNumber } from "ethers/utils";
 enum SwapType {
   SWAP_ETHER_TO_TOKEN,
@@ -38,7 +38,7 @@ function getSwapType(
 export function useKyberswap(
   SRC_TOKEN_ADDRESS: string, // trade to execute, required
   DST_TOKEN_ADDRESS: string,
-  pAmount
+  pAmount: any
 ) {
   const amount: BigNumber = ethers.utils.parseEther(pAmount + "");
   const minConversionRate: BigNumber = ethers.utils.bigNumberify("0");
@@ -72,7 +72,7 @@ export function useKyberswap(
   return method;
 }
 
-export function getRates(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS, pAmount) {
+export function getRates(SRC_TOKEN_ADDRESS: string, DST_TOKEN_ADDRESS: string, pAmount: any) {
   const SRC_QTY_WEI = ethers.utils.parseEther(pAmount + "");
   const provider = ethers.getDefaultProvider("kovan");
   const kyber = new ethers.Contract(

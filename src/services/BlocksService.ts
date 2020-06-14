@@ -2,7 +2,6 @@ import { INode } from "@mrblenny/react-flow-chart";
 import {
   UNISWAP_ADDRESS,
   UNISWAP_ABI,
-  KYBER_NETWORK_PROXY_ABI,
   KYBER_NETWORK_PROXY_ADDRESS
 } from "../constants";
 import { ethers } from "ethers";

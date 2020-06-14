@@ -1,6 +1,5 @@
 import { IChart } from "@mrblenny/react-flow-chart";
 import { Aave, Uniswap, Kyberswap, End } from "../services/BlocksService";
-import { ethers } from "ethers";
 import { TOKEN_LIST } from "../constants";
 
 const aave = Aave();

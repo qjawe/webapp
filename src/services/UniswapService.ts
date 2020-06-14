@@ -20,14 +20,8 @@ import {
   DEFAULT_DEADLINE_FROM_NOW
 } from "../constants/uniswap";
 import { computeSlippageAdjustedAmounts } from "../utils/uniswap/prices";
-import {
-  calculateGasMargin,
-  getRouterContract,
-  isAddress
-} from "../utils/uniswap";
-import { UNISWAP_ADDRESS, UNISWAP_ABI } from "../constants";
-import { parseUnits, BigNumber } from "ethers/utils";
-import { useMemo } from "react";
+import { UNISWAP_ABI } from "../constants";
+import { parseUnits } from "ethers/utils";
 
 const DAI = new Token(
   ChainId.MAINNET,
@@ -100,8 +94,8 @@ const getDeSerializeToken = async (
 const tryParseAmount = (
   value?: string,
   token?: Token
-): TokenAmount | undefined => {
-  if (!value || !token) return;
+): TokenAmount | undefined | null => {
+  if (!value || !token) return null;
   try {
     const typedValueParsed = parseUnits(value, token.decimals).toString();
     if (typedValueParsed !== "0")
@@ -110,6 +104,8 @@ const tryParseAmount = (
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
     console.debug(`Failed to parse input amount: "${value}"`, error);
   }
+
+  return null;
 };
 
 async function useAllCommonPairs(
@@ -196,12 +192,12 @@ async function useAllCommonPairs(
  * Returns the best trade for the exact amount of tokens in to the given token out
  */
 const useTradeExactIn = async (
-  amountIn?: TokenAmount,
+  amountIn?: TokenAmount | null,
   tokenOut?: Token,
   library?: any
 ) => {
-  const inputToken = amountIn?.token;
-  const outputToken = tokenOut;
+  const inputToken: Token = amountIn?.token as Token;
+  const outputToken: Token = tokenOut as Token;
 
   const allowedPairs = await useAllCommonPairs(
     inputToken,
@@ -220,11 +216,11 @@ const useTradeExactIn = async (
  */
 const useTradeExactOut = async (
   tokenIn?: Token,
-  amountOut?: TokenAmount,
+  amountOut?: TokenAmount | null,
   library?: any
 ) => {
-  const inputToken = tokenIn;
-  const outputToken = amountOut?.token;
+  const inputToken: Token = tokenIn as Token;
+  const outputToken: Token = amountOut?.token as Token;
 
   const allowedPairs = await useAllCommonPairs(
     inputToken,

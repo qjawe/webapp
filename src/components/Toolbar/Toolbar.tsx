@@ -93,7 +93,7 @@ function Toolbar() {
           </div>
           <div
             className="toolbar-dropdown-icon"
-            onClick={e => setShowDropdown(!showDropdown)}
+            onClick={() => setShowDropdown(!showDropdown)}
           >
             <FontAwesomeIcon
               icon={showDropdown ? faChevronUp : faChevronDown}
@@ -105,7 +105,7 @@ function Toolbar() {
       {showDropdown && (
         <div
           className="dropdown-overlay"
-          onClick={e => setShowDropdown(false)}
+          onClick={() => setShowDropdown(false)}
         ></div>
       )}
       {showDropdown && (

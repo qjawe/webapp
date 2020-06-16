@@ -48,7 +48,7 @@ function ChartView({ chart, stateActions }: any) {
       imgContainerDom.className = "node-token-icon-container";
       Object.keys(chart.nodes[selectedNode].ports).forEach(port => {
         const imgDom = createTokenIconDiv(
-          chart.nodes[selectedNode].ports[port].properties.asset.tokenSymbol
+          chart.nodes[selectedNode].ports[port].properties.asset.symbol
         );
         // console.log(imgDom);
         imgContainerDom.appendChild(imgDom);

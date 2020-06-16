@@ -19,7 +19,7 @@ class NodeDetailsSideBar extends React.Component<
       selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
       tokenList:
         props.chart.nodes[props.chart.selected.id].type === "Aave:Flash Loan"
-          ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+          ? TOKEN_LIST.filter((token: any) => token.symbol === "ETH")
           : TOKEN_LIST,
       selectedDropdown: "",
       priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
@@ -49,7 +49,7 @@ class NodeDetailsSideBar extends React.Component<
           tokenList:
             this.props.chart.nodes[this.props.chart.selected.id + ""].type ===
             "Aave:Flash Loan"
-              ? TOKEN_LIST.filter((token: any) => token.tokenSymbol === "ETH")
+              ? TOKEN_LIST.filter((token: any) => token.symbol === "ETH")
               : TOKEN_LIST,
           priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
             .properties.priceImpact

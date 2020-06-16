@@ -15,7 +15,7 @@ import {
   AAVE_ETHEREUM
 } from "../../constants";
 
-import { Simulation /*, Profit */ } from "../../entities";
+import { ParsedSimulation, Profit } from "../../entities";
 
 declare var web3: any;
 
@@ -27,11 +27,21 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   const ctx = React.useContext(AppContext);
   const initialState = { loading: false, error: false, tx: "" };
   const [state, setState] = useState(initialState);
-  const [simulations, setSimulations] = useState<Simulation[]>([]);
-  // const [totalTokensProfit, setTotalTokensProfit] = useState<Profit[]>([]);
+  const [simulations, setSimulations] = useState<ParsedSimulation[]>([]);
+  const [totalTokensProfit, setTotalTokensProfit] = useState<Profit[]>([]);
+
+  useEffect(() => {
+    // if (!state.loading) return;
+    showChartSimulation();
+  // @ts-ignore
+  }, []);
+
+  if (state.loading) {
+    return <div className="simulation-side-bar"></div>;
+  }
 
   const showChartSimulation = async () => {
-    const { simulations /*, totalTokensProfit */} = await showSimulation(chart);
+    const { simulations , totalTokensProfit } = await showSimulation(chart);
     let parsedSimulations: any[] = [];
     simulations.forEach(simulation => {
       if (parsedSimulations.length) {
@@ -79,18 +89,8 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     });
 
     setSimulations(parsedSimulations as any);
-    /*setTotalTokensProfit(totalTokensProfit as any);*/
+    setTotalTokensProfit(totalTokensProfit as any);
   };
-
-  useEffect(() => {
-
-    // if (!state.loading) return;
-    showChartSimulation();
-  }, [showChartSimulation]);
-
-  if (state.loading) {
-    return <div className="simulation-side-bar"></div>;
-  }
 
   const submitTransaction = () => {
     setState({ loading: true, error: false, tx: "" });
@@ -131,6 +131,8 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
     );
   };
 
+  /*console.log(JSON.stringify(simulations));*/
+
   return (
     <div className="simulation-side-bar">
       <div className="simulation-title">Simulation</div>
@@ -138,16 +140,16 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
         {simulations.map(simulation => (
           <div className="simulation-summary-item">
             <div className="simulation-summary-node-name">
-              {simulation.name}
+              {simulation.nodeName}
             </div>
-            {/*simulation.children.map(child => (
+            {simulation.children.map(child => (
               <div className="simulation-summary-children-container">
                 <div className="simulation-summary-children-message">
                   {child.message}
                 </div>
                 <div className="simulation-summary-children-icon">
                   <img
-                    src={require(`../../assets/tokens-icons/${child.token.tokenSymbol}/logo.png`)}
+                    src={require(`../../assets/tokens-icons/${child.token.symbol}/logo.png`)}
                     alt="token-icon"
                     className="simulation-token-icon"
                   />
@@ -165,22 +167,22 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                     child.type === "spend" ? "lost" : "success"
                   }`}
                 >
-                  {child.token.tokenSymbol}
+                  {child.token.symbol}
                 </div>
               </div>
-                ))*/}
+                ))}
           </div>
         ))}
         <div className="simulation-summary-item">
           <div className="simulation-summary-node-name">Summary</div>
-          {/*totalTokensProfit.map(token => (
+          {totalTokensProfit.map(token => (
             <div className="simulation-summary-children-container">
               <div className="simulation-summary-children-message">
                 {token.amount < 0 ? "You lost" : "You profit"}
               </div>
               <div className="simulation-summary-children-icon">
                 <img
-                  src={require(`../../assets/tokens-icons/${token.token.tokenSymbol}/logo.png`)}
+                  src={require(`../../assets/tokens-icons/${token.token.symbol}/logo.png`)}
                   alt="token-icon"
                   className="simulation-token-icon"
                 />
@@ -206,10 +208,10 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                     : "success"
                 }`}
               >
-                {token.token.tokenSymbol}
+                {token.token.symbol}
               </div>
             </div>
-              ))*/}
+              ))}
         </div>
       </div>
       <div className="simulation-button-container">

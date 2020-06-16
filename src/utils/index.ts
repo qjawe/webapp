@@ -5,7 +5,7 @@ import { getAddress } from "@ethersproject/address";
 
 import * as AppUtils from "./AppUtils";
 import * as UniswapUtils from "./UniswapUtils";
-import { BigintIsh, ZERO, ONE, TWO, THREE, SolidityType, SOLIDITY_TYPE_MAXIMA } from "../constants";
+import { BigintIsh, ZERO, SolidityType, SOLIDITY_TYPE_MAXIMA } from "../constants";
 
 export function validateSolidityTypeInstance(value: JSBI, solidityType: SolidityType): void {
   invariant(JSBI.greaterThanOrEqual(value, ZERO), `${value} is not a ${solidityType}.`)

@@ -19,7 +19,7 @@ function Modal({ setChart }: any) {
     const chartFlow = JSON.parse(evt.target.result);
     // console.log(chartFlow);
     setChart(chartFlow);
-    ctx.actions.setModalConfig(false);
+    ctx.actions.setModalConfig(false); 
   };
 
   return (

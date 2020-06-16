@@ -1,6 +1,7 @@
 import Onboard from "bnc-onboard";
 import { ethers } from "ethers";
 import { UniswapService, KyberService } from ".";
+import { TokenAmount, Trade } from '@uniswap/sdk';
 
 let web3: any = ethers.getDefaultProvider("kovan");
 
@@ -67,12 +68,12 @@ export const getSwapPriceValues = async (
   tokenOutAddress: any,
   isExactIn: boolean
 ): Promise<{
-  amountsIn;
-  amountsOut;
-  executionPrice;
-  priceImpact;
-  path?;
-  bestTrade?;
+  amountsIn: any;
+  amountsOut: any;
+  executionPrice: any;
+  priceImpact: any;
+  path?: any;
+  bestTrade?: any;
 }> => {
   const typeService = getSwapType(swapType);
   console.log(typeService);
@@ -98,12 +99,12 @@ export const getUniswapPriceValues = async (
   tokenOutAddress: any,
   isExactIn: boolean
 ): Promise<{
-  amountsIn;
-  amountsOut;
-  executionPrice;
-  priceImpact;
-  path;
-  bestTrade;
+  amountsIn: any;
+  amountsOut: any;
+  executionPrice: any;
+  priceImpact: any;
+  path: any;
+  bestTrade: any;
 }> => {
   console.log(amount, tokenInAddress, tokenOutAddress, web3, isExactIn);
   if (web3) {
@@ -114,15 +115,20 @@ export const getUniswapPriceValues = async (
       web3,
       isExactIn
     );
+
+    if (!res.parsedAmounts && !res.bestTrade) {
+      return Promise.reject();
+    }
+
     console.log(res);
-    const amountsIn = res.parsedAmounts.INPUT.toSignificant(6);
-    const amountsOut = res.parsedAmounts.OUTPUT.toSignificant(6);
+    const amountsIn = (res.parsedAmounts.INPUT as TokenAmount).toSignificant(6);
+    const amountsOut = (res.parsedAmounts.OUTPUT as TokenAmount).toSignificant(6);
     return {
       amountsIn,
       amountsOut,
-      executionPrice: res.bestTrade.executionPrice.toSignificant(6),
-      priceImpact: res.bestTrade.slippage.toSignificant(6),
-      path: res.bestTrade.route.path.map(token => token.address),
+      executionPrice: (res.bestTrade as Trade).executionPrice.toSignificant(6),
+      priceImpact: (res.bestTrade as Trade).slippage.toSignificant(6),
+      path: (res.bestTrade as Trade).route.path.map(token => token.address),
       bestTrade: res.bestTrade
     };
   }
@@ -135,10 +141,10 @@ const getKyberPriceValues = async (
   tokenInAddress: any,
   tokenOutAddress: any
 ): Promise<{
-  amountsIn;
-  amountsOut;
-  executionPrice;
-  priceImpact;
+  amountsIn: any;
+  amountsOut: any;
+  executionPrice: any;
+  priceImpact: any;
 }> => {
   console.log("kyber entry");
   const value = await KyberService.getRates(

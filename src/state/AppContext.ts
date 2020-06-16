@@ -10,7 +10,9 @@ export const initialValue = {
     }
   },
   actions: {
+    // @ts-ignore
     setWalletConfig: (address: string, balance: string) => {},
+    // @ts-ignore
     setModalConfig: (openModal: boolean, config?: any) => {}
   }
 };

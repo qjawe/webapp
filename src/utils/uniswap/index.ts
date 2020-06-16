@@ -9,7 +9,6 @@ import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.
 // import { abi as IUniswapV2Router01ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router01.json'
 
 import {
-  UNISWAP_ADDRESS as ROUTER_ADDRESS,
   ERC20_ABI,
   ERC20_BYTES32_ABI
 } from "../../constants";
@@ -121,15 +120,6 @@ export function getContract(
   }
 
   return new Contract(address, ABI, getProviderOrSigner(library, account));
-}
-
-// account is optional
-export function getRouterContract(
-  chainId: number,
-  library: Web3Provider,
-  account?: string
-) {
-  // return getContract(ROUTER_ADDRESS, IUniswapV2Router01ABI, library, account)
 }
 
 // account is optional

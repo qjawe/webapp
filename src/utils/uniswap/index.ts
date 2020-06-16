@@ -8,10 +8,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 // import { abi as IUniswapV2Router01ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router01.json'
 
-import {
-  ERC20_ABI,
-  ERC20_BYTES32_ABI
-} from "../../constants";
+import { ERC20_ABI, ERC20_BYTES32_ABI } from "../../constants";
 // import ERC20_ABI from '../../constants/abis/erc20.json'
 // import ERC20_BYTES32_ABI from '../../constants/abis/erc20_bytes32.json'
 import { ChainId, JSBI, Percent, TokenAmount } from "@uniswap/sdk";

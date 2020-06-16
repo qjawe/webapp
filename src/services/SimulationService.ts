@@ -80,7 +80,7 @@ export const showSimulation = (
         Object.keys(node.ports).forEach(port => {
           if (node.ports[port] && node.ports[port].type === "input") {
             if (node.ports[port].properties.amount) {
-              const simulation : Simulation = {
+              const simulation: Simulation = {
                 name: node.properties.name,
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,
@@ -127,7 +127,7 @@ export const showSimulation = (
           }
           if (node.ports[port] && node.ports[port].type === "output") {
             if (node.ports[port].properties.amount) {
-              const simulation : Simulation = {
+              const simulation: Simulation = {
                 name: node.properties.name,
                 amount: node.ports[port].properties.amount,
                 token: node.ports[port].properties.asset,

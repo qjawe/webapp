@@ -1,7 +1,7 @@
 import Onboard from "bnc-onboard";
 import { ethers } from "ethers";
 import { UniswapService, KyberService } from ".";
-import { TokenAmount, Trade } from '@uniswap/sdk';
+import { TokenAmount, Trade } from "@uniswap/sdk";
 
 let web3: any = ethers.getDefaultProvider("kovan");
 
@@ -58,7 +58,7 @@ const getSwapType = (type: string) => {
   if (type === "Uniswap") return SwapType.UNSWAP;
   else if (type === "Kyber") return SwapType.KYBER;
 
-  throw("Unknown swap.");
+  throw "Unknown swap.";
 };
 
 export const getSwapPriceValues = async (
@@ -122,7 +122,9 @@ export const getUniswapPriceValues = async (
 
     console.log(res);
     const amountsIn = (res.parsedAmounts.INPUT as TokenAmount).toSignificant(6);
-    const amountsOut = (res.parsedAmounts.OUTPUT as TokenAmount).toSignificant(6);
+    const amountsOut = (res.parsedAmounts.OUTPUT as TokenAmount).toSignificant(
+      6
+    );
     return {
       amountsIn,
       amountsOut,

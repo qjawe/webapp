@@ -72,7 +72,11 @@ export function useKyberswap(
   return method;
 }
 
-export function getRates(SRC_TOKEN_ADDRESS: string, DST_TOKEN_ADDRESS: string, pAmount: any) {
+export function getRates(
+  SRC_TOKEN_ADDRESS: string,
+  DST_TOKEN_ADDRESS: string,
+  pAmount: any
+) {
   const SRC_QTY_WEI = ethers.utils.parseEther(pAmount + "");
   const provider = ethers.getDefaultProvider("kovan");
   const kyber = new ethers.Contract(

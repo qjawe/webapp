@@ -10,7 +10,7 @@ import Modal from "../Modal";
 function MainView() {
   const { chart, setChart, stateActions }: ISideBarProps = useChart();
 
-  console.log('Main view rendering');
+  console.log("Main view rendering");
 
   return (
     <div className="main-view">

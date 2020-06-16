@@ -33,7 +33,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   useEffect(() => {
     // if (!state.loading) return;
     showChartSimulation();
-  // @ts-ignore
+    // @ts-ignore
   }, []);
 
   if (state.loading) {
@@ -41,7 +41,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   }
 
   const showChartSimulation = async () => {
-    const { simulations , totalTokensProfit } = await showSimulation(chart);
+    const { simulations, totalTokensProfit } = await showSimulation(chart);
     let parsedSimulations: any[] = [];
     simulations.forEach(simulation => {
       if (parsedSimulations.length) {
@@ -170,7 +170,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                   {child.token.symbol}
                 </div>
               </div>
-                ))}
+            ))}
           </div>
         ))}
         <div className="simulation-summary-item">
@@ -211,7 +211,7 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
                 {token.token.symbol}
               </div>
             </div>
-              ))}
+          ))}
         </div>
       </div>
       <div className="simulation-button-container">

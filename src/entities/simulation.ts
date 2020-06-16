@@ -1,7 +1,7 @@
 export class Simulation {
-    name: string = "";
-    amount: string = "";
-    token: string = "";
-    message: string = "";
-    type: string = "";
+  name: string = "";
+  amount: string = "";
+  token: string = "";
+  message: string = "";
+  type: string = "";
 }

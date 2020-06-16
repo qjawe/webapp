@@ -1,1 +1,1 @@
-export const KOVAN: string = 'empty';
+export const KOVAN: string = "empty";

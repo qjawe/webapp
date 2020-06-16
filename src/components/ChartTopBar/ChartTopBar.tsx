@@ -15,7 +15,7 @@ import {
   faFileExport
 } from "@fortawesome/free-solid-svg-icons";
 import { TOKEN_LIST, UNI_TOKEN_LIST } from "../../constants";
-import { AppContext } from "../../state"; 
+import { AppContext } from "../../state";
 
 function ChartTopBar({ chart }: any) {
   const ctx = useContext(AppContext);

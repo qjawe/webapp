@@ -165,17 +165,17 @@ class NodeDetailsSideBar extends React.Component<
           const price = isExactIn
             ? `${amountsOut}  ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               } per ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               }`
             : `${amountsIn}  ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               } per ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               }`;
           this.setState({ selectedNodePorts, priceImpact, price }, () => {
             this.setNodeProperties(
@@ -199,17 +199,17 @@ class NodeDetailsSideBar extends React.Component<
           const price = isExactIn
             ? `${amountsOut}  ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               } per ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               }`
             : `${amountsIn}  ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[0]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               } per ${
                 selectedNodePorts[Object.keys(selectedNodePorts)[1]].properties
-                  .asset.tokenSymbol
+                  .asset.symbol
               }`;
           this.setState({ selectedNodePorts, priceImpact, price }, () => {
             this.setNodeProperties(
@@ -342,13 +342,13 @@ class NodeDetailsSideBar extends React.Component<
                     <div className="node-details-token-container">
                       <div className="node-details-token-icon-container">
                         <img
-                          src={require(`../../assets/tokens-icons/${selectedNodePorts[port].properties.asset.tokenSymbol}/logo.png`)}
+                          src={require(`../../assets/tokens-icons/${selectedNodePorts[port].properties.asset.symbol}/logo.png`)}
                           alt="token-icon"
                           className="node-details-token-icon"
                         />
                       </div>
                       <div className="node-details-value">
-                        {selectedNodePorts[port].properties.asset.tokenSymbol}
+                        {selectedNodePorts[port].properties.asset.symbol}
                       </div>
                     </div>
                     <FontAwesomeIcon
@@ -371,13 +371,13 @@ class NodeDetailsSideBar extends React.Component<
                           >
                             <span className="token-list-icon-container">
                               <img
-                                src={require(`../../assets/tokens-icons/${token.tokenSymbol}/logo.png`)}
+                                src={require(`../../assets/tokens-icons/${token.symbol}/logo.png`)}
                                 alt="token-icon"
                                 className="token-list-icon"
                               />
                             </span>
                             <span className="token-list-address">
-                              {token.tokenSymbol}
+                              {token.symbol}
                             </span>
                           </li>
                         ))}

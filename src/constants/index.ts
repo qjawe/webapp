@@ -5,6 +5,7 @@ import KYBER_NETWORK_PROXY from "./kyber/abis/KyberNetworkProxy.json";
 import FLASHLOAN from "./artifacts/FlashloanExecutor.json";
 import ERC20 from "./abis/erc20.json";
 import ERC20_BYTES32 from "./abis/erc20_bytes32.json";
+import { Token } from "../entities";
 
 import {
   KOVAN_UNISWAP_PAIR_LIST,
@@ -31,7 +32,7 @@ export const FLASHLOAN_ABI: any = FLASHLOAN.abi;
 export const ERC20_ABI: any = ERC20;
 export const ERC20_BYTES32_ABI: any = ERC20_BYTES32;
 
-export const TOKEN_LIST: any = KOVAN_TOKEN_LIST;
+export const TOKEN_LIST: Token[] = KOVAN_TOKEN_LIST;
 export const UNI_TOKEN_LIST: any = KOVAN_UNISWAP_PAIR_LIST;
 
 export const FLASHLOAN_ADDRESS: string =

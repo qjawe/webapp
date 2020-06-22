@@ -30,15 +30,6 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
   const [simulations, setSimulations] = useState<ParsedSimulation[]>([]);
   const [totalTokensProfit, setTotalTokensProfit] = useState<Profit[]>([]);
 
-  useEffect(() => {
-    // if (!state.loading) return;
-    showChartSimulation();
-    // @ts-ignore
-  }, []);
-
-  if (state.loading) {
-    return <div className="simulation-side-bar"></div>;
-  }
 
   const showChartSimulation = async () => {
     const { simulations, totalTokensProfit } = await showSimulation(chart);
@@ -130,6 +121,16 @@ function SimulationSideBar({ chart }: ISimulationSideBarProps) {
       // }
     );
   };
+
+  useEffect(() => {
+    // if (!state.loading) return;
+    showChartSimulation();
+    // @ts-ignore
+  }, []);
+
+  if (state.loading) {
+    return <div className="simulation-side-bar"></div>;
+  }
 
   /*console.log(JSON.stringify(simulations));*/
 

@@ -11,25 +11,27 @@ class NodeDetailsSideBar extends React.Component<
   INodeDetailsSideBarProps,
   INodeDetailsSideBarState
 > {
-  constructor(props: any) {
+  constructor(props: INodeDetailsSideBarProps) {
     super(props);
+
+    const selected_id = props.chart.selected.id as string;
     this.state = {
       openSelect: false,
-      selectedNode: props.chart.nodes[props.chart.selected.id],
-      selectedNodePorts: props.chart.nodes[props.chart.selected.id].ports,
+      selectedNode: props.chart.nodes[selected_id],
+      selectedNodePorts: props.chart.nodes[selected_id].ports,
       tokenList:
-        props.chart.nodes[props.chart.selected.id].type === "Aave:Flash Loan"
+        props.chart.nodes[selected_id].type === "Aave:Flash Loan"
           ? TOKEN_LIST.filter((token: any) => token.symbol === "ETH")
           : TOKEN_LIST,
       selectedDropdown: "",
-      priceImpact: this.props.chart.nodes[this.props.chart.selected.id + ""]
+      priceImpact: props.chart.nodes[selected_id]
         .properties.priceImpact
-        ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
+        ? props.chart.nodes[selected_id].properties
             .priceImpact
         : 0,
-      price: this.props.chart.nodes[this.props.chart.selected.id + ""]
+      price: props.chart.nodes[selected_id]
         .properties.price
-        ? this.props.chart.nodes[this.props.chart.selected.id + ""].properties
+        ? props.chart.nodes[selected_id].properties
             .price
         : ""
     };
